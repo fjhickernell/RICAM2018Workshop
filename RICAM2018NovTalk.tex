@@ -101,7 +101,7 @@ $\sol: \cf \to \cg$ is linear, e.g.,
     - \nabla^2 S(f) = f, \ \  S(f) = 0 \text{ on boundary}
 \end{gather*}
 &
-\vspace{-5ex}
+\vspace{-7ex}
 \alert{Successful algorithms}
 \vspace{-3ex}
 \begin{multline*}
@@ -114,13 +114,14 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
 
 \vspace{-4ex}
 \begin{gather*}
-    \app(f,\varepsilon) = \Sapp(f,n) = \sum_{i=1}^n f(\vx_i) g_i, \quad g_i \in \cg \\
-    \app(f,\varepsilon) = \Sapp(f,n) = \sum_{i=1}^n \hf_i g_i, \quad g_i \in \cg \\
-    \app(f,\varepsilon) = \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i, \quad g_i \in \cg \\
+    \Sapp(f,n) = \sum_{i=1}^n f(\vx_i) g_i, \quad g_i \in \cg \\
+    \Sapp(f,n) = \sum_{i=1}^n \hf_i g_i, \quad g_i \in \cg \\
+    \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i, \quad g_i \in \cg \\
 \end{gather*}
 
 \vspace{-5ex}
-\hfill \hfill \alert{$n = ?$, $\cc$ is not a ball}
+\hfill \hfill \alert{$\app(f,\varepsilon) = \Sapp(f,n) + $ stopping criterion}\newline
+\phantom{a} \hfill \hfill \alert{$\cc$ is not a ball}
 
 \end{tabular}
     
@@ -191,6 +192,7 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
       Ball $\cb_{\rho} := \{f \in \cf : \norm[\cf]{f} \le \rho \}$ &
       \hspace{2cm} (Non-Convex) Cone $\cc$
 \end{tabular}
+answer those who like balls
 
 \begin{itemize}
     \item Assume set of inputs, $\cc \subseteq \cf$, is a \alert{cone}, not a ball
@@ -384,6 +386,32 @@ For any $f \in \cc$, let $\tf = f- \sum_{i=1}^n L_i(f) f_i$, and note that $L_j(
 
 \vspace{-3ex}
     \hyperlink{VectorSpaceThm}{\beamerreturnbutton{Back}}
+\end{frame}
+
+
+\begin{frame}{But I Like Balls \smallscoop!}
+
+\vspace{-5ex}
+How might you construct an adaptive algorithm if you insist on using \alert{balls}?
+
+\vspace{-2ex}
+\begin{description}
+    \item[Step 1] Start with a default radius $\rho$, and assume input $f \in \cb_{\rho}$
+    
+    \item[Step 2] Choose $n$ large enough so that 
+    \[
+    \norm[\cg]{S(f) - \Sapp(f,n)} \le \varepsilon \qquad \forall f \in \cb_{\rho}, \qquad \text{where } \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i
+    \]
+    
+    \item[Step 3] Let $\tf \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$.  
+    
+    \item[Step 4]  If $C\bignorm[\cf]{\tf} \le \rho$ for some preset inflation factor, $C$, then return $A(f,\varepsilon) = \Sapp(f,n)$.  Otherwise, choose $\rho = 2C\bignorm[\cf]{\tf}$, and go to Step 2.
+\end{description}
+
+\vspace{-2ex}
+
+This algorithm succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.
+    
 \end{frame}
 
 
