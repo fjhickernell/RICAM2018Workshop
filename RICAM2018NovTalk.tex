@@ -31,7 +31,7 @@
 \newcommand{\LambdaStd}{\Lambda^{\textup{std}}}
 \newcommand{\LambdaSer}{\Lambda^{\textup{ser}}}
 \newcommand{\LambdaAll}{\Lambda^{\textup{all}}}
-\DeclareMathOperator{\spann}{span}
+%\DeclareMathOperator{\spann}{span}
 %\DeclareMathOperator{\app}{app}
 
 \providecommand{\HickernellFJ}{H.}
@@ -204,7 +204,7 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
     
     \item Union of \alert{cones} is a \alert{cone}
     
-    \item \hyperlink{BallsWontHelp}{\beamergotobutton{But I really like balls!}}
+    \item \hyperlink{BallsWontHelp}{\beamergotobutton{``But I really like balls!''}}
 \end{itemize}
 
     
@@ -328,6 +328,22 @@ Walsh \tabularnewline
 	\end{tabular}
 \end{frame}
 
+\begin{frame}{Integration Using Function Values\footfullcite{DicEtal14a}}
+
+\vspace{-7ex}
+
+\begin{align*}
+    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
+    u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
+    &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i)  \\[4ex]
+    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
+    \end{array}
+    \quad \raisebox{-8ex}{\includegraphics[width=3cm]{ProgramsImages/ShiftedLatticePoints.eps} \qquad
+    \includegraphics[width=3cm]{ProgramsImages/SSobolPoints.eps}}
+\end{align*}
+
+\end{frame}
+
 
 \begin{frame}{Integration Using Function Values \footfullcite{HicJim16a,JimHic16a}}
 
@@ -350,7 +366,7 @@ Walsh \tabularnewline
 \vspace{-7ex}
 
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \}\\
+    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
     u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
     &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
     \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
@@ -361,6 +377,7 @@ Walsh \tabularnewline
 
 \end{frame}
 
+\section{General Problems}
 
 \begin{frame}{Cones that Make Sense for Series Spaces}
 \begin{gather*}
@@ -414,7 +431,7 @@ For any $f \in \cc$, let $\tf = f- \sum_{i=1}^n L_i(f) f_i$, and note that $L_j(
 \end{frame}
 
 
-\begin{frame}[label = BallsWontHelp]{But I Like Balls \smallscoop!}
+\begin{frame}[label = BallsWontHelp]{``But I Like Balls \smallscoop!''}
 
 \vspace{-5ex}
 How might you construct an adaptive algorithm if you insist on using \alert{balls}?
@@ -424,18 +441,23 @@ How might you construct an adaptive algorithm if you insist on using \alert{ball
     \item[Step 1] Start with a default radius $\rho$, and assume input $f \in \cb_{\rho}$
     
     \item[Step 2] Choose $n$ large enough so that 
-    \[
-    \norm[\cg]{S(f) - \Sapp(f,n)} \le \varepsilon \qquad \forall f \in \cb_{\rho}, \qquad \text{where } \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i
-    \]
     
-    \item[Step 3] Let $\tf \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$.  
+    \vspace{-4ex}
+    \begin{multline*}
+     \norm[\cg]{S(f) - \Sapp(f,n)} \le \norm[\cf\to \cg]{S - \Sapp(\cdot,n)} \rho \le \varepsilon \\
+         \text{where } \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i
+    \end{multline*}
     
-    \item[Step 4]  If $C\bignorm[\cf]{\tf} \le \rho$ for some preset inflation factor, $C$, then return $A(f,\varepsilon) = \Sapp(f,n)$.  Otherwise, choose $\rho = 2C\bignorm[\cf]{\tf}$, and go to Step 2.
+    \vspace{-2ex}
+    
+    \item<2>[Step 3] Let $\tf \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$
+    
+    \item[Step 4]  \uncover<2>{If $C\bignorm[\cf]{\tf} \le \rho$ for some preset \alert{inflation} factor, $C$, }then return $A(f,\varepsilon) = \Sapp(f,n)$\uncover<2>{; otherwise, choose $\rho = 2C\bignorm[\cf]{\tf}$, and go to Step 2}
 \end{description}
 
 \vspace{-2ex}
 
-This algorithm succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.   \hyperlink{ConeFrame}{\beamerreturnbutton{Back}}
+\uncover<2>{This succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.   \hyperlink{ConeFrame}{\beamerreturnbutton{Back}}}
     
 \end{frame}
 
