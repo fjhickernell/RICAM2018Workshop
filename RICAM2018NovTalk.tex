@@ -336,13 +336,30 @@ Walsh \tabularnewline
 \begin{align*}
     \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \}\\
     u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
-    \Sapp(f,n) &= \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj), \qquad \{\vx_i\}_{i=1}^n = \text{lattice or net} \quad   \\
-    &\abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
-    \quad \includegraphics[width=2cm]{ProgramsImages/SSobolPts.eps}
+    &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
+    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
+    \end{array}
+    \quad \raisebox{-8ex}{\includegraphics[width=3cm]{ProgramsImages/LatTwo12.eps} \qquad
+    \includegraphics[width=3cm]{ProgramsImages/SSobolPoints.eps}}
 \end{align*}
 
 \end{frame}
 
+\begin{frame}{Integration Using Function Values (cont'd)}
+
+\vspace{-7ex}
+
+\begin{align*}
+    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \}\\
+    u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
+    &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
+    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
+    \end{array}
+    \quad \raisebox{-8ex}{\includegraphics[width=3cm]{ProgramsImages/ShiftedLatticePoints.eps} \qquad
+    \includegraphics[width=3cm]{ProgramsImages/SSobolPoints.eps}}
+\end{align*}
+
+\end{frame}
 
 
 \begin{frame}{Cones that Make Sense for Series Spaces}
