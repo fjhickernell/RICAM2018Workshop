@@ -184,7 +184,7 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
     
 \end{frame}
 
-\begin{frame}{Cones}
+\begin{frame}[label = ConeFrame]{Cones}
 \vspace{-4ex}
 \begin{tabular}{>{\centering}m{0.4\textwidth}@{\qquad}>{\centering}m{0.4\textwidth}}
      \largescoop \hspace{-3cm}\raisebox{-4ex}{\color{red}\fontsize{100}{120}\selectfont $\times$} & 
@@ -192,7 +192,6 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
       Ball $\cb_{\rho} := \{f \in \cf : \norm[\cf]{f} \le \rho \}$ &
       \hspace{2cm} (Non-Convex) Cone $\cc$
 \end{tabular}
-answer those who like balls
 
 \begin{itemize}
     \item Assume set of inputs, $\cc \subseteq \cf$, is a \alert{cone}, not a ball
@@ -204,6 +203,8 @@ answer those who like balls
     \item If we can bound the error for $f \in $ \alert{cone}, then we can typically also bound the error  for $af$
     
     \item Union of \alert{cones} is a \alert{cone}
+    
+    \item \hyperlink{BallsWontHelp}{\beamergotobutton{But I really like balls!}}
 \end{itemize}
 
     
@@ -241,50 +242,19 @@ We focus on Banach spaces that look like
 
 \vspace{-5ex}
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[r,\vlambda]{\hf} : = \norm[r]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \\
+    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[r,\vlambda]{\hf} : = \norm[r]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \quad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
     \cg &: = \left \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[t]{\hg}\right \}, \qquad S(u_{\vj}) = v_{\vj}, \\
     \text{E.g., } & \text{ Function recovery: } S(u_{\vj}) = u_{\vj} = v_{\vj} \\
     & \text{ Integration: } S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx  = v_\vj\\
     \Sapp(f,n) &= \sum_{i=1}^n L_i(f) g_i = \sum_{\vj \in \cn} \hf(\vj) \Sapp(u_\vj,n)  \\
-    \norm[\cg]{S(f) - A(f,\varepsilon)} & \le \sum_{\vj \in \cn} \bigabs{\hf(\vj)} \norm[\cg]{v_\vj - \Sapp(u_{\vj},n)}
+    % \norm[\cg]{S(f) - A(f,\varepsilon)} & \le \sum_{\vj \in \cn} \bigabs{\hf(\vj)} \norm[\cg]{v_\vj - \Sapp(u_{\vj},n)}
 \end{align*}
 
+\vspace{-7ex}
+\alert{$\app(f,\varepsilon) = \Sapp(f,n) + $ stopping criterion}
+
 \end{frame}
 
-\begin{frame}
-\frametitle{Example Bases}
-\vspace{-3ex}
-	\begin{tabular}{>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}}
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_0.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_2.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_3.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_4.png} 
-	\tabularnewline[-7ex]
-	Cosine \& Sine
-	\tabularnewline
-	\tabularnewline
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1_1.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1_3.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_2_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_2_3.png} 
-\tabularnewline[0ex]
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_0.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_3.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_4.png} 
-\tabularnewline[-7ex]
-Walsh \tabularnewline
-\tabularnewline
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1_1.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1_3.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_2_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_2_3.png} 
-	\end{tabular}
-\end{frame}
 
 \begin{frame}
 \frametitle{Example Bases}
@@ -321,16 +291,53 @@ Chebyshev \tabularnewline
 	\end{tabular}
 \end{frame}
 
+\section{Integration}
+
+\begin{frame}
+\frametitle{Complex Exponential and Walsh Bases}
+\vspace{-3ex}
+	\begin{tabular}{>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}}
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_0.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_2.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_3.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_4.png} 
+	\tabularnewline[-7ex]
+	Cosine \& Sine
+	\tabularnewline
+	\tabularnewline
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1_1.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_1_3.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_2_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_2_3.png} 
+\tabularnewline[0ex]
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_0.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_3.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_4.png} 
+\tabularnewline[-7ex]
+Walsh \tabularnewline
+\tabularnewline
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1_1.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_1_3.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_2_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Walsh_Degree_2_3.png} 
+	\end{tabular}
+\end{frame}
+
 
 \begin{frame}{Integration Using Function Values \footfullcite{HicJim16a,JimHic16a}}
 
-\vspace{-5ex}
+\vspace{-7ex}
 
 \begin{align*}
     \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \}\\
-    u_{\vj} &= \text{Walsh or Cosine/Sine} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
-    \Sapp(f,n) &= \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj), \qquad \{\vx_i\}_{i=1}^n = \text{net or lattice} \quad   \\
-    \abs{S(f) - A(f,\varepsilon)} & \le \sum_{\vj \in \text{dual set}} \bigabs{\hf(\vj)}
+    u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
+    \Sapp(f,n) &= \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj), \qquad \{\vx_i\}_{i=1}^n = \text{lattice or net} \quad   \\
+    &\abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
 \end{align*}
 
 \end{frame}
@@ -389,7 +396,7 @@ For any $f \in \cc$, let $\tf = f- \sum_{i=1}^n L_i(f) f_i$, and note that $L_j(
 \end{frame}
 
 
-\begin{frame}{But I Like Balls \smallscoop!}
+\begin{frame}[label = BallsWontHelp]{But I Like Balls \smallscoop!}
 
 \vspace{-5ex}
 How might you construct an adaptive algorithm if you insist on using \alert{balls}?
@@ -410,7 +417,7 @@ How might you construct an adaptive algorithm if you insist on using \alert{ball
 
 \vspace{-2ex}
 
-This algorithm succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.
+This algorithm succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.   \hyperlink{ConeFrame}{\beamerreturnbutton{Back}}
     
 \end{frame}
 
