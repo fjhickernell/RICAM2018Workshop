@@ -345,18 +345,17 @@ Walsh \tabularnewline
 \end{frame}
 
 
-\begin{frame}{Integration Using Function Values \footfullcite{HicJim16a,JimHic16a}}
+\begin{frame}{Cones of Integrands \footfullcite{HicJim16a,JimHic16a}}
 
 \vspace{-7ex}
 
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \}\\
-    u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
-    &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
+n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}\\
+	 \sigma_k(f) & = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \qquad  \hsigma_{\ell,k}(f)  = \sum_{i=n_{\ell-1}+1}^{n_\ell}  \sum_{m=1}^{\infty} \bigabs{\hf(\vj_{i+mn_{k}})},\\
+	 \cc &: = \left\{f \in \cf :  \sigma_k(f) \le a b^{k - \ell}\sigma_\ell(f), \   \hsigma_{\ell,k}(f) \le \sigma_k(f) \right\} \\
+      &\begin{array}{l}\Sapp(f,n_k) = \frac 1{n_k} \sum_{i=1}^{n_k} f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
     \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
     \end{array}
-    \quad \raisebox{-8ex}{\includegraphics[width=3cm]{ProgramsImages/LatTwo12.eps} \qquad
-    \includegraphics[width=3cm]{ProgramsImages/SSobolPoints.eps}}
 \end{align*}
 
 \end{frame}
@@ -376,6 +375,12 @@ Walsh \tabularnewline
 \end{align*}
 
 \end{frame}
+
+\begin{frame}{Asian Option Pricing}
+\end{frame}
+
+
+
 
 \section{General Problems}
 
