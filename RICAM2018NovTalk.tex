@@ -204,6 +204,8 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
     
     \item Union of \alert{cones} is a \alert{cone}
     
+    \item Philosophy of our algorithms:  \alert{What we cannot observe is not much worse than what we can observe}
+    
     \item \hyperlink{BallsWontHelp}{\beamergotobutton{``But I really like balls!''}}
 \end{itemize}
 
@@ -243,7 +245,7 @@ We focus on Banach spaces that look like
 \vspace{-5ex}
 \begin{align*}
     \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[r,\vlambda]{\hf} : = \norm[r]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \quad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
-    \cg &: = \left \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[t]{\hg}\right \}, \qquad S(u_{\vj}) = v_{\vj}, \\
+    \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[t]{\hg}\biggr \}, \qquad S(u_{\vj}) = v_{\vj}, \\
     \text{E.g., } & \text{ Function recovery: } S(u_{\vj}) = u_{\vj} = v_{\vj} \\
     & \text{ Integration: } S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx  = v_\vj\\
     \Sapp(f,n) &= \sum_{i=1}^n L_i(f) g_i = \sum_{\vj \in \cn} \hf(\vj) \Sapp(u_\vj,n)  \\
@@ -259,7 +261,7 @@ We focus on Banach spaces that look like
 
 \section{Integration}
 
-\begin{frame}{Complex Exponential and Walsh Bases}
+\begin{frame}{Complex Exponential and Walsh Bases for Cubature}
 \vspace{-3ex}
 	\begin{tabular}{>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}}
 		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_0.png}  &
@@ -319,9 +321,9 @@ n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}, \
 	 \sigma_k(f) & = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \quad  \hsigma_{k,\ell}(f)  = \sum_{i=n_{k-1}+1}^{n_k} \sum_{m=1}^{\infty} \bigabs{\hf(\vj_{i+mn_{\ell}})}, \quad \sigma_{\textup{disc},k}(f) = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf_{\text{disc}}(\vj_i)} \\
 	 \cc &: = \left\{f \in \cf :  
 	 \sigma_\ell(f) \le a_1 b_1^{\ell - k}\sigma_k(f), \   \hsigma_{k,\ell}(f) \le a_2 b_2^{\ell - k} \sigma_\ell(f) \quad \forall k \le \ell \right\} \quad a_1, a_2 > 1 > b_1, b_2\\
-      &\begin{array}{l}\Sapp(f,n_k) = \frac 1{n_k} \sum_{i=1}^{n_k} f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
-    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)} \le C(k) \sigma_{\textup{disc},k}(f)
-    \end{array}
+      \MoveEqLeft{\Sapp(f,n_k) = \frac 1{n_k} \sum_{i=1}^{n_k} f(\vx_i)  \quad
+    \abs{S(f) - \Sapp(f,n_k)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)} \le C(k) \sigma_{\textup{disc},k}(f)} \\
+    \alert{A(f,\varepsilon)} & \alert{= S(f,n_k) \text{ for the smallest $k$ satisfying } C(k) \sigma_{\textup{disc},k}(f) \le \varepsilon}
 \end{align*}
 
 \end{frame}
@@ -360,38 +362,27 @@ jT/d, \\
 
 \end{frame}
 
-\begin{frame}{Integration Using Function Values (cont'd)}
+
+\section{General Problems}
+
+\begin{frame}{Solving General Linear Problems Using Series Coefficients\footfullcite{DinHic20a}}
 
 \vspace{-7ex}
 
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
-    u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
-    &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
-    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
-    \end{array}
-    \quad \raisebox{-8ex}{\includegraphics[width=3cm]{ProgramsImages/ShiftedLatticePoints.eps} \qquad
-    \includegraphics[width=3cm]{ProgramsImages/SSobolPoints.eps}}
+    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[2,\vlambda]{\hf} : = \norm[2]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
+    \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[2]{\hg}\biggr \}, \qquad S(u_{\vj}) = v_{\vj} \\
+      \lambda_{\vj_1} & \ge \lambda_{\vj_2} \ge \cdots, \qquad
+      n_0 < n_1 < n_2 < \cdots,  \qquad
+ 	\sigma_k(f) = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \quad k \in \naturals \\
+     \cc &: = \left\{f \in \cf :  
+ 	 \sigma_\ell(f) \le a b^{\ell - k}\sigma_k(f) \quad \forall k \le \ell \right\} \quad a > 1 > b \quad \text{\alert{series coef.\ decay steadily}}\\
+ 	 \Sapp(f,n) &= \sum_{i=1}^n \hf(\vj_i) v_{\vj_i} \text{ is a optimal for fixed }n, \qquad \norm[\cg]{S(f) - \Sapp(f,n)} \le \frac{ab \sigma_k(f)}{\sqrt{1 - b^2}}
 \end{align*}
 
 \end{frame}
 
-
-
-\section{General Problems}
-
-\begin{frame}{Cones that Make Sense for Series Spaces}
-\begin{gather*}
-    \cf := \left \{ f = \sum_{\vi \in \cn} \hf(\vi) u_{\vi} : \norm[\cf]{f} := \bignorm[q,\vgamma]{\hf} : = \norm[q]{\left(\frac{\bigabs{\hf(\vi)}}{\gamma_{\vi}} \right)_{\vi \in \cn}} \right \} \\
-    \cg : = \left \{ g = \sum_{\vi \in \cn} \hg(\vi) v_{\vi} : \norm[\cg]{g} := \bignorm[q']{\hg}\right \}, \qquad S(u_{\vi}) = v_{\vi}, \\
-    \text{If } \gamma_{\vi_1} \ge \gamma_{\vi_2} \ge \cdots, \text{ then } \hS_n(f) = \sum_{j=1}^n \hf(\vi_j) v_{\vi_j} \text{ is a good buidling block} \\
-    \text{E.g., Function recovery: } S(u_{\vi}) = u_{\vi} = v_{\vi}
-\end{gather*}
-
-    
-\end{frame}
-
-\begin{frame}{Example Bases for Function Approximation}
+\begin{frame}{Legendre and Chebyshev Bases for Function Approximation}
 \vspace{-3ex}
 	\begin{tabular}{>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}}
 		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_0.png}  &
