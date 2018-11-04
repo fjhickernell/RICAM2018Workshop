@@ -256,45 +256,10 @@ We focus on Banach spaces that look like
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Example Bases}
-\vspace{-3ex}
-	\begin{tabular}{>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}}
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_0.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_2.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_3.png}  &
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_4.png} 
-	\tabularnewline[-7ex]
-	Legendre
-	\tabularnewline
-	\tabularnewline
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1_1.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1_3.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_2_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_2_3.png} 
-\tabularnewline[0ex]
-		\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_0.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_3.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_4.png} 
-\tabularnewline[-7ex]
-Chebyshev \tabularnewline
-\tabularnewline
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1_1.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1_3.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_2_2.png}  &
-\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_2_3.png} 
-	\end{tabular}
-\end{frame}
 
 \section{Integration}
 
-\begin{frame}
-\frametitle{Complex Exponential and Walsh Bases}
+\begin{frame}{Complex Exponential and Walsh Bases}
 \vspace{-3ex}
 	\begin{tabular}{>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}}
 		\includegraphics[width =0.18\textwidth]{ProgramsImages/CosineSine_Degree_0.png}  &
@@ -345,18 +310,53 @@ Walsh \tabularnewline
 \end{frame}
 
 
-\begin{frame}{Cones of Integrands \footfullcite{HicJim16a,JimHic16a}}
+\begin{frame}{Cones of Integrands Whose Fourier Coefficients Decay Steadily\footfullcite{HicJim16a,JimHic16a}}
 
 \vspace{-7ex}
 
 \begin{align*}
-n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}\\
-	 \sigma_k(f) & = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \qquad  \hsigma_{\ell,k}(f)  = \sum_{i=n_{\ell-1}+1}^{n_\ell}  \sum_{m=1}^{\infty} \bigabs{\hf(\vj_{i+mn_{k}})},\\
-	 \cc &: = \left\{f \in \cf :  \sigma_k(f) \le a b^{k - \ell}\sigma_\ell(f), \   \hsigma_{\ell,k}(f) \le \sigma_k(f) \right\} \\
+n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}, \quad \text{true coef.} = \tf(\vj) \approx \tf_{\text{disc}}(\vj) = \text{discrete coef.}\\
+	 \sigma_k(f) & = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \quad  \hsigma_{k,\ell}(f)  = \sum_{i=n_{k-1}+1}^{n_k} \sum_{m=1}^{\infty} \bigabs{\hf(\vj_{i+mn_{\ell}})}, \quad \sigma_{\textup{disc},k}(f) = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf_{\text{disc}}(\vj_i)} \\
+	 \cc &: = \left\{f \in \cf :  
+	 \sigma_\ell(f) \le a_1 b_1^{\ell - k}\sigma_k(f), \   \hsigma_{k,\ell}(f) \le a_2 b_2^{\ell - k} \sigma_\ell(f) \quad \forall k \le \ell \right\} \quad a_1, a_2 > 1 > b_1, b_2\\
       &\begin{array}{l}\Sapp(f,n_k) = \frac 1{n_k} \sum_{i=1}^{n_k} f(\vx_i) = \sum_{\vj \in \text{dual set}} \hf(\vj)  \\[4ex]
-    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
+    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)} \le C(k) \sigma_{\textup{disc},k}(f)
     \end{array}
 \end{align*}
+
+\end{frame}
+
+
+\begin{frame}{ Option Pricing\footfullcite{ChoEtal17b}}
+\vspace{-12ex}
+\begin{tabular}{m{11cm}m{2.5cm}}
+	\[
+	\begin{aligned}
+	 \text{fair price} = 
+	\int_{\reals^d}\me^{-r T}\max\left(\frac{1}{d}\sum_{j=1}^d S_{j}-K, 0\right) 
+	\frac{\me^{-\vz^T\vz/2}}{(2\pi)^{d/2}}\,\dif \vz \approx \$13.12
+	\end{aligned}
+	\]
+	& 
+	\financePict
+\end{tabular}
+\vspace{-4ex}
+\begin{gather*}
+S_{j} =  S_0\me^{(r-\sigma^2/2)jT/d+\sigma x_j} = \text{stock price at time } 
+jT/d, \\
+\vx  = \mA \vz, \quad \mA \mA^T = \mSigma = \Bigl ( \min(i,j) T/d \Bigr) _{i,j = 1}^d,
+\quad T = 1/4, \ d=13 \text{ here}
+\end{gather*}
+\begin{equation*}
+\begin{array}{cccccccc}
+\text{Error}& && \text{Median}&& \text{Worst 10\%} & \text{Worst 10\%} \\
+\text{Tolerance} & \multicolumn{2}{c}{\text{Method}}  & \text{Error} & \text{Accuracy} 
+& n & \text{Time (s)} \\
+\toprule
+\input{ProgramsImages/AsianOutput.txt}
+\end{array}
+\end{equation*}
+\vspace{-8ex}
 
 \end{frame}
 
@@ -376,10 +376,6 @@ n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}\\
 
 \end{frame}
 
-\begin{frame}{Asian Option Pricing}
-\end{frame}
-
-
 
 
 \section{General Problems}
@@ -394,6 +390,41 @@ n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}\\
 
     
 \end{frame}
+
+\begin{frame}{Example Bases for Function Approximation}
+\vspace{-3ex}
+	\begin{tabular}{>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}>{\centering}m{0.18\textwidth}}
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_0.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_2.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_3.png}  &
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_4.png} 
+	\tabularnewline[-7ex]
+	Legendre
+	\tabularnewline
+	\tabularnewline
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1_1.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_1_3.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_2_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Legendre_Degree_2_3.png} 
+\tabularnewline[0ex]
+		\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_0.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_3.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_4.png} 
+\tabularnewline[-7ex]
+Chebyshev \tabularnewline
+\tabularnewline
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1_1.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_1_3.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_2_2.png}  &
+\includegraphics[width =0.18\textwidth]{ProgramsImages/Chebyshev_Degree_2_3.png} 
+	\end{tabular}
+\end{frame}
+
 
 \finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/samsi-qmc-transition-2018-may}{\nolinkurl{speakerdeck.com/fjhickernell/samsi-qmc-transition-2018-may}}}
 
