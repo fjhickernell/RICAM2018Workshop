@@ -87,7 +87,27 @@ Function recovery, differentiation, and integral equations are examples of multi
 \begin{document}
 \everymath{\displaystyle}
 \frame{\titlepage}
+
+\finalthanksnote{
+Thank you all for your participation \\
+\uncover<2>{Thanks to Peter Kritzer and Annette Weihs for doing all the work of organizing}}
+
+
+\thankyouframe
+
 \section{Introduction}
+
+\begin{frame}{Context for This Talk}
+
+\centerline{
+    \begin{tabular}{rp{0.4\textwidth}@{\qquad}p{0.4\textwidth}}
+    \alert{Henryk} & Many nice tractability results for \medscoop &
+    May we obtain analogous results for \medcone \hspace{7ex} ? \tabularnewline
+    \alert{Houman} & Let's learn the appropriate kernel from the function data & This will only work for nice functions in a \medcone
+    \end{tabular}}
+\end{frame}
+
+
 
 \begin{frame}{Multivariate Linear Problems}
 \vspace{-3ex}
@@ -121,7 +141,7 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
 
 \vspace{-5ex}
 \hfill \hfill \alert{$\app(f,\varepsilon) = \Sapp(f,n) + $ stopping criterion}\newline
-\phantom{a} \hfill \hfill \alert{$\cc$ is not a ball}
+\phantom{a} \hfill \hfill \alert{$\cc$ is a \smallcone}
 
 \end{tabular}
     
@@ -196,7 +216,7 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
 \begin{itemize}
     \item Assume set of inputs, $\cc \subseteq \cf$, is a \alert{cone}, not a ball
     
-    \item \alert{Cone} means $f \in \cc \implies af \in \cc$
+    \item \alert{Cone} means $f \in \cc \implies af \in \cc \ \forall a \in \reals$
     
     \item \alert{Cones} are unbounded
     
@@ -244,7 +264,7 @@ We focus on Banach spaces that look like
 
 \vspace{-5ex}
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[r,\vlambda]{\hf} : = \norm[r]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \quad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
+    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[r,\vlambda]{\hf} : = \norm[r]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \quad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractability}\end{minipage}\\
     \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[t]{\hg}\biggr \}, \qquad S(u_{\vj}) = v_{\vj}, \\
     \text{E.g., } & \text{ Function recovery: } S(u_{\vj}) = u_{\vj} = v_{\vj} \\
     & \text{ Integration: } S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx  = v_\vj\\
@@ -328,6 +348,23 @@ n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}, \
 
 \end{frame}
 
+\begin{frame}
+\frametitle{Integrands in $\cc$ Aren't Fuzzy}
+
+\setlength{\figwidth}{0.3\textwidth}
+
+\vspace{-8ex}
+
+
+\centerline{
+	\includegraphics[width = \figwidth] 
+	{ProgramsImages/FunctionWalshFourierCoeffDecay.eps} \qquad \qquad
+	\includegraphics[width = \figwidth] 
+	{ProgramsImages/FilteredFunctionWalshFourierCoeffDecay.eps} }
+
+
+\end{frame}
+
 
 \begin{frame}{ Option Pricing\footfullcite{ChoEtal17b}}
 \vspace{-12ex}
@@ -370,7 +407,7 @@ jT/d, \\
 \vspace{-7ex}
 
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[2,\vlambda]{\hf} : = \norm[2]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
+    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[2,\vlambda]{\hf} : = \norm[2]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractability}\end{minipage}\\
     \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[2]{\hg}\biggr \}, \qquad S(u_{\vj}) = v_{\vj} \\
       \lambda_{\vj_1} & \ge \lambda_{\vj_2} \ge \cdots, \qquad
       n_0 < n_1 < n_2 < \cdots,  \qquad
