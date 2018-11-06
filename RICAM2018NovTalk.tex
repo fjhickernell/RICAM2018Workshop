@@ -226,11 +226,41 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
     
     \item Philosophy:  \alert{What we cannot observe is not much worse than what we can observe}
     
-    \item \hyperlink{BallsWontHelp}{\beamergotobutton{``But I really like balls!''}}
 \end{itemize}
 
     
 \end{frame}
+
+\begin{frame}[label = BallsWontHelp]{``But I Like Balls \smallscoop!''}
+
+\vspace{-5ex}
+How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on using \alert{balls}?
+
+\vspace{-2ex}
+\begin{description}
+    \item[Step 1] Pick with a default radius $\rho$, and \alert{assume} input $f \in \cb_{\rho}$
+    
+    \item[Step 2] Choose $n$ \alert{large enough} so that 
+    
+    \vspace{-4ex}
+    \begin{multline*}
+     \norm[\cg]{S(f) - \Sapp(f,n)} \le \norm[\cf\to \cg]{S - \Sapp(\cdot,n)} \rho \le \varepsilon \\
+         \text{where } \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i
+    \end{multline*}
+    
+    \vspace{-2ex}
+    
+    \item<2>[Step 3] Let $\tf \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$
+    
+    \item[Step 4]  \uncover<2>{If $C\bignorm[\cf]{\tf} \le \rho$ for some preset \alert{inflation} factor, $C$, }then return $A(f,\varepsilon) = \Sapp(f,n)$\uncover<2>{; otherwise, choose $\rho = 2C\bignorm[\cf]{\tf}$, and go to Step 2}
+\end{description}
+
+\vspace{-2ex}
+
+\uncover<2>{This succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.   \hyperlink{ConeFrame}{\beamerreturnbutton{Back}}}
+    
+\end{frame}
+
 
 \section{Solvability}
 \begin{frame}{When Is $(S:\cc \subseteq \cf\to\cg,\Lambda)$ \emph{Solvable}?}
@@ -335,8 +365,8 @@ Walsh \tabularnewline
 \vspace{-7ex}
 
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[1,\vlambda]{\hf} : = \norm[1]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractabililty}\end{minipage}\\
-    u_{\vj} &= \text{Cosine/Sine or Walsh} \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}, \qquad \cg : = \reals \\
+    f &= \sum_{\vj \in \cn} \hf(\vj) u_{\vj}, \qquad
+    u_{\vj} = \text{Cosine/Sine or Walsh}, \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}\\
     &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i)  \\[4ex]
     \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
     \end{array}
@@ -347,12 +377,12 @@ Walsh \tabularnewline
 \end{frame}
 
 
-\begin{frame}{Cones of Integrands Whose Fourier Coefficients Decay Steadily\footfullcite{HicJim16a,JimHic16a}}
+\begin{frame}{Cones of Integrands Whose Fourier Series Coefficients Decay Steadily\footfullcite{HicJim16a,JimHic16a}}
 
 \vspace{-8ex}
 
 \begin{align*}
-n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}, \quad \text{true coef.} = \tf(\vj) \approx \tf_{\text{disc}}(\vj) = \text{discrete coef.}\\
+n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}, \quad \text{true coef.} = \hf(\vj) \approx \tf_{\text{disc}}(\vj) = \text{discrete coef.}\\
 	 \sigma_k(f) & = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \quad  \hsigma_{k,\ell}(f)  = \sum_{i=n_{k-1}+1}^{n_k} \sum_{m=1}^{\infty} \bigabs{\hf(\vj_{i+mn_{\ell}})}, \quad \sigma_{\textup{disc},k}(f) = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf_{\text{disc}}(\vj_i)} \\
 	 \cc &: = \left\{f \in \cf :  
 	 \sigma_\ell(f) \le a_1 b_1^{\ell - k}\sigma_k(f), \   \hsigma_{k,\ell}(f) \le a_2 b_2^{\ell - k} \sigma_\ell(f) \quad \forall k \le \ell \right\} \quad a_1, a_2 > 1 > b_1, b_2\\
@@ -362,7 +392,7 @@ n_0 & = 0, \quad n_k = 2^{k-1}, \ k \in \naturals, \qquad \vj \text{ ordered}, \
 \end{align*}
 
 \vspace{-4ex}
-\alert{Have } $\cost(f,A,\varepsilon)$; \quad \alert{No } $\cost(A,\cc,\varepsilon,\rho)$,  $\comp(\ca(\cc),\varepsilon,\rho)$, or  tractability results \alert{yet}
+\alert{Have} $\cost(f,A,\varepsilon)$; \quad \alert{No} $\cost(A,\cc,\varepsilon,\rho)$,  $\comp(\ca(\cc),\varepsilon,\rho)$, or  tractability results \alert{yet}
 
 \end{frame}
 
@@ -425,18 +455,43 @@ jT/d, \\
 \vspace{-7ex}
 
 \begin{align*}
-    \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[2,\vlambda]{\hf} : = \norm[2]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractability}\end{minipage}\\
-    \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[2]{\hg}\biggr \}, \qquad S(u_{\vj}) = v_{\vj} \\[-2ex]
+    \only<1>{\cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \norm[2]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractability}\end{minipage}\\
+    \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[2]{\hg}\biggr \}, \qquad v_{\vj} = S(u_{\vj}) \\[-2ex]}
       & \alert{\lambda_{\vj_1} \ge \lambda_{\vj_2} \ge \cdots}, \qquad
       n_0 < n_1 < n_2 < \cdots,  \qquad
  	\sigma_k(f) = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \quad k \in \naturals \\
      \cc &: = \left\{f \in \cf :  
  	 \sigma_\ell(f) \le a b^{\ell - k}\sigma_k(f) \quad \forall k \le \ell \right\} \quad a > 1 > b \quad \text{\alert{series coef.\ decay steadily}}\\
- 	 \Sapp(f,n) &= \sum_{i=1}^n \hf(\vj_i) v_{\vj_i} \text{ is a optimal for fixed }n, \qquad \norm[\cg]{S(f) - \Sapp(f,n)} \le \frac{ab \sigma_k(f)}{\sqrt{1 - b^2}} \\[-1ex]
- 	 \alert{A(f,\varepsilon)} & \alert{= S(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}}
+ 	 \Sapp(f,n_k) &= \sum_{i=1}^{n_k} \hf(\vj_i) v_{\vj_i} \text{ is optimal for fixed }n_k, \qquad \norm[\cg]{S(f) - \Sapp(f,n_k)} \le \frac{ab \sigma_k(f)}{\sqrt{1 - b^2}} \\[-1ex]
+ 	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}}
+ 	 \only<2>{\\ 
+ 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) = n_{\ell^\dagger}, \quad 
+ 	 \ell^\dagger \le \min \left \{\ell \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{\ell-1} \frac{b^{2(k-\ell)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{\ell-1}+1}^2}\right]   \right\}}} \\
+ 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) \text{ essentially no worse than } \comp(\ca(\cc,\LambdaAll),\varepsilon,\rho)}}}
 \end{align*}
 
+\end{frame}
 
+\begin{frame}{\emph{Function Approximation} when Function Values Are Expensive}
+
+\vspace{-7ex}
+
+    \begin{align*}
+    \only<1>{\cf &:= \left \{ f = \sum_{\vj \in \natzero^d} \hf(\vj) u_{\vj} : \norm[\cf]{f} :=  \norm[\infty]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractability}\end{minipage}\\
+    \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[1]{\hg}\biggr \}, \qquad v_{\vj} = S(u_{\vj}) = u_{\vj} \\[-2ex]}
+    \lambda_{\vj} & = \Gamma_{\norm[0]{\vj}} \prod_{\substack{\ell = 1 \\ j_{\ell} > 0}}^d \gamma_\ell s_{j_\ell} \quad \text{\alert{product, order, and smoothness dependent weights}} \\
+      & \alert{\lambda_{\vj_1} \ge \lambda_{\vj_2} \ge \cdots}, \qquad
+      \Sapp(f,n) = \sum_{i=1}^{n} \hf(\vj_i) u_{\vj_i} ,  \qquad
+ 	\sigma_k(f) = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \quad k \in \naturals \\
+     \cc &: = \left\{f \in \cf :  
+ 	 \sigma_\ell(f) \le a b^{\ell - k}\sigma_k(f) \quad \forall k \le \ell \right\} \quad a > 1 > b \quad \text{\alert{series coef.\ decay steadily}}\\
+ 	 \Sapp(f,n_k) &= \sum_{i=1}^{n_k} \hf(\vj_i) v_{\vj_i} \text{ is optimal for fixed }n_k, \qquad \norm[\cg]{S(f) - \Sapp(f,n_k)} \le \frac{ab \sigma_k(f)}{\sqrt{1 - b^2}} \\[-1ex]
+ 	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}}
+ 	 \only<2>{\\ 
+ 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) = n_{\ell^\dagger}, \quad 
+ 	 \ell^\dagger \le \min \left \{\ell \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{\ell-1} \frac{b^{2(k-\ell)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{\ell-1}+1}^2}\right]   \right\}}} \\
+ 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) \text{ essentially no worse than } \comp(\ca(\cc,\LambdaAll),\varepsilon,\rho)}}}
+\end{align*}
 
 \end{frame}
 
