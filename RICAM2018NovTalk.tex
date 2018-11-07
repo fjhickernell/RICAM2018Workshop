@@ -74,7 +74,7 @@ Function recovery, differentiation, and integral equations are examples of multi
 	
 	\newcommand{\scoop}[1]{\parbox{#1}{\includegraphics[width=#1]{IceCreamScoop.eps}}\xspace}
 	\newcommand{\smallscoop}{\scoop{1cm}}
-	\newcommand{\medscoop}{\parbox{1.8cm}{\includegraphics[width=1.8cm]{IceCreamScoop.eps}}\xspace}
+	\newcommand{\medscoop}{\scoop{1.8cm}}
 	\newcommand{\largescoop}{\scoop{3cm}}
 	\newcommand{\ICcone}[1]{\parbox{#1}{\includegraphics[width=#1,angle=270]{MediumWaffleCone.eps}}\xspace}
 	\newcommand{\medcone}{\ICcone{1.2cm}}
@@ -97,13 +97,21 @@ Thank you all for your participation \\
 
 \section{Introduction}
 
-\begin{frame}{Context for This Talk}
+\begin{frame}{Context}
+
+\vspace{-3ex}
 
 \centerline{
-    \begin{tabular}{rp{0.4\textwidth}@{\qquad}p{0.4\textwidth}}
-    \alert{Henryk} & Many nice tractability results for \medscoop &
-    May we obtain analogous results for \medcone \hspace{7ex} ? \tabularnewline
-    \alert{Houman} & Let's learn the appropriate kernel from the function data & This will only work for nice functions in a \medcone
+    \begin{tabular}{>{\vspace{-1.7ex}\raggedleft}p{0.2\textwidth}@{\qquad}p{0.3\textwidth}@{\qquad}p{0.3\textwidth}}
+    & \alert{Previous talks} & \alert{My reponse} \tabularnewline
+    \toprule
+    \alert{Henryk, Klaus, Greg, Stefan, \ldots} & Many results for $f \in \smallscoop$  &
+    May we obtain analogous results for $f \in \smallcone$? \tabularnewline[2ex]
+    \alert{Houman} & Let's \alert{learn} the appropriate kernel from the function data & Will only work for nice functions in a \smallcone \tabularnewline[2ex]
+    \alert{Paul} & Let's \alert{find} the Lipschitz matrix constant \ldots & Yes, lets learn from the function data \tabularnewline[2ex]
+    \alert{Klaus} & This adaptive algorithm has \alert{no theory}  & We want to construct adaptive algorithms \alert{with theory} \tabularnewline[2ex]
+    \alert{Henryk} & Tractability & Yes! \tabularnewline[2ex]
+    \alert{Greg} & POD weights & Yes!
     \end{tabular}}
 \end{frame}
 
@@ -250,14 +258,14 @@ How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on
     
     \vspace{-2ex}
     
-    \item<2>[Step 3] Let $\tf \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$
+    \item<2>[Step 3] Let $f_{\textup{min}} \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$
     
-    \item[Step 4]  \uncover<2>{If $C\bignorm[\cf]{\tf} \le \rho$ for some preset \alert{inflation} factor, $C$, }then return $A(f,\varepsilon) = \Sapp(f,n)$\uncover<2>{; otherwise, choose $\rho = 2C\bignorm[\cf]{\tf}$, and go to Step 2}
+    \item[Step 4]  \uncover<2>{If $C\bignorm[\cf]{f_{\textup{min}}} \le \rho$ for some preset \alert{inflation} factor, $C$, }then return $A(f,\varepsilon) = \Sapp(f,n)$\uncover<2>{; otherwise, choose $\rho = 2C\bignorm[\cf]{f_{\textup{min}}}$, and go to Step 2}
 \end{description}
 
 \vspace{-2ex}
 
-\uncover<2>{This succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.   \hyperlink{ConeFrame}{\beamerreturnbutton{Back}}}
+\uncover<2>{This succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.}
     
 \end{frame}
 
@@ -463,11 +471,12 @@ jT/d, \\
      \cc &: = \left\{f \in \cf :  
  	 \sigma_\ell(f) \le a b^{\ell - k}\sigma_k(f) \quad \forall k \le \ell \right\} \quad a > 1 > b \quad \text{\alert{series coef.\ decay steadily}}\\
  	 \Sapp(f,n_k) &= \sum_{i=1}^{n_k} \hf(\vj_i) v_{\vj_i} \text{ is optimal for fixed }n_k, \qquad \norm[\cg]{S(f) - \Sapp(f,n_k)} \le \frac{ab \sigma_k(f)}{\sqrt{1 - b^2}} \\[-1ex]
- 	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}}
+ 	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k)} \text{ for the smallest $k$ satisfying } \alert{\sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}}
  	 \only<2>{\\ 
- 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) = n_{\ell^\dagger}, \quad 
- 	 \ell^\dagger \le \min \left \{\ell \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{\ell-1} \frac{b^{2(k-\ell)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{\ell-1}+1}^2}\right]   \right\}}} \\
- 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) \text{ essentially no worse than } \comp(\ca(\cc,\LambdaAll),\varepsilon,\rho)}}}
+ 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) = n_{\ell^\dagger}}, \quad 
+ 	 \ell^\dagger \le \min \left \{\ell \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{\ell-1} \frac{b^{2(k-\ell)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{\ell-1}+1}^2}\right]   \right\}} \\
+ 	 \MoveEqLeft{\cost(A,\cc,\varepsilon,\rho) \text{ \alert{essentially no worse than} } \comp(\ca(\cc,\LambdaAll),\varepsilon,\rho)}\\
+ 	 \MoveEqLeft{\text{\alert{No} tractability results}}}
 \end{align*}
 
 \end{frame}
@@ -478,16 +487,20 @@ jT/d, \\
 
     \begin{align*}
     \only<1>{\cf &:= \left \{ f = \sum_{\vj \in \natzero^d} \hf(\vj) u_{\vj} : \norm[\cf]{f} :=  \norm[\infty]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \qquad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractability}\end{minipage}\\
-    \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[1]{\hg}\biggr \}, \qquad v_{\vj} = S(u_{\vj}) = u_{\vj} \\[-2ex]}
-    \lambda_{\vj} & = \Gamma_{\norm[0]{\vj}} \prod_{\substack{\ell = 1 \\ j_{\ell} > 0}}^d \gamma_\ell s_{j_\ell} \quad \text{\alert{product, order, and smoothness dependent weights}} \\
+    \cg &: = \Biggl \{ g = \sum_{\vj \in \natzero^d} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[1]{\hg}\Biggr \}, \qquad v_{\vj} = S(u_{\vj}) = u_{\vj} \\[-2ex]}
+    \lambda_{\vj} & = \Gamma_{\norm[0]{\vj}} \prod_{\substack{\ell = 1 \\ j_{\ell} > 0}}^d \gamma_\ell s_{j_\ell} \quad
+    \begin{cases}
+\gamma_\ell = \text{coordinate importance} \\[-0.5ex]
+\Gamma_r = \text{order size} \\[-0.5ex]
+s_j =  \text{smoothness degree}
+\end{cases}
+\text{\alert{POSD weights\footfullcite{WuHam00,KuoEtal12a}}} \\
       & \alert{\lambda_{\vj_1} \ge \lambda_{\vj_2} \ge \cdots}, \qquad
       \Sapp(f,n) = \sum_{i=1}^{n} \hf(\vj_i) u_{\vj_i} ,  \qquad
- 	\sigma_k(f) = \sum_{i=n_{k-1}+1}^{n_k}  \bigabs{\hf(\vj_i)}, \quad k \in \naturals \\
-     \cc &: = \left\{f \in \cf :  
- 	 \sigma_\ell(f) \le a b^{\ell - k}\sigma_k(f) \quad \forall k \le \ell \right\} \quad a > 1 > b \quad \text{\alert{series coef.\ decay steadily}}\\
- 	 \Sapp(f,n_k) &= \sum_{i=1}^{n_k} \hf(\vj_i) v_{\vj_i} \text{ is optimal for fixed }n_k, \qquad \norm[\cg]{S(f) - \Sapp(f,n_k)} \le \frac{ab \sigma_k(f)}{\sqrt{1 - b^2}} \\[-1ex]
- 	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}}
- 	 \only<2>{\\ 
+ 	\norm[\cg]{S(f) - \Sapp(f,n_k)} \le \norm[\cf]{f} \sum_{i = n+1} \lambda_{\vj_i} \\
+     \cc &: = \left\{f \in \cf :  \text those functions \right \}
+ 	 \only<2>{\\
+ 	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}} \\ 
  	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) = n_{\ell^\dagger}, \quad 
  	 \ell^\dagger \le \min \left \{\ell \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{\ell-1} \frac{b^{2(k-\ell)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{\ell-1}+1}^2}\right]   \right\}}} \\
  	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) \text{ essentially no worse than } \comp(\ca(\cc,\LambdaAll),\varepsilon,\rho)}}}
@@ -530,6 +543,32 @@ Chebyshev \tabularnewline
 \end{frame}
 
 
+\begin{frame}{Take Home Message}
+
+\begin{itemize}
+    \item Assuming that the input functions lie in \alert{cones} \smallcone allow us to construct \alert{adaptive} algorithms
+    
+    \item Cone definitions reflect \alert{prior beliefs} or \alert{practical considerations}
+    
+    \item Much to be done to 
+    \begin{itemize}
+        \item demonstrate \alert{solvability}
+        
+        \item \alert{construct} algorithms
+        
+        \item derive upper bounds on \alert{computational cost}
+        
+        \item derive lower bounds on \alert{computational complexity}
+        
+        \item determine conditions on \alert{tractability}
+        
+        \item \alert{implement} algorithms in available software
+    \end{itemize}
+    
+\end{itemize}
+    
+\end{frame}
+
 \finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/samsi-qmc-transition-2018-may}{\nolinkurl{speakerdeck.com/fjhickernell/samsi-qmc-transition-2018-may}}}
 
 
@@ -571,35 +610,6 @@ For any $f \in \cc$, let $\tf = f- \sum_{i=1}^n L_i(f) f_i$, and note that $L_j(
 \end{frame}
 
 
-\begin{frame}[label = BallsWontHelp]{``But I Like Balls \smallscoop!''}
-
-\vspace{-5ex}
-How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on using \alert{balls}?
-
-\vspace{-2ex}
-\begin{description}
-    \item[Step 1] Pick with a default radius $\rho$, and \alert{assume} input $f \in \cb_{\rho}$
-    
-    \item[Step 2] Choose $n$ \alert{large enough} so that 
-    
-    \vspace{-4ex}
-    \begin{multline*}
-     \norm[\cg]{S(f) - \Sapp(f,n)} \le \norm[\cf\to \cg]{S - \Sapp(\cdot,n)} \rho \le \varepsilon \\
-         \text{where } \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i
-    \end{multline*}
-    
-    \vspace{-2ex}
-    
-    \item<2>[Step 3] Let $\tf \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$
-    
-    \item[Step 4]  \uncover<2>{If $C\bignorm[\cf]{\tf} \le \rho$ for some preset \alert{inflation} factor, $C$, }then return $A(f,\varepsilon) = \Sapp(f,n)$\uncover<2>{; otherwise, choose $\rho = 2C\bignorm[\cf]{\tf}$, and go to Step 2}
-\end{description}
-
-\vspace{-2ex}
-
-\uncover<2>{This succeeds for the \alert{cone} \smallcone defined as those functions in $\cf$ whose norms are not much larger than their minimum norm interpolants.   \hyperlink{ConeFrame}{\beamerreturnbutton{Back}}}
-    
-\end{frame}
 
 
 \end{document}
