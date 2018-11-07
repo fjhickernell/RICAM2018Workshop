@@ -481,6 +481,8 @@ jT/d, \\
 
 \end{frame}
 
+%\footfullcite{WuHam00,KuoEtal12a}
+
 \begin{frame}{\emph{Function Approximation} when Function Values Are Expensive}
 
 \vspace{-7ex}
@@ -494,11 +496,11 @@ jT/d, \\
 \Gamma_r = \text{order size} \\[-0.5ex]
 s_j =  \text{smoothness degree}
 \end{cases}
-\text{\alert{POSD weights\footfullcite{WuHam00,KuoEtal12a}}} \\
+\text{\alert{POSD weights\footfullcite{WuHam00,KuoEtal12a}}} \\[-2ex]
       & \alert{\lambda_{\vj_1} \ge \lambda_{\vj_2} \ge \cdots}, \qquad
       \Sapp(f,n) = \sum_{i=1}^{n} \hf(\vj_i) u_{\vj_i} ,  \qquad
  	\norm[\cg]{S(f) - \Sapp(f,n_k)} \le \norm[\cf]{f} \sum_{i = n+1} \lambda_{\vj_i} \\
-     \cc &: = \left\{f \in \cf :  \text those functions \right \}
+     \cc &: = \left\{f \in \cf :  \text{ those functions for which } \norm[\cf]{f} \text{ can be inferred from a pilot sample} \right \}
  	 \only<2>{\\
  	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}} \\ 
  	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) = n_{\ell^\dagger}, \quad 
@@ -542,7 +544,9 @@ Chebyshev \tabularnewline
 	\end{tabular}
 \end{frame}
 
-
+\begin{frame}{ChanSun Test Function\footfullcite{VirLib17a}}
+    
+\end{frame}
 \begin{frame}{Take Home Message}
 
 \begin{itemize}
