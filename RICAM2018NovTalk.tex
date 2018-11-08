@@ -102,16 +102,16 @@ Thank you all for your participation \\
 \vspace{-3ex}
 
 \centerline{
-    \begin{tabular}{>{\vspace{-1.7ex}\raggedleft}p{0.2\textwidth}@{\qquad}p{0.3\textwidth}@{\qquad}p{0.3\textwidth}}
-    & \alert{Previous talks} & \alert{My reponse} \tabularnewline
+    \begin{tabular}{>{\vspace{-1.7ex}\raggedleft}p{0.2\textwidth}@{\qquad}p{0.33\textwidth}@{\qquad}p{0.27\textwidth}}
+    & \alert{Tidbits from talks this week} & \alert{My reponse} \tabularnewline
     \toprule
-    \alert{Henryk, Klaus, Greg, Stefan, \ldots} & Many results for $f \in \smallscoop$  &
-    May we obtain analogous results for $f \in \smallcone$? \tabularnewline[2ex]
+    \alert{Henryk, Klaus, Greg, Stefan, Erich, \ldots} & Many results for $f \in \smallscoop$  &
+    Let's obtain analogous results for $f \in \smallcone$? \tabularnewline[2ex]
     \alert{Houman} & Let's \alert{learn} the appropriate kernel from the function data & Will only work for nice functions in a \smallcone \tabularnewline[2ex]
-    \alert{Paul} & Let's \alert{find} the Lipschitz matrix constant \ldots & Yes, lets learn from the function data \tabularnewline[2ex]
-    \alert{Klaus} & This adaptive algorithm has \alert{no theory}  & We want to construct adaptive algorithms \alert{with theory} \tabularnewline[2ex]
+    \alert{Klaus} & ``This adaptive algorithm has \alert{no theory}''  & We want to construct adaptive algorithms \alert{with theory} \tabularnewline[2ex]
     \alert{Henryk} & Tractability & Yes! \tabularnewline[2ex]
-    \alert{Greg} & POD weights & Yes!
+    \alert{Greg} & POD weights & Yes! \tabularnewline[2ex]
+    \alert{Mac} & Function values are expensive & Yes!
     \end{tabular}}
 \end{frame}
 
@@ -138,7 +138,7 @@ $\sol: \cf \to \cg$ is linear, e.g.,
 \end{multline*}
 
 \vspace{-1ex}
-where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \alert{Fourier coefficients}, $\LambdaSer$, or \alert{linear functionals}, $\LambdaAll$, e.g., 
+where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \alert{Fourier coefficients}, $\LambdaSer$, or \alert{any linear functionals}, $\LambdaAll$, e.g., 
 
 \vspace{-4ex}
 \begin{gather*}
@@ -173,17 +173,17 @@ $\sol: \cf \to \cg$ is linear
 \end{multline*}
 
 \vspace{-1ex}
-where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \alert{Fourier coefficients}, $\LambdaSer$, or \alert{linear functionals}, $\LambdaAll$
+where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \alert{Fourier coefficients}, $\LambdaSer$, or \alert{any linear functionals}, $\LambdaAll$
 &
 
 \vspace{-9ex}
 \uncover<1->{\alert{Solvability}\footfullcite{KunEtal19a}: $\ca(\cc,\Lambda) \ne \emptyset$
 
-\medskip
+\smallskip
 
-\alert{Construction}: Identify $\app \in \ca(\cc,\Lambda)$}
+\alert{Construction}: Find $\app \in \ca(\cc,\Lambda)$}
 
-\medskip
+\smallskip
 
 \uncover<2->{\alert{Cost}: $\cost(\app,f,\varepsilon) = $ \# of function data
 \newline
@@ -191,18 +191,19 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
  \newline
  $\cb_{\rho} := \{f \in \cf : \norm[\cf]{f} \le \rho \}$
  
- \medskip
+ \smallskip
 
 \alert{Complexity}\footfullcite{TraWasWoz88}: $\comp(\ca(\cc,\Lambda),\varepsilon,\rho)$ 
 \newline \phantom{a} \hfill \hfill $= \min_{\app \in \ca(\cc,\Lambda)} \cost(\app,\cc,\varepsilon, \rho)$
 
-\medskip
-
 \alert{Optimality}:  \newline \phantom{a} \hfill \hfill $\cost(\app,\cc,\varepsilon, \rho) \le \comp(\ca(\cc,\Lambda),\alert{\omega} \varepsilon,\rho)$}
 
-\medskip
+\smallskip
 
 \uncover<3->{\alert{Tractability}\footfullcite{NovWoz08a}: $\comp(\ca(\cc,\Lambda),\varepsilon, \rho) \le C \rho^p\varepsilon^{-p} d^{q} $}
+
+\smallskip
+\uncover<4->{\alert{Implementation} in open source software}
 
 \vspace{-6ex}
 
@@ -232,17 +233,17 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
     
     %\item Union of \alert{cones} is a \alert{cone}
     
-    \item Philosophy:  \alert{What we cannot observe is not much worse than what we can observe}
+    \item \alert{Philosophy:}  What we cannot observe about $f$ is not much worse than what we can observe about $f$
     
 \end{itemize}
 
     
 \end{frame}
 
-\begin{frame}[label = BallsWontHelp]{``But I Like Balls \smallscoop!''}
+\begin{frame}[label = BallsWontHelp]{``But I Like \smallscoop!''}
 
 \vspace{-5ex}
-How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on using \alert{balls}?
+How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on using \smallscoop?
 
 \vspace{-2ex}
 \begin{description}
@@ -308,7 +309,7 @@ E.g. $\left(\int_{[0,1]^d} \cdot (\vx) \, \dif \vx: C^{1,\ldots,1}[0,1]^d\to\rea
 
 \vspace{-1ex}
 
-Three scenarios presented
+Three scenarios presented here:
 
 \vspace{-3ex}
 \begin{description}[\labelwidth = 2cm]
@@ -329,8 +330,9 @@ Three scenarios presented
 \vspace{-7ex}
 
 \begin{align*}
+    S(f) & = \int_{[0,1]^d} f(\vx) \, \dif \vx\\[2ex]
     f &= \sum_{\vj \in \cn} \hf(\vj) u_{\vj}, \qquad
-    u_{\vj} = \text{Cosine/Sine or Walsh}, \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}\\
+    u_{\vj} = \text{Cosine/Sine or Walsh}, \qquad S(u_{\vj}) = \delta_{\vj,\vzero}\\
     &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i)  \\[4ex]
     \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
     \end{array}
