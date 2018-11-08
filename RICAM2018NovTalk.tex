@@ -133,7 +133,7 @@ $\sol: \cf \to \cg$ is linear, e.g.,
 \alert{Successful algorithms}
 \vspace{-3ex}
 \begin{multline*}
-    \ca(\cc) : = \{\app: \cc \times (0,\infty) \to \cg \text{ such that } \\
+    \ca(\cc,\Lambda) : = \{\app: \cc \times (0,\infty) \to \cg \text{ such that } \\
 \norm[\cg]{\sol(f) - \app(f,\varepsilon) } \le \varepsilon \ \ \forall f \in \cc \subseteq \cf, \ \varepsilon > 0 \}
 \end{multline*}
 
@@ -142,9 +142,9 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
 
 \vspace{-4ex}
 \begin{gather*}
-    \Sapp(f,n) = \sum_{i=1}^n f(\vx_i) g_i, \quad g_i \in \cg \\
-    \Sapp(f,n) = \sum_{i=1}^n \hf_i g_i, \quad g_i \in \cg \\
-    \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i, \quad g_i \in \cg \\
+    \Sapp(f,n) = \sum_{i=1}^n f(\vx_i) \, g_i, \quad g_i \in \cg \\
+    \Sapp(f,n) = \sum_{i=1}^n \hf_i \, g_i, \quad g_i \in \cg \\
+    \Sapp(f,n) = \sum_{i=1}^n L_i(f) \, g_i, \quad g_i \in \cg \\
 \end{gather*}
 
 \vspace{-5ex}
@@ -260,7 +260,7 @@ How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on
     
     \item<2>[Step 3] Let $f_{\textup{min}} \in \cf$ be the \alert{minimum} norm interpolant of the data $L_1(f), \ldots, L_n(f)$
     
-    \item[Step 4]  \uncover<2>{If $C\bignorm[\cf]{f_{\textup{min}}} \le \rho$ for some preset \alert{inflation} factor, $C$, }then return $A(f,\varepsilon) = \Sapp(f,n)$\uncover<2>{; otherwise, choose $\rho = 2C\bignorm[\cf]{f_{\textup{min}}}$, and go to Step 2}
+    \item[Step 4]  \uncover<2>{If $C\bignorm[\cf]{f_{\textup{min}}} \le \rho$ for some preset \alert{inflation} factor, $C$, \\}then return $A(f,\varepsilon) = \Sapp(f,n)$\uncover<2>{; \\otherwise, choose $\rho = 2C\bignorm[\cf]{f_{\textup{min}}}$, and go to Step 2}
 \end{description}
 
 \vspace{-2ex}
@@ -275,7 +275,7 @@ How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on
 
 \vspace{-7ex}
 \begin{multline*}
-     \ca(\cc) : = \{\app: \cc \times (0,\infty) \to \cg \text{ such that } 
+     \ca(\cc,\Lambda) : = \{\app: \cc \times (0,\infty) \to \cg \text{ such that } 
 \norm[\cg]{\sol(f) - \app(f,\varepsilon) } \le \varepsilon \ \forall f \in \cc \subseteq \cf, \ \varepsilon > 0 \}
   \\
   \text{where $A(f,\varepsilon)$ depends on } \{L_i(f)\}_{i=1}^n \in \Lambda^n \subseteq \cf^{*n}
@@ -284,10 +284,10 @@ How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on
 \vspace{-3ex}
 
 \alert{Definition} \quad $(S:\cc \subseteq \cf\to\cg,\Lambda)$ \alert{solvable} $\iff \ca(\cc) \ne \emptyset$\\[1ex]
-\alert{Lemma}  \quad $f_1, f_2 \in \cc$  and $A(f_1, \varepsilon) = A(f_2,\varepsilon) \implies \norm[\cg]{S(f_1-f_2)} \le \varepsilon$\\[1ex]
+\alert{Lemma}  \quad $f_1, f_2 \in \cc$  and $A(f_1, \varepsilon) = A(f_2,\varepsilon) \implies \norm[\cg]{S(f_1-f_2)} \le 2\varepsilon$\\[1ex]
 \alert{Corollary} \label{ZeroCorollary} \quad $(S:\cc \subseteq \cf\to\cg,\Lambda)$ \alert{solvable} and $\exists f \in \cc,\  \varepsilon > 0$ with $A(f,\varepsilon) = A(0,\varepsilon)$  \\ \hfill \hfill $\implies S(f) = 0$\\[1ex]
 \alert{Theorem} \label{VectorSpaceThm}\quad $(S:\cc \subseteq \cf\to\cg,\Lambda)$ \alert{solvable} and $\cc$ is a \alert{vector space} \\ \hfill \hfill 
-$\iff S(f) = \sum_{i=1}^n L_i(f) g_i$ for some $\vL \in \Lambda^n, \vg \in \cg^n$  \hyperlink{VectorSpaceThmProof}{\beamergotobutton{Proof}}\\[1ex]
+$\iff S(f) = \sum_{i=1}^n L_i(f) g_i$ for some $\vL \in \Lambda^n, \ \vg \in \cg^n, \ n \in \naturals$  \hyperlink{VectorSpaceThmProof}{\beamergotobutton{Proof}}\\[1ex]
 E.g. $\left(\int_{[0,1]^d} \cdot (\vx) \, \dif \vx: C^{1,\ldots,1}[0,1]^d\to\reals,\Lambda^{\textup{std/\alert{all}}}\right)$ is unsolvable/\alert{solvable}
     
 \end{frame}
@@ -296,21 +296,49 @@ E.g. $\left(\int_{[0,1]^d} \cdot (\vx) \, \dif \vx: C^{1,\ldots,1}[0,1]^d\to\rea
 
 \begin{frame}{Inputs and Outputs}
 
-\vspace{-5ex}
+\vspace{-8ex}
 \begin{gather*}
     \text{\alert{Input: }} f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} , \qquad 
     \text{\alert{Output: }} g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj}, \qquad S(u_{\vj}) = v_{\vj}, \\
     \text{E.g., Function recovery: } S(u_{\vj}) = u_{\vj} = v_{\vj}, \qquad
    \text{ Integration: } S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx  = v_\vj \\
-    \text{\alert{Fixed sample size algorithm: }} \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i = \sum_{\vj \in \cn} \hf(\vj) \Sapp(u_\vj,n)  \\
+    \text{\alert{Fixed sample size algorithm: }} \Sapp(f,n) = \sum_{i=1}^n L_i(f) g_i   \\
     \alert{\app(f,\varepsilon) = \Sapp(f,n) + \text{ stopping criterion}}
 \end{gather*}
+
+\vspace{-1ex}
+
+Three scenarios presented
+
+\vspace{-3ex}
+\begin{description}[\labelwidth = 2cm]
+\item[Integration] use $\LambdaStd$, but cost, complexity, etc. lacking
+\item[General Linear Problems] use $\LambdaSer$, have cost, complexity, and optimality
+\item[Function Approximation] use $\LambdaSer$, learn coordinate and smoothness weights
+\end{description}
 
 
 \end{frame}
 
 
 \section{Integration}
+
+
+\begin{frame}{Integration Using Function Values, $\LambdaStd$\footfullcite{DicEtal14a}}
+
+\vspace{-7ex}
+
+\begin{align*}
+    f &= \sum_{\vj \in \cn} \hf(\vj) u_{\vj}, \qquad
+    u_{\vj} = \text{Cosine/Sine or Walsh}, \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}\\
+    &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i)  \\[4ex]
+    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
+    \end{array}
+    \quad \raisebox{-8ex}{\includegraphics[width=3cm]{ProgramsImages/ShiftedLatticePoints.eps} \qquad
+    \includegraphics[width=3cm]{ProgramsImages/SSobolPoints.eps}}
+\end{align*}
+
+\end{frame}
 
 \begin{frame}{Complex Exponential and Walsh Bases for Cubature}
 \vspace{-3ex}
@@ -346,21 +374,6 @@ Walsh \tabularnewline
 	\end{tabular}
 \end{frame}
 
-\begin{frame}{Integration Using Function Values, $\LambdaStd$\footfullcite{DicEtal14a}}
-
-\vspace{-7ex}
-
-\begin{align*}
-    f &= \sum_{\vj \in \cn} \hf(\vj) u_{\vj}, \qquad
-    u_{\vj} = \text{Cosine/Sine or Walsh}, \qquad S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx = \delta_{\vj,\vzero}\\
-    &\begin{array}{l}\Sapp(f,n) = \frac 1n \sum_{i=1}^n f(\vx_i)  \\[4ex]
-    \abs{S(f) - \Sapp(f,n)} \le \sum_{\vzero \ne \vj \in \text{dual set}} \bigabs{\hf(\vj)}
-    \end{array}
-    \quad \raisebox{-8ex}{\includegraphics[width=3cm]{ProgramsImages/ShiftedLatticePoints.eps} \qquad
-    \includegraphics[width=3cm]{ProgramsImages/SSobolPoints.eps}}
-\end{align*}
-
-\end{frame}
 
 
 \begin{frame}{Cones of Integrands Whose Fourier Series Coefficients Decay Steadily\footfullcite{HicJim16a,JimHic16a}}
