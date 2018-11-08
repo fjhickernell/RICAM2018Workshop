@@ -159,7 +159,7 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
 
 \vspace{-3ex}
 
-\begin{tabular}{p{0.48\textwidth}p{0.49\textwidth}}
+\begin{tabular}{p{0.47\textwidth}p{0.5\textwidth}}
 Given $f \in \cf$ find $S(f) \in \cg$, where \\
 $\sol: \cf \to \cg$ is linear
 
@@ -168,7 +168,7 @@ $\sol: \cf \to \cg$ is linear
 \alert{Successful algorithms}
 \vspace{-2ex}
 \begin{multline*}
-    \ca(\cc) : = \{\app: \cc \times (0,\infty) \to \cg \text{ such that } \\
+    \ca(\cc,\Lambda) : = \{\app: \cc \times (0,\infty) \to \cg \text{ such that } \\
 \norm[\cg]{\sol(f) - \app(f,\varepsilon) } \le \varepsilon \ \ \forall f \in \cc \subseteq \cf, \ \varepsilon > 0 \}
 \end{multline*}
 
@@ -177,11 +177,11 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
 &
 
 \vspace{-9ex}
-\uncover<1->{\alert{Solvability}\footfullcite{KunEtal19a}: $\ca(\cc) \ne \emptyset$
+\uncover<1->{\alert{Solvability}\footfullcite{KunEtal19a}: $\ca(\cc,\Lambda) \ne \emptyset$
 
 \medskip
 
-\alert{Construction}: Identify $\app \in \ca(\cc)$}
+\alert{Construction}: Identify $\app \in \ca(\cc,\Lambda)$}
 
 \medskip
 
@@ -193,16 +193,16 @@ where $\app(f,\varepsilon)$ depends on \alert{function values}, $\LambdaStd$, \a
  
  \medskip
 
-\alert{Complexity}\footfullcite{TraWasWoz88}: $\comp(\ca(\cc),\varepsilon,\rho)$ 
-\newline \phantom{a} \hfill \hfill $= \min_{\app \in \ca(\cc)} \cost(\app,\cc,\varepsilon, \rho)$
+\alert{Complexity}\footfullcite{TraWasWoz88}: $\comp(\ca(\cc,\Lambda),\varepsilon,\rho)$ 
+\newline \phantom{a} \hfill \hfill $= \min_{\app \in \ca(\cc,\Lambda)} \cost(\app,\cc,\varepsilon, \rho)$
 
 \medskip
 
-\alert{Optimality}:  \newline \phantom{a} \hfill \hfill $\cost(\app,\cc,\varepsilon, \rho) \le \comp(\ca(\cc),\alert{\omega} \varepsilon,\rho)$}
+\alert{Optimality}:  \newline \phantom{a} \hfill \hfill $\cost(\app,\cc,\varepsilon, \rho) \le \comp(\ca(\cc,\Lambda),\alert{\omega} \varepsilon,\rho)$}
 
 \medskip
 
-\uncover<3->{\alert{Tractability}\footfullcite{NovWoz08a}: $\comp(\app,\cc,\varepsilon, \rho) \le C \rho^p\varepsilon^{-p} d^{q} $}
+\uncover<3->{\alert{Tractability}\footfullcite{NovWoz08a}: $\comp(\ca(\cc,\Lambda),\varepsilon, \rho) \le C \rho^p\varepsilon^{-p} d^{q} $}
 
 \vspace{-6ex}
 
@@ -270,7 +270,7 @@ How might you construct an \only<2>{\alert{adaptive}} algorithm if you insist on
 \end{frame}
 
 
-\section{Solvability}
+%\section{Solvability}
 \begin{frame}{When Is $(S:\cc \subseteq \cf\to\cg,\Lambda)$ \emph{Solvable}?}
 
 \vspace{-7ex}
@@ -292,7 +292,7 @@ E.g. $\left(\int_{[0,1]^d} \cdot (\vx) \, \dif \vx: C^{1,\ldots,1}[0,1]^d\to\rea
     
 \end{frame}
 
-\section{Series Spaces}
+%\section{Series Spaces}
 
 \begin{frame}{Inputs and Outputs}
 
@@ -308,28 +308,6 @@ E.g. $\left(\int_{[0,1]^d} \cdot (\vx) \, \dif \vx: C^{1,\ldots,1}[0,1]^d\to\rea
 
 
 \end{frame}
-
-% \begin{frame}{Spaces of Inputs and Outputs}
-
-% \vspace{-3ex}
-
-% We focus on Banach spaces that look like
-
-% \vspace{-5ex}
-% \begin{align*}
-%     \cf &:= \left \{ f = \sum_{\vj \in \cn} \hf(\vj) u_{\vj} : \norm[\cf]{f} := \bignorm[r,\vlambda]{\hf} : = \norm[r]{\left(\frac{\bigabs{\hf(\vj)}}{\lambda_{\vj}} \right)_{\vj \in \cn}} \right \} \quad \begin{minipage}{3cm}\raggedright\alert{$\vlambda$ affects convergence rate \& tractability}\end{minipage}\\
-%     \cg &: = \biggl \{ g = \sum_{\vj \in \cn} \hg(\vj) v_{\vj} : \norm[\cg]{g} := \bignorm[t]{\hg}\biggr \}, \qquad S(u_{\vj}) = v_{\vj}, \\
-%     \text{E.g., } & \text{ Function recovery: } S(u_{\vj}) = u_{\vj} = v_{\vj} \\
-%     & \text{ Integration: } S(u_{\vj}) = \int_{[0,1]^d} u_\vj (\vx) \, \dif \vx  = v_\vj\\
-%     \Sapp(f,n) &= \sum_{i=1}^n L_i(f) g_i = \sum_{\vj \in \cn} \hf(\vj) \Sapp(u_\vj,n)  \\
-%     % \norm[\cg]{S(f) - A(f,\varepsilon)} & \le \sum_{\vj \in \cn} \bigabs{\hf(\vj)} \norm[\cg]{v_\vj - \Sapp(u_{\vj},n)}
-% \end{align*}
-
-% \vspace{-7ex}
-% \alert{$\app(f,\varepsilon) = \Sapp(f,n) + $ stopping criterion}
-
-% \end{frame}
-
 
 
 \section{Integration}
@@ -456,7 +434,7 @@ jT/d, \\
 \end{frame}
 
 
-\section{General Problems}
+\section{General Linear Problems}
 
 \begin{frame}{Solving General Linear Problems Using Series Coefficients, $\LambdaSer$\footfullcite{DinHic20a}}
 
@@ -481,9 +459,9 @@ jT/d, \\
 
 \end{frame}
 
-%\footfullcite{WuHam00,KuoEtal12a}
+\section{Function Approximation}
 
-\begin{frame}{\emph{Function Approximation} when Function Values Are Expensive}
+\begin{frame}{\emph{Function Approximation} when Function Values Are Expensive\footfullcite{WuHam00,KuoEtal12a}}
 
 \vspace{-7ex}
 
@@ -496,16 +474,11 @@ jT/d, \\
 \Gamma_r = \text{order size} \\[-0.5ex]
 s_j =  \text{smoothness degree}
 \end{cases}
-\text{\alert{POSD weights\footfullcite{WuHam00,KuoEtal12a}}} \\[-2ex]
+\text{\alert{POSD weights}} \\[-2ex]
       & \alert{\lambda_{\vj_1} \ge \lambda_{\vj_2} \ge \cdots}, \qquad
       \Sapp(f,n) = \sum_{i=1}^{n} \hf(\vj_i) u_{\vj_i} ,  \qquad
  	\norm[\cg]{S(f) - \Sapp(f,n_k)} \le \norm[\cf]{f} \sum_{i = n+1} \lambda_{\vj_i} \\
      \cc &: = \left\{f \in \cf :  \text{ those functions for which } \norm[\cf]{f} \text{ can be inferred from a pilot sample} \right \}
- 	 \only<2>{\\
- 	 \alert{A(f,\varepsilon)} & \alert{= \Sapp(f,n_k) \text{ for the smallest $k$ satisfying } \sigma_k(f) \le \frac{\varepsilon \sqrt{1 - b^2}}{ab}} \\ 
- 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) = n_{\ell^\dagger}, \quad 
- 	 \ell^\dagger \le \min \left \{\ell \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{\ell-1} \frac{b^{2(k-\ell)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{\ell-1}+1}^2}\right]   \right\}}} \\
- 	 \MoveEqLeft{\alert{\cost(A,\cc,\varepsilon,\rho) \text{ essentially no worse than } \comp(\ca(\cc,\LambdaAll),\varepsilon,\rho)}}}
 \end{align*}
 
 \end{frame}
@@ -544,36 +517,56 @@ Chebyshev \tabularnewline
 	\end{tabular}
 \end{frame}
 
-\begin{frame}{ChanSun Test Function\footfullcite{VirLib17a}}
+\begin{frame}{Cheng and Sandu Function\footfullcite{VirLib17a}}
+    \vspace{-9ex}
+    \begin{gather*}
+        \text{Order weights }\Gamma_k = 1, \qquad \text{Coordinate weights } \gamma_\ell \text{ \alert{inferred}}, \\
+        \text{Smoothness weights } s_j \text{ \alert{inferred}}, \qquad \LambdaStd
+    \end{gather*}
     
+    \vspace{-3ex}
+    
+    \includegraphics[height = 4.3cm]{ProgramsImages/sim_eval_results_chsan10_d6_sflg0ErrN.eps}
+    \qquad \includegraphics[height = 4.3cm]{ProgramsImages/sim_eval_results_chsan10_d6_sflg0fErr.eps}
 \end{frame}
+
+
+\section{Summary}
 \begin{frame}{Take Home Message}
+
+\vspace{-4ex}
 
 \begin{itemize}
     \item Assuming that the input functions lie in \alert{cones} \smallcone allow us to construct \alert{adaptive} algorithms
     
     \item Cone definitions reflect \alert{prior beliefs} or \alert{practical considerations}
     
-    \item Much to be done to 
+    \item Demonstration of concept
     \begin{itemize}
-        \item demonstrate \alert{solvability}
-        
-        \item \alert{construct} algorithms
-        
-        \item derive upper bounds on \alert{computational cost}
-        
-        \item derive lower bounds on \alert{computational complexity}
-        
-        \item determine conditions on \alert{tractability}
-        
-        \item \alert{implement} algorithms in available software
+        \item Integration using $\LambdaStd$
+        \begin{itemize}
+            \item Constructed $A \in \ca(\cc,\LambdaStd)$
+            \item No cost, complexity, or tractability yet
+        \end{itemize}
+        \item General linear problems
+        \begin{itemize}
+            \item Constructed $A \in \ca(\cc,\LambdaSer)$, upper bound on $\cost(A,\cc,\varepsilon,\rho)$, lower bound on $\comp(\ca(\cc,\LambdaAll),\varepsilon,\rho)$, optimality
+            \item No tractability yet
+        \end{itemize}
+        \item Function approximation (recovery)
+        \begin{itemize}
+            \item Constructed $A \in \ca(\cc,\LambdaSer)$, algorithm learns weights, works in practice for $\LambdaStd$
+            \item Remaining theory in progress
+        \end{itemize}
     \end{itemize}
     
+    \item Much to be done 
+ 
 \end{itemize}
     
 \end{frame}
 
-\finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/samsi-qmc-transition-2018-may}{\nolinkurl{speakerdeck.com/fjhickernell/samsi-qmc-transition-2018-may}}}
+\finalthanksnote{These slides are  available at \\  \href{https://speakerdeck.com/fjhickernell/ricam-2018-nov}{\nolinkurl{speakerdeck.com/fjhickernell/ricam-2018-nov}}}
 
 
 \thankyouframe
