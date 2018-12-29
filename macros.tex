@@ -11,40 +11,40 @@
 %%  your macros with the full commands.
 %%
 
-\renewcommand{\email}[1]{\emailname: #1} % change the email address font style
+%\renewcommand{\email}[1]{\emailname: #1} % change the email address font style
 
-\usepackage{mathptmx}       % selects Times Roman as basic font
-\usepackage{helvet}         % selects Helvetica as sans-serif font
-\usepackage{courier}        % selects Courier as typewriter font
-%\usepackage{type1cm}        % activate if the above 3 fonts are
-%                            % not available on your system
-
-\usepackage{makeidx}         % allows index generation
-\usepackage{graphicx}        % standard LaTeX graphics tool
-                             % when including figure files
-%\usepackage{multicol}        % used for the two-column index
-\usepackage[bottom]{footmisc}% places footnotes at page bottom
-
-\usepackage{latexsym}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{bm}
-
-\usepackage{url}
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage[misc,geometry]{ifsym}
-
-% Springer provides the following environments:
-%   case, conjecture, corollary, definition, example, exercise, lemma,
-%   note, problem, property, proposition, question, remark, solution, theorem
-%   claim, proof
-\renewenvironment{proof}{\noindent{\itshape Proof.}}{\smartqed\qed}
-
-% We add two more environments:   assumption, algo
-\spdefaulttheorem{assumption}{Assumption}{\upshape \bfseries}{\itshape}
-\spdefaulttheorem{algo}{Algorithm}{\upshape \bfseries}{\itshape}
+%\usepackage{mathptmx}       % selects Times Roman as basic font
+%\usepackage{helvet}         % selects Helvetica as sans-serif font
+%\usepackage{courier}        % selects Courier as typewriter font
+%%\usepackage{type1cm}        % activate if the above 3 fonts are
+%%                            % not available on your system
+%
+%\usepackage{makeidx}         % allows index generation
+%\usepackage{graphicx}        % standard LaTeX graphics tool
+%                             % when including figure files
+%%\usepackage{multicol}        % used for the two-column index
+%\usepackage[bottom]{footmisc}% places footnotes at page bottom
+%
+%\usepackage{latexsym}
+%\usepackage{amsmath}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+%\usepackage{bm}
+%
+%\usepackage{url}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage[misc,geometry]{ifsym}
+%
+%% Springer provides the following environments:
+%%   case, conjecture, corollary, definition, example, exercise, lemma,
+%%   note, problem, property, proposition, question, remark, solution, theorem
+%%   claim, proof
+%\renewenvironment{proof}{\noindent{\itshape Proof.}}{\smartqed\qed}
+%
+%% We add two more environments:   assumption, algo
+%\spdefaulttheorem{assumption}{Assumption}{\upshape \bfseries}{\itshape}
+%\spdefaulttheorem{algo}{Algorithm}{\upshape \bfseries}{\itshape}
 % Note there is also the 'algorithm' environment from the algorithm package
 % which is a floating environment
 
@@ -436,10 +436,15 @@
 \newcommand{\setZ}{{\mathfrak{Z}}}
 
 % other commonly defined commands:
+\newcommand{\ee}{{\rm e}}
 \newcommand{\wal}{{\rm wal}}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
 \newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor} % floor
 \newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}    % ceil
 \DeclareMathOperator{\cov}{Cov}
 \DeclareMathOperator{\var}{Var}
 \providecommand{\argmin}{\operatorname*{argmin}}
 \providecommand{\argmax}{\operatorname*{argmax}}
+
+\newcommand{\NOR}{{\mathrm{NOR}}}
+\newcommand{\ABS}{{\mathrm{ABS}}}
