@@ -4,10 +4,52 @@
 %\RequirePackage[no-math]{fontspec}[2017/03/31]%(only for the luatex or the xetex engine)
 \usepackage[small]{dgruyter}
 \usepackage{microtype}
+\usepackage{amsmath,amssymb}
 \input{macros}
 
-
 %% Beginning of author included packages and defined macros
+\usepackage{color,mathtools,bbm,xspace,natbib}
+\usepackage{algorithm, algorithmicx}
+\usepackage{algpseudocode}
+\algnewcommand\algorithmicparam{\textbf{Parameters:}}
+\algnewcommand\PARAM{\item[\algorithmicparam]}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+%\algnewcommand\STATE{\item}
+\algnewcommand\RETURN{\State \textbf{Return }}
+
+
+\DeclareMathOperator{\SOL}{SOL}
+\DeclareMathOperator{\APP}{APP}
+\DeclareMathOperator{\ALG}{ALG}
+\DeclareMathOperator{\ERR}{ERR}
+\newcommand{\dataN}{\bigl\{\hf(\bsk_i)\bigr\}_{i=1}^n}
+\newcommand{\ERRN}{\ERR\bigl(\dataN,n\bigr)}
+\DeclareMathOperator{\COST}{COST}
+\DeclareMathOperator{\COMP}{COMP}
+\newcommand{\hf}{\widehat{f}}
+\newcommand{\hg}{\widehat{g}}
+\newcommand{\tu}{\Tilde{u}}
+\newcommand{\tv}{\Tilde{v}}
+\newcommand{\tlambda}{\Tilde{\lambda}}
+\newcommand{\tbbK}{\widetilde{\bbK}}
+\def\abs#1{\ensuremath{\left \lvert #1 \right \rvert}}
+\newcommand{\normabs}[1]{\ensuremath{\lvert #1 \rvert}}
+\newcommand{\bigabs}[1]{\ensuremath{\bigl \lvert #1 \bigr \rvert}}
+\newcommand{\Bigabs}[1]{\ensuremath{\Bigl \lvert #1 \Bigr \rvert}}
+\newcommand{\biggabs}[1]{\ensuremath{\biggl \lvert #1 \biggr \rvert}}
+\newcommand{\Biggabs}[1]{\ensuremath{\Biggl \lvert #1 \Biggr \rvert}}
+\newcommand{\norm}[2][{}]{\ensuremath{\left \lVert #2 \right \rVert}_{#1}}
+\newcommand{\normnorm}[2][{}]{\ensuremath{\lVert #2 \rVert}_{#1}}
+\newcommand{\bignorm}[2][{}]{\ensuremath{\bigl \lVert #2 \bigr \rVert}_{#1}}
+\newcommand{\Bignorm}[2][{}]{\ensuremath{\Bigl \lVert #2 \Bigr \rVert}_{#1}}
+\newcommand{\biggnorm}[2][{}]{\ensuremath{\biggl \lVert #2 \biggr \rVert}_{#1}}
+\newcommand{\ip}[3][{}]{\ensuremath{\left \langle #2, #3 \right \rangle_{#1}}}
+\newcommand{\FredNote}[1]{{\color{blue}Fred: #1}}
+\newcommand{\YuhanNote}[1]{{\color{green}Yuhan: #1}}
+\newcommand{\PeterNote}[1]{{\color{orange}Peter: #1}}
+\newcommand{\SimonNote}[1]{{\color{purple}Simon: #1}}
+%\newcommand{\HickernellFJ}{Hickernell}
 
 %% End of author included packages and defined macros
 
@@ -19,7 +61,7 @@
   \author*[2]{Fred J. Hickernell}
   \author[3]{Peter Krtizer} 
   \author[4]{Simon Mak}
-  \runningauthor{Y. Ding and F. J. Hickernell and P. Kritzer and S. Mak}
+  \runningauthor{Y. Ding, F. J. Hickernell, P. Kritzer, and S. Mak}
   \affil[1]{...}
   \affil[2]{Department of Applied Mathematics, Illinois Institute of Technology, RE 220, 10 W.\ 32${}\text{nd}$ Street, Chicago, IL 60616 USA}
   \affil[3]{...}
@@ -44,80 +86,278 @@
 
 \maketitle
 
-\section{A section} 
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-  massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
-  quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
-  enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
-  ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer
-  tincidunt.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean
-  leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in,
-  viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque
-  rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
-  nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam
-  semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus
-  pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut
-  libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus
-  tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed
-  consequat, leo eget bibendum sodales, augue velit cursus nunc,
+There are many situations in which adaptive algorithms cannot perform much better than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from having to stipulate the computational effort required to achieve the desired accuracy.  Adaptive algorithms infer the computational effort required based on the function data sampled.
 
-\section{Another section} 
+Adaptive algorithms may perform better in the set of input functions is not convex, and that is the situation studied here. We propose adaptive algorithms for general multivariate linear problems where the input function lies in a non-convex cone.  Our algorithms use series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable.  In the remainder of this section we define the problem and essential notation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{General Linear Problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Our general linear problem is defined by a solution operator that takes the input function to the solution, $\SOL:\calF \to \calG$.  The spaces of inputs and outputs are defined in terms of series expansions:
+\begin{gather}
+    \calF = \left \{f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk} : \norm[\calF]{f} : = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}} < \infty \right\}, \\
+    \calG = \left \{g = \sum_{\bsk \in \mathbb{K}} \hg(\bsk) v_{\bsk} : \norm[\calG]{g} : = \norm[\tau]{\bigl(  \hg(\bsk)  \bigr)_{\bsk \in \mathbb{K}}} \right\}, \quad \tau \le \rho.
+\end{gather}
+Here, $\{u_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the input Banach space $\calF$ and $\{v_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the output Banach space $\calG$. These bases are defined to match the solution operator:
+\begin{equation}
+    \SOL(u_{\bsk}) = v_{\bsk} \qquad \forall \bsk \in \mathbb{K},
+\end{equation}
+where $\mathbb{K}$ is a general index set.   
+
+To facilitate derivations below, we establish the following lemma:
+
+\begin{lemma}
+Let $\calK$ be some proper or improper subset of $\bbK$. Moreover, let $\rho'$ be defined the relation
+\begin{equation*}
+    \frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau.
+\end{equation*}
+\FredNote{I am trying to capture the case $\rho = \tau = 2, \ \rho' = \infty$ in \cite{DinHic20a} and the case $\rho = \infty, \ \rho' = \tau = 1$ in the work with Simon.}
+Then the following are true for $f = \sum_{\bsk \in \calK} \hf(\bsk) u_{\bsk}$:
+\begin{equation}
+\label{DHKM:SOL_ineq}
+    \norm[\calG]{\SOL(f)} \le \norm[\calF]{f} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}},
+    \end{equation}
+    \begin{multline}
+    \label{DHKM:SOL_tight_ineq}
+    \bigabs{\hf(\bsk)} = \frac{R \lambda_{\bsk}^{\rho'/\rho + 1}}{\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} \quad \forall \bsk \in \calK\\
+    \implies \norm[\calG]{\SOL(f)} = \norm[\calF]{f} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}} \ \& \ \norm[\calF]{f} = R.
+    \end{multline}
+Equality \eqref{DHKM:SOL_tight_ineq} illustrates how inequality \eqref{DHKM:SOL_ineq} tight.
+\end{lemma}
+\begin{proof}
+The proof proceeds by applying H\"older's inequality
+\begin{align}
+    \label{DHKM:SOL_A}
+    \norm[\calG]{\SOL(f)}  
+    & = \biggnorm[\calG]{\sum_{\bsk \in \calK} \hf(\bsk) v_{\bsk}} = \norm[\tau]{\bigl(  \hf(\bsk)  \bigr)_{\bsk \in \calK}} \\
+\nonumber
+    & = \left [\sum_{\bsk \in \calK}  \left\lvert\frac{\hf(\bsk)}{\lambda_{\bsk}} \right\rvert^{\tau} \lambda_{\bsk}^{\tau} \right]^{1/\tau} \\
+    \nonumber
+    & \le \biggnorm[\rho]{\biggl(  \frac{\hf(\bsk)}{\lambda_{\bsk}}  \biggr)_{\bsk \in \calK}} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}} \qquad \text{since }\frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau \\
+    \nonumber
+    & = \norm[\calF]{f} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}},
+\end{align}
+which establishes inequality \eqref{DHKM:SOL_ineq}.
+Substituting the formula for $\bigabs{\hf(\bsk)}$ in \eqref{DHKM:SOL_tight_ineq} into \eqref{DHKM:SOL_A} and applying the relationship between $\rho$, $\rho'$, and $\tau$ yields
+\begin{equation*}
+       \norm[\calG]{\SOL(f)}  
+    =  \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}^{\rho'/\rho + 1}  \bigr)_{\bsk \in \calK}}}{\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} 
+    = \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho + 1}}
+    {\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} = R \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}.
+\end{equation*}
+Moreover,
+\begin{equation*}
+    \norm[\calF]{f}  
+    = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK}}
+    = \frac{R \bignorm[\rho]{\bigl(  \lambda_{\bsk}^{\rho'/\rho}  \bigr)_{\bsk \in \calK}}}{\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} 
+    = \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}}
+    {\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} = R.
+\end{equation*}
+This completes the proof.
+\end{proof}
+
+
+Based on this lemma and taking $\calK = \bbK$, the norm of the solution operator can be expressed in terms of the $\lambda_\bsk$ as follows:
+\begin{equation}
+    \norm[\calF \to \calG]{\SOL}  = \sup_{\norm[\calF]{f} \le 1} \norm[\calG]{\SOL(f)} = \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \mathbb{K}}}.
+\end{equation}
+
+The $\lambda_{\bsk}$ define the smoothness of the input space and have a known order:
+\begin{equation} \label{DHKM:lambda_order}
+    \lambda_{\bsk_1} \ge \lambda_{\bsk_2} \ge \cdots.
+\end{equation}
+An optimal approximation  based on $n$ series coefficients of the input function can be defined in terms of the series coefficients of the input function corresponding to the largest $\lambda_{\bsk}$ as follows:
+\begin{equation} \label{DHKM:APP_def}
+    \APP : \calF \times \N_0 \to \calG, \qquad  \APP(f,n) := \sum_{i=1}^n \hf(\bsk) v_{\bsk}, \quad \APP(f,0) = 0.
+\end{equation}
+
+\begin{theorem} \label{DHKM:APP_optimality_thm} Let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.  The error of the approximation defined in \label{DHKM:APP_def} is bounded tightly above as 
+\begin{equation} \label{DHKM:APP_errorBd}
+    \sup_{f \in \calB_R} \norm[\calG]{\SOL(f) - \APP(f,n)}  \le R \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}.
+\end{equation}
+Moreover, the worst case error over $\calB_R$ of any approximation based on $n$ series coefficients of the input function, $\APP'(\cdot,n)$, can be no smaller.
+\end{theorem}
+
+To facilitate the proof of this theorem and theorems below, we first establish the following lemma:
+
+\begin{lemma}
+Let $\calK$ be some subset of $\bbK$.
+\end{lemma}
+
+\begin{proof}[Proof of Theorem \ref{DHKM:APP_optimality_thm}]
+The proof of \eqref{DHKM:APP_errorBd} follows from an argument similar to that used to derive 
+\eqref{DHKM:SOLNorm}.  The optimality of $\APP$ follows by bounding the error of an arbitrary approximation, $\APP'$ applied to functions that mimic the zero function.
+
+ Let $\APP'(0,n)$ depend on the series coefficients indexed by $\calJ  = \{\bsk'_1, \ldots, \bsk'_n\}$.  Choose $f$ to satisfy the following conditions:
+\begin{gather*}
+    \hf(\bsk'_1) = \cdots = \hf(\bsk'_n) = 0, \qquad \norm[\calF]{f} = R, \\ \Bignorm[\tau]{\bigl(\hf_{\bsk}\bigr)_{\bsk \notin \calJ}}
+    = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \notin \calJ}} \,
+    \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}}
+\end{gather*}
+Then $\APP'(\pm f,n) = \APP'(0,n)$, and
+\begin{align*}
+\MoveEqLeft{\max_{\pm} \norm[\calG]{\SOL(\pm f) - \APP'(\pm f,n)}} \\
+&=  \max_{\pm} \norm[\calG]{\SOL(\pm f) - \APP'(0,n)} \\
+& \ge \frac 12 \left [ \norm[\calG]{\SOL(f) - \APP'(0,n)} 
++ \norm[\calG]{- \SOL(f) - \APP'(0,n)}\right] \\
+& \ge \norm[\calG]{\SOL(f)} 
+= \Bignorm[\tau]{\bigl(\hf_{\bsk}\bigr)_{\bsk \notin \calJ}}
+    = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \notin \calJ}} \,
+    \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}} \\
+    & = R  \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}}.
+\end{align*}
+The ordering of the $\lambda_{\bsk}$ implies that $\norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}}$ for arbitrary $\calJ$ can be no smaller than the case $\calJ = \{\bsk_1, \ldots, \bsk_n\}$.  This completes the proof.
+\end{proof}
+
+\hspace{\parindent} While approximation $\APP$ is a key component, our ultimate goal is an algorithm, $\ALG : \calC \subset \calF \times [0,\infty)$, satisfying the absolute error criterion
+\begin{equation} \label{DHKM:err_crit}
+    \norm[\calG]{\SOL(f) - \ALG(f,\varepsilon)} \le \varepsilon \qquad \forall f \in \calC.
+\end{equation}
+The non-adaptive Algorithm \ref{DHKM:BallAlg} satisfies this error criterion for $\calC  = \calB_R$.  However, in practice one cannot bound the norm of the input function a priori, so Algorithm \ref{DHKM:BallAlg} is impractical. 
+
+In contrast to \eqref{DHKM:APP_errorBd}, we will construct data-based error bounds for $\APP(f,n)$, which will lead to \emph{adaptive} algorithms $\ALG$ satisfying \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}.
+
+\begin{algorithm}
+	\caption{Non-Adaptive $\ALG$ for a Ball of Input Functions} \label{DHKM:BallAlg}
+	\begin{algorithmic}
+	\PARAM the ball radius, $R$; $\APP$ satisfying \eqref{DHKM:APP_errorBd}
+	\INPUT a black-box function, $f$; an absolute error tolerance, $\varepsilon>0$
+
+    \Ensure Error criterion \eqref{DHKM:err_crit} for $\calC = \calB_{R}$
+
+    \State Choose $n^* =  \min \left \{n \in \N_0 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \le \varepsilon /R \right \}$
+
+    \RETURN $\ALG(f,\varepsilon) = \APP(f,n^*)$
+\end{algorithmic}
+\end{algorithm}
+
+Note that algorithms satisfying \eqref{DHKM:err_crit} cannot exist for $\calC = \calF$ if $\SOL(\calF)$ is infinite dimensional. No matter how large a sample size is required by an algorithm, it is finite.  Then, there must exist some $f \in \calF$ that looks exactly like the zero function to the algorithm but for which $\norm[\calG]{\SOL(f)}$ is arbitrarily large.  Thus, algorithms satisfying the error criterion only exist for some strict subset of $\calF$, and choosing that subset well is both an art and a science.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Information Cost and Problem Complexity}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The information cost of $\ALG(f,\varepsilon)$ is denoted $\COST(\ALG,f,\varepsilon)$ and defined as the number of function data---in our case series coefficients---required by $\ALG(f,\varepsilon)$.  For adaptive algorithms this cost varies with the input function $f$.  We also define the information cost of the algorithm in general, recognizing that it will tend to depend on $\norm[\calF]{f}$
+\begin{equation*}
+    \COST(\ALG, \calC, \varepsilon,R) : = \max_{f \in \calC \cap \calB_{R}} \COST(\ALG,f,\varepsilon).
+\end{equation*}
+Note that while the cost depends on $\norm[\calF]{f}$, $\ALG(f,\varepsilon)$ has no knowledge of $f$ beyond the fact that it lies in $\calC$.  It is common for $\COST(\ALG, \calC, \varepsilon,R)$ to be bounded by a power of $\varepsilon^{-1}$.
+
+Let $\calA(\calC)$ denote the set of all possible algorithms that may be constructed using series coefficients.  We define the \emph{computational complexity} of a problem as the information cost of the best algorithm:
+\begin{equation*}
+    \COMP(\calA(\calC), \varepsilon,R) := \min_{\ALG \in \calA(\calC)} \COST(\ALG, \calC, \varepsilon,R) .
+\end{equation*}
+These definitions follow the information-based complexity literature \cite{TraWer98, TraWasWoz88}.
+We define an algorithm to be \emph{essentially optimal} if there exists some fixed positive $\omega$ for which
+\begin{equation*}
+    \COST(\ALG, \calC, \varepsilon,R) \le \COMP(\calA(\calC), \omega \varepsilon,R) \qquad \forall \varepsilon,R > 0.
+\end{equation*}
+This means that the dependence of 
+We will show that our adaptive algorithms are essentially optimal.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tractability}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Besides understanding the dependence of the computational complexity on $\varepsilon$, we also want to understand how the computational complexity depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  Let the bases and $\lambda_{\bsk}$ be of product form:
+\begin{gather*}
+    u_{\bsk} = \tu_{1,k_1} \cdots \tu_{d,k_d}, \qquad  v_{\bsk} = \tv_{1,k_1} \cdots \tv_{d,k_d}, \\ 
+    \lambda_{\bsk} = \tlambda_{1,k_1} \cdots \tlambda_{d,k_d}, \quad \forall \bsk = (k_1, \ldots, k_d) \in \bbK = \tbbK^d.
+\end{gather*}
+The cone of functions for which our algorithms succeed, $\calC_d$ will also depend on the dimension.  Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
+
+\FredNote{Peter please add here.}
+
+
+
+
+\section{Bounding the Norm of the Input Function Based on a Pilot Sample} 
+\FredNote{I think that this is a simpler case than \cite{DinHic20a} or the work with Simon, so we should start with this}
+
+The idea behind an adaptive algorithm is that the finite information we observe about input function that tells us something about what is not observed about the input function.  Let $n_1$ some positive integer and $\frakC$ be some constant greater than one.  The cone of functions whose norm can be bounded well in terms of a pilot sample of the first $n_1$ series coefficients is given by
+\begin{equation} \label{DHKM:pilot_cone}
+    \calC = \left \{ f \in \calF : \norm[\calF]{f} \le \frakC \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \right\},
+\end{equation}
+where the $\bsk_i$ are given by the ordering of the $\lambda_{\bsk}$ in \eqref{DHKM:lambda_order}. Define the data-based error bound,
+\begin{equation} \label{DHKM:pilot_errbd}
+    \ERRN : =  
+    \frakC \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} , 
+    \qquad n > n_1.
+\end{equation}
+Although the error bound does not actually depend on the series coefficients for $n> n_1$, we adopt this notation for the data-based error bound recognizing that other forms below do depend on all series coefficients observed.  
+
+From the error bound on $\APP$ in \eqref{DHKM:APP_errorBd} and the definition of the cone in \eqref{DHKM:pilot_cone}, it follows that $ \norm[\calG]{\SOL(f) - \APP(f,n)}  \le \ERRN $ for all $f \in \calC$.  For this cone of functions, Algorithm \ref{DHKM:PilotConeAlg} is successful:
+
+\begin{algorithm}
+	\caption{$\ALG$ Based on a Pilot Sample\label{DHKM:PilotConeAlg}} 
+	\begin{algorithmic}
+	\PARAM an initial sample size, $n_1$; an inflation factor, $\frakC$; $\APP$ satisfying \eqref{DHKM:APP_errorBd}
+		\INPUT a black-box function, $f$; an absolute error tolerance,
+		$\varepsilon>0$
+
+\Ensure Error criterion \eqref{DHKM:err_crit} for  the cone defined in \eqref{DHKM:pilot_cone}
+
+\State Choose $n^* =  \min \left \{n \ge n_1 : \ERRN \le \varepsilon \right \}$, where $\ERR$ is defined in \eqref{DHKM:pilot_errbd}
+
+\RETURN $\ALG(f,\varepsilon) = \APP(f,n^*)$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+Algorithm \ref{DHKM:PilotConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}.  The computational cost of this algorithm is 
+\begin{equation} \label{DHKM:PilotConeAlg_cost}
+    \COST(\ALG,\calC,\varepsilon,R) = \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+    \le \varepsilon/(\frakC R) \right \}.
+\end{equation}
+and the computational complexity has the lower bound
+\begin{equation}
+    a
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The upper bound on the computational cost of this algorithm is obtained by noting that 
+\begin{align*}
+    \MoveEqLeft{\COST(\ALG,\calC,\varepsilon,R)} \\
+    & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : \ERRN \le \varepsilon \right \} \\
+     & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : 
+     \frakC \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \, 
+     \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} 
+    \le \varepsilon \right \} \\   
+     & \le \min \left \{n \ge n_1 : 
+     \frakC R \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} 
+    \le \varepsilon \right \},  
+\end{align*}
+since $\norm[\rho]{\left( \hf(\bsk_i)/\lambda_{\bsk_i} \right)_{i=1}^{n_1}} \le R$ for all $f \in \calB_R$.  Moreover, this inequality is tight for some $f \in \calC \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
+
+To prove the lower complexity 
+\end{proof}
+
+
+Since error bound 
 
 \subsection{A subsection} 
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-  massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
-  quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
-  enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
-  ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer
-  tincidunt.
+\section{The \cite{DinHic20a} case with tractability, which needs a better title}
 
-  Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean
-  leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in,
-  viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque
-  rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
-  nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam
-  semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus
-  pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut
-  libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus
-  tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed
-  consequat, leo eget bibendum sodales, augue velit cursus nunc,
 
-\subsection{Another subsection} 
+\section{The work with Simon case, which needs a better title}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-  massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
-  quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
-  enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
-  ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer
-  tincidunt.
-
-  Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean
-  leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in,
-  viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque
-  rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
-  nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam
-  semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus
-  pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut
-  libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus
-  tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed
-  consequat, leo eget bibendum sodales, augue velit cursus nunc,
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-  massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
-  quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
-  enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
-  ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer
-  tincidunt.
 
 
 \begin{acknowledgement}
   ...
 \end{acknowledgement}
 
-%\bibliographystyle{...}
-%\bibliography{...}
+\bibliographystyle{spbasic.bst}
+
+\bibliography{FJH23.bib,FJHown23.bib}
+
+\section*{Appendix}
+
 \end{document}
