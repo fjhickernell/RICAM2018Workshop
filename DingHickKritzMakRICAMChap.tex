@@ -59,7 +59,7 @@
 
   \author[1]{Yuhan Ding}
   \author*[2]{Fred J. Hickernell}
-  \author[3]{Peter Krtizer} 
+  \author[3]{Peter Kritzer} 
   \author[4]{Simon Mak}
   \runningauthor{Y. Ding, F. J. Hickernell, P. Kritzer, and S. Mak}
   \affil[1]{...}
@@ -111,8 +111,8 @@ where $\mathbb{K}$ is a general index set.
 
 To facilitate derivations below, we establish the following lemma:
 
-\begin{lemma}
-Let $\calK$ be some proper or improper subset of $\bbK$. Moreover, let $\rho'$ be defined the relation
+\begin{lemma} \label{DHKM:Key_Lem}
+Let $\calK$ be some proper or improper subset of $\bbK$. Moreover, let $\rho'$ be defined by the relation
 \begin{equation*}
     \frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau.
 \end{equation*}
@@ -146,8 +146,8 @@ which establishes inequality \eqref{DHKM:SOL_ineq}.
 Substituting the formula for $\bigabs{\hf(\bsk)}$ in \eqref{DHKM:SOL_tight_ineq} into \eqref{DHKM:SOL_A} and applying the relationship between $\rho$, $\rho'$, and $\tau$ yields
 \begin{equation*}
        \norm[\calG]{\SOL(f)}  
-    =  \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}^{\rho'/\rho + 1}  \bigr)_{\bsk \in \calK}}}{\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} 
-    = \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho + 1}}
+    =  \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}^{\rho'/\rho + 1}  \bigr)_{\bsk \in \calK}}} {\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} 
+    = \frac{R \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho + 1}}
     {\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}} = R \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}.
 \end{equation*}
 Moreover,
@@ -161,9 +161,8 @@ Moreover,
 This completes the proof.
 \end{proof}
 
-
 Based on this lemma and taking $\calK = \bbK$, the norm of the solution operator can be expressed in terms of the $\lambda_\bsk$ as follows:
-\begin{equation}
+\begin{equation} \label{DHKM:SOLNorm}
     \norm[\calF \to \calG]{\SOL}  = \sup_{\norm[\calF]{f} \le 1} \norm[\calG]{\SOL(f)} = \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \mathbb{K}}}.
 \end{equation}
 
@@ -176,37 +175,30 @@ An optimal approximation  based on $n$ series coefficients of the input function
     \APP : \calF \times \N_0 \to \calG, \qquad  \APP(f,n) := \sum_{i=1}^n \hf(\bsk) v_{\bsk}, \quad \APP(f,0) = 0.
 \end{equation}
 
-\begin{theorem} \label{DHKM:APP_optimality_thm} Let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.  The error of the approximation defined in \label{DHKM:APP_def} is bounded tightly above as 
+\begin{theorem} \label{DHKM:APP_optimality_thm} Let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.  The error of the approximation defined in \eqref{DHKM:APP_def} is bounded tightly above as 
 \begin{equation} \label{DHKM:APP_errorBd}
     \sup_{f \in \calB_R} \norm[\calG]{\SOL(f) - \APP(f,n)}  \le R \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}.
 \end{equation}
 Moreover, the worst case error over $\calB_R$ of any approximation based on $n$ series coefficients of the input function, $\APP'(\cdot,n)$, can be no smaller.
 \end{theorem}
 
-To facilitate the proof of this theorem and theorems below, we first establish the following lemma:
-
-\begin{lemma}
-Let $\calK$ be some subset of $\bbK$.
-\end{lemma}
-
-\begin{proof}[Proof of Theorem \ref{DHKM:APP_optimality_thm}]
+\begin{proof}
 The proof of \eqref{DHKM:APP_errorBd} follows from an argument similar to that used to derive 
 \eqref{DHKM:SOLNorm}.  The optimality of $\APP$ follows by bounding the error of an arbitrary approximation, $\APP'$ applied to functions that mimic the zero function.
 
- Let $\APP'(0,n)$ depend on the series coefficients indexed by $\calJ  = \{\bsk'_1, \ldots, \bsk'_n\}$.  Choose $f$ to satisfy the following conditions:
+ Let $\APP'(0,n)$ depend on the series coefficients indexed by $\calJ  = \{\bsk'_1, \ldots, \bsk'_n\}$.  Use Lemma \ref{DHKM:Key_Lem} to choose $f$ to satisfy the following conditions:
 \begin{gather*}
-    \hf(\bsk'_1) = \cdots = \hf(\bsk'_n) = 0, \qquad \norm[\calF]{f} = R, \\ \Bignorm[\tau]{\bigl(\hf_{\bsk}\bigr)_{\bsk \notin \calJ}}
+    \hf(\bsk'_1) = \cdots = \hf(\bsk'_n) = 0, \qquad \norm[\calF]{f} = R, \\ \Bignorm[\tau]{\bigl(\hf(\bsk)\bigr)_{\bsk \notin \calJ}}
     = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \notin \calJ}} \,
     \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}}
 \end{gather*}
 Then $\APP'(\pm f,n) = \APP'(0,n)$, and
 \begin{align*}
-\MoveEqLeft{\max_{\pm} \norm[\calG]{\SOL(\pm f) - \APP'(\pm f,n)}} \\
-&=  \max_{\pm} \norm[\calG]{\SOL(\pm f) - \APP'(0,n)} \\
+\MoveEqLeft{\max_{\pm} \norm[\calG]{\SOL(\pm f) - \APP'(\pm f,n)} =  \max_{\pm} \norm[\calG]{\SOL(\pm f) - \APP'(0,n)}} \\
 & \ge \frac 12 \left [ \norm[\calG]{\SOL(f) - \APP'(0,n)} 
 + \norm[\calG]{- \SOL(f) - \APP'(0,n)}\right] \\
 & \ge \norm[\calG]{\SOL(f)} 
-= \Bignorm[\tau]{\bigl(\hf_{\bsk}\bigr)_{\bsk \notin \calJ}}
+= \Bignorm[\tau]{\bigl(\hf(\bsk)\bigr)_{\bsk \notin \calJ}}
     = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \notin \calJ}} \,
     \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}} \\
     & = R  \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}}.
@@ -275,8 +267,9 @@ The cone of functions for which our algorithms succeed, $\calC_d$ will also depe
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Bounding the Norm of the Input Function Based on a Pilot Sample} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \FredNote{I think that this is a simpler case than \cite{DinHic20a} or the work with Simon, so we should start with this}
 
 The idea behind an adaptive algorithm is that the finite information we observe about input function that tells us something about what is not observed about the input function.  Let $n_1$ some positive integer and $\frakC$ be some constant greater than one.  The cone of functions whose norm can be bounded well in terms of a pilot sample of the first $n_1$ series coefficients is given by
@@ -296,7 +289,7 @@ From the error bound on $\APP$ in \eqref{DHKM:APP_errorBd} and the definition of
 \begin{algorithm}
 	\caption{$\ALG$ Based on a Pilot Sample\label{DHKM:PilotConeAlg}} 
 	\begin{algorithmic}
-	\PARAM an initial sample size, $n_1$; an inflation factor, $\frakC$; $\APP$ satisfying \eqref{DHKM:APP_errorBd}
+	\PARAM an initial sample size, $n_1 \in \N$; an inflation factor, $\frakC > 1$; $\APP$ satisfying \eqref{DHKM:APP_errorBd}
 		\INPUT a black-box function, $f$; an absolute error tolerance,
 		$\varepsilon>0$
 
@@ -314,39 +307,91 @@ Algorithm \ref{DHKM:PilotConeAlg} yields an answer satisfying absolute error cri
     \COST(\ALG,\calC,\varepsilon,R) = \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
     \le \varepsilon/(\frakC R) \right \}.
 \end{equation}
-and the computational complexity has the lower bound
-\begin{equation}
-    a
+The computational complexity has the lower bound
+\begin{equation} \label{DHKM:PilotConeAlg_comp}
+        \COMP(\calA(\calC),\varepsilon,R) = \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+    \le 2\varepsilon/[(1 - 1/\frakC) R] \right \}.
 \end{equation}
 \end{theorem}
 
-\begin{proof}
+\begin{proof} \FredNote{Fred is working on this proof.}
 The upper bound on the computational cost of this algorithm is obtained by noting that 
 \begin{align*}
     \MoveEqLeft{\COST(\ALG,\calC,\varepsilon,R)} \\
     & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : \ERRN \le \varepsilon \right \} \\
      & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : 
      \frakC \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \, 
-     \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} 
+     \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}
     \le \varepsilon \right \} \\   
      & \le \min \left \{n \ge n_1 : 
      \frakC R \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} 
     \le \varepsilon \right \},  
 \end{align*}
-since $\norm[\rho]{\left( \hf(\bsk_i)/\lambda_{\bsk_i} \right)_{i=1}^{n_1}} \le R$ for all $f \in \calB_R$.  Moreover, this inequality is tight for some $f \in \calC \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
+since $\norm[\rho]{\left( \hf(\bsk_i)/\lambda_{\bsk_i} \right)_{i=1}^{n_1}} \le \norm[\calF]{f} \le R$ for all $f \in \calB_R$.  Moreover, this inequality is tight for some $f \in \calC \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
 
-To prove the lower complexity 
+To prove the lower complexity bound, let $\ALG'$ be any algorithm that satisfies the error criterion, \eqref{DHKM:err_crit}, for this choice of $\calC$ in \eqref{DHKM:pilot_cone}.   Fix $R$ and $\varepsilon$ arbitarily.  Define $\calK_1 := \{\bsk_1, \ldots, \bsk_{n_1}\}$.  Two fooling functions will be constructed of the form $f_\pm = f_1 \pm f_2$.  
+
+The input function $f_1$ is defined via its series coefficients as in Lemma \ref{DHKM:Key_Lem}, having nonzero coefficients only for $\bsk \in \calK_1$:
+\begin{equation*}
+    \bigabs{\hf_1(\bsk)} = \begin{cases} \displaystyle \frac{R (1+1/\frakC) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK_1}}^{\rho'/\rho}}, &  \bsk \in \calK_1, \\
+    0, & \bsk \notin \calK_1,
+    \end{cases}
+   \qquad \norm[\calF]{f_1} = \frac{R(1 + 1/\frakC)}{2}.
+\end{equation*}
+Suppose that $\ALG'(f_1,\varepsilon)$ samples the series coefficients $f_1(\bsk)$ for $\bsk \in \calJ$, and let $n$ denote the cardinality of $\calJ$.  
+
+Now, construct the input function $f_2$, having zero coefficients for $\bsk \in \calJ$ and also as in Lemma \ref{DHKM:Key_Lem}:
+\begin{gather}
+\nonumber
+    \bigabs{\hf_2(\bsk)} = \begin{cases} \displaystyle \frac{R (1-1/\frakC) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}}^{\rho'/\rho}}, &  \bsk \notin \calJ, \\
+    0, & \bsk \in \calJ, 
+    \end{cases}
+    \qquad \norm[\calF]{f_2} = \frac{R(1 - 1/\frakC)}{2}, \\
+    \label{DHKM:SOLf2bd}
+    \norm[\calG]{\SOL(f_2)} = \frac{R(1 - 1/\frakC)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}}.
+\end{gather}
+Let $f_{\pm} = f_1 \pm f_2$.  By the definitions above, it follows that
+\begin{align}
+    \norm[\calF]{f_{\pm}} &= \norm[\calF]{ f_1 \pm f_2 } \le \norm[\calF]{ f_1} + \norm[\calF]{ f_2 } =  R, \\
+    \nonumber
+    \norm[\rho]{\left( \frac{\hf_\pm(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} 
+    & = \norm[\rho]{\left( \frac{\hf_1(\bsk_i) \pm \hf_2(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \\
+    \nonumber
+    & \ge \norm[\rho]{\left( \frac{\hf_1(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} - \norm[\rho]{\left( \frac{\hf_2(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \\
+    \nonumber
+    & \ge \norm[\calF]{ f_1} - \norm[\calF]{ f_2 } =  \frac{R}{\frakC} \\
+    & \ge \frac{\norm[\calF]{f_{\pm}}}{\frakC}.
+\end{align}
+Therefore, $f_\pm \in \calC \cap \calB_R$.  Moreover, since the series coefficients for $f_\pm$ are the same for $\bsk \in \calJ$, it follows that $\ALG'(f_+,\varepsilon) = \ALG'(f_-,\varepsilon)$.  Thus, $\SOL(f_{\pm})$ must be similar to each other.
+
+Using an argument like that in the proof of  Theorem \ref{DHKM:APP_optimality_thm}, it follows that 
+\begin{align*}
+\varepsilon & \ge \max_{\pm} \norm[\calG]{\SOL(f_{\pm}) - \ALG'(f_{\pm},\varepsilon)} 
+=  \max_{\pm} \norm[\calG]{\SOL(f_{\pm}) - \ALG'(f_{+},\varepsilon)} \\
+& \ge \frac 12 \left [ \norm[\calG]{\SOL(f_{+}) - \ALG'(f_{+},\varepsilon)} 
++ \norm[\calG]{\SOL(f_{-}) - \ALG'(f_{+},\varepsilon)}  \right] \\
+& \ge \frac 12 \norm[\calG]{\SOL(f_+ - f_-)} = \norm[\calG]{\SOL(f_2)} 
+=\frac{R(1 - 1/\frakC)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}} \qquad \text{by \eqref{DHKM:SOLf2bd}} \\
+& \ge \frac{R(1 - 1/\frakC)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^\infty},
+\end{align*}
+by the ordering of the $\bsk_i$.  This inequality implies complexity bound \eqref{DHKM:PilotConeAlg_comp}.
 \end{proof}
 
 
-Since error bound 
 
-\subsection{A subsection} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tracking the Decay Rate of the Fourier Coefficients} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FredNote{The \cite{DinHic20a} case with tractability}
 
-\section{The \cite{DinHic20a} case with tractability, which needs a better title}
 
-
-\section{The work with Simon case, which needs a better title}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{
+.0
+.
+.} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FredNote{The work with Simon}
 
 
 
