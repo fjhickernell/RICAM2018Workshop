@@ -7,10 +7,13 @@
 \usepackage{amsmath,amssymb}
 \input{macros}
 
+\usepackage[notref,notcite]{showkeys}
+
 %% Beginning of author included packages and defined macros
 \usepackage{color,mathtools,bbm,xspace,natbib}
 \usepackage{algorithm, algorithmicx}
 \usepackage{algpseudocode}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \algnewcommand\algorithmicparam{\textbf{Parameters:}}
 \algnewcommand\PARAM{\item[\algorithmicparam]}
 \algnewcommand\algorithmicinput{\textbf{Input:}}
@@ -51,6 +54,8 @@
 \newcommand{\SimonNote}[1]{{\color{purple}Simon: #1}}
 %\newcommand{\HickernellFJ}{Hickernell}
 
+\allowdisplaybreaks
+
 %% End of author included packages and defined macros
 
 \begin{document}
@@ -64,7 +69,8 @@
   \runningauthor{Y. Ding, F. J. Hickernell, P. Kritzer, and S. Mak}
   \affil[1]{...}
   \affil[2]{Department of Applied Mathematics, Illinois Institute of Technology, RE 220, 10 W.\ 32${}\text{nd}$ Street, Chicago, IL 60616 USA}
-  \affil[3]{...}
+  \affil[3]{Johann Radon Institute for Computational and Applied Mathematics (RICAM), 
+  Austrian Academy of Sciences, Altenbergerstr. 69, 4040 Linz, Austria}
   \affil[4]{...}
   \title{Adaptive Approximation for Multivariate Linear Problems with Inputs Lying in a Cone}
   \runningtitle{Adaptive Approximation}
@@ -93,7 +99,7 @@
 
 There are many situations in which adaptive algorithms cannot perform much better than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from having to stipulate the computational effort required to achieve the desired accuracy.  Adaptive algorithms infer the computational effort required based on the function data sampled.
 
-Adaptive algorithms may perform better in the set of input functions is not convex, and that is the situation studied here. We propose adaptive algorithms for general multivariate linear problems where the input function lies in a non-convex cone.  Our algorithms use series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable.  In the remainder of this section we define the problem and essential notation.
+Adaptive algorithms may perform better if the set of input functions is not convex, and that is the situation studied here. We propose adaptive algorithms for general multivariate linear problems where the input function lies in a non-convex cone.  Our algorithms use series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable.  In the remainder of this section we define the problem and essential notation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General Linear Problem}
@@ -117,6 +123,8 @@ Let $\calK$ be some proper or improper subset of $\bbK$. Moreover, let $\rho'$ b
     \frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau.
 \end{equation*}
 \FredNote{I am trying to capture the case $\rho = \tau = 2, \ \rho' = \infty$ in \cite{DinHic20a} and the case $\rho = \infty, \ \rho' = \tau = 1$ in the work with Simon.}
+\PeterNote{Should not $\rho'$ be 2 in the Ding et al. case?}
+
 Then the following are true for $f = \sum_{\bsk \in \calK} \hf(\bsk) u_{\bsk}$:
 \begin{equation}
 \label{DHKM:SOL_ineq}
@@ -172,7 +180,7 @@ The $\lambda_{\bsk}$ define the smoothness of the input space and have a known o
 \end{equation}
 An optimal approximation  based on $n$ series coefficients of the input function can be defined in terms of the series coefficients of the input function corresponding to the largest $\lambda_{\bsk}$ as follows:
 \begin{equation} \label{DHKM:APP_def}
-    \APP : \calF \times \N_0 \to \calG, \qquad  \APP(f,n) := \sum_{i=1}^n \hf(\bsk) v_{\bsk}, \quad \APP(f,0) = 0.
+    \APP : \calF \times \N_0 \to \calG, \qquad  \APP(f,n) := \sum_{i=1}^n \hf(\bsk_i) v_{\bsk_i}, \quad \APP(f,0) = 0.
 \end{equation}
 
 \begin{theorem} \label{DHKM:APP_optimality_thm} Let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.  The error of the approximation defined in \eqref{DHKM:APP_def} is bounded tightly above as 
@@ -263,14 +271,81 @@ Besides understanding the dependence of the computational complexity on $\vareps
 \end{gather*}
 The cone of functions for which our algorithms succeed, $\calC_d$ will also depend on the dimension.  Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
 
-\FredNote{Peter please add here.}
+\PeterNote{Why do we need the product structure?}
 
+\FredNote{If we don't need it then, let's not introduce it.  But I think that at some point we may want it.}
+
+\PeterNote{I agree.}
+
+\PeterNote{started working on general tractability notions here.
+
+\bigskip
+
+We would like to study how $\COMP(\calA(\calC), \varepsilon,R)$ 
+depends on the dimension $d$ and the error threshold $\varepsilon$. This is described by defining various notions of tractability. Roughly speaking, the different tractability notions correspond to different 
+ways of how the complexity $\COMP(\calA(\calC), \varepsilon,R)$ depends on $d$ and $\varepsilon$. Since 
+the complexity is defined in terms of the best available algorithm, tractability is a property that is inherent 
+to the problem, not to a particular algorithm. 
+We define the following notions of tractability (for further information on tractability we refer to the trilogy 
+\cite{NovWoz08a}, \cite{NovWoz10a}, \cite{NovWoz12a}). 
+
+\begin{itemize}   
+\item We say that the adaptive approximation problem is strongly polynomially tractable
+if and only if there are non-negative $C$ and $p$ such that   
+for all \ $d\in\NN,\ \varepsilon\in (0,1)$ we have   
+$$   
+\COMP(\calA(\calC), \varepsilon,R)\le C\,\varepsilon^{-p}.
+$$   
+The infimum of $p$ satisfying the bound above is denoted by $p^*$   
+and is called the exponent of strong polynomial tractability.    
+\newline \qquad   
+
+\item    
+We say that the problem is polynomially tractable
+if and only if there are non-negative $C,p$, and $q$ such that   
+for all \ $d\in\NN,\ \varepsilon\in (0,1)$ we have   
+$$   
+\COMP(\calA(\calC), \varepsilon,R)\le C\,d^{\,q}\,   
+\varepsilon^{-p}.   
+$$   
+\vskip 0.5pc     
+\item   
+We say that the problem is quasi-polynomially tractable if and only if there are non-negative $C$ and $p$ such that   
+for all \ $d\in\NN,\ \varepsilon\in (0,1)$ we have    
+$$   
+\COMP(\calA(\calC), \varepsilon,R)\le   
+C\,\exp\left(p\,(1+\log\,d)(1+\log\,\varepsilon^{-1})\right).   
+$$    
+The infimum of $p$ satisfying the bound above is denoted by $p^*$   
+and is called the exponent of quasi-polynomial tractability.    
+\newline \qquad   
+   
+\item   
+We say that the problem is $(s,t)$-weakly tractable for positive $s$ and $t$ iff    
+$$   
+\lim_{d+\varepsilon^{-1}\to\infty}\   
+\frac{\log\, \COMP(\calA(\calC), \varepsilon,R)}   
+{d^{\,t}+\varepsilon^{-s}}\,=\,0.   
+$$    
+\newline \qquad   
+  
+\item    
+We say that the problem is uniformly weakly tractable if and only if it 
+is $(s,t)$-weakly tractable for all positive $s$ and $t$.    
+\end{itemize}   
+
+
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Bounding the Norm of the Input Function Based on a Pilot Sample} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \FredNote{I think that this is a simpler case than \cite{DinHic20a} or the work with Simon, so we should start with this}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Cone and the Optimal Algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The idea behind an adaptive algorithm is that the finite information we observe about input function that tells us something about what is not observed about the input function.  Let $n_1$ some positive integer and $\frakC$ be some constant greater than one.  The cone of functions whose norm can be bounded well in terms of a pilot sample of the first $n_1$ series coefficients is given by
 \begin{equation} \label{DHKM:pilot_cone}
@@ -309,12 +384,12 @@ Algorithm \ref{DHKM:PilotConeAlg} yields an answer satisfying absolute error cri
 \end{equation}
 The computational complexity has the lower bound
 \begin{equation} \label{DHKM:PilotConeAlg_comp}
-        \COMP(\calA(\calC),\varepsilon,R) = \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+        \COMP(\calA(\calC),\varepsilon,R) \ge \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
     \le 2\varepsilon/[(1 - 1/\frakC) R] \right \}.
 \end{equation}
 \end{theorem}
 
-\begin{proof} \FredNote{Fred is working on this proof.}
+\begin{proof} 
 The upper bound on the computational cost of this algorithm is obtained by noting that 
 \begin{align*}
     \MoveEqLeft{\COST(\ALG,\calC,\varepsilon,R)} \\
@@ -329,7 +404,7 @@ The upper bound on the computational cost of this algorithm is obtained by notin
 \end{align*}
 since $\norm[\rho]{\left( \hf(\bsk_i)/\lambda_{\bsk_i} \right)_{i=1}^{n_1}} \le \norm[\calF]{f} \le R$ for all $f \in \calB_R$.  Moreover, this inequality is tight for some $f \in \calC \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
 
-To prove the lower complexity bound, let $\ALG'$ be any algorithm that satisfies the error criterion, \eqref{DHKM:err_crit}, for this choice of $\calC$ in \eqref{DHKM:pilot_cone}.   Fix $R$ and $\varepsilon$ arbitarily.  Define $\calK_1 := \{\bsk_1, \ldots, \bsk_{n_1}\}$.  Two fooling functions will be constructed of the form $f_\pm = f_1 \pm f_2$.  
+To prove the lower complexity bound, let $\ALG'$ be any algorithm that satisfies the error criterion, \eqref{DHKM:err_crit}, for this choice of $\calC$ in \eqref{DHKM:pilot_cone}.   Fix $R$ and $\varepsilon$ arbitrarily.  Define $\calK_1 := \{\bsk_1, \ldots, \bsk_{n_1}\}$.  Two fooling functions will be constructed of the form $f_\pm = f_1 \pm f_2$.  
 
 The input function $f_1$ is defined via its series coefficients as in Lemma \ref{DHKM:Key_Lem}, having nonzero coefficients only for $\bsk \in \calK_1$:
 \begin{equation*}
@@ -374,29 +449,99 @@ Using an argument like that in the proof of  Theorem \ref{DHKM:APP_optimality_th
 =\frac{R(1 - 1/\frakC)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}} \qquad \text{by \eqref{DHKM:SOLf2bd}} \\
 & \ge \frac{R(1 - 1/\frakC)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^\infty},
 \end{align*}
-by the ordering of the $\bsk_i$.  This inequality implies complexity bound \eqref{DHKM:PilotConeAlg_comp}.
+by the ordering of the $\bsk$ in \eqref{DHKM:lambda_order}.  This inequality implies lower complexity bound \eqref{DHKM:PilotConeAlg_comp}.
 \end{proof}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tractability}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FredNote{Next should come tractability}
 
+\PeterNote{It seems to me that we can handle this case by an analogy to tractability for the 
+average case setting. There, the complexity also depends on the truncated trace of the eigenvalues.}
+\FredNote{Agreed.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Necessary Condition for the Input Function to Lie in the Cone}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FredNote{Fred should add about the necessary conditions.}
+Although we may not be able to guarantee that the particular $f$ of interest lies in the cone, $\calC$, we may derive necessary conditions for $f \in \calC$.  The following proposition follows from the definition of $\calC$ in \eqref{DHKM:pilot_cone} and the fact that the term on the left below underestimates $\norm[\calF]{f}$.
+
+\begin{proposition}
+If $f \in \calC$ and $n^*$ is defined as in Algorithm \ref{DHKM:PilotConeAlg}, then 
+\begin{equation} \label{DHKM:PilotConeNecessary}
+    \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{\bsk_i =1}^{n^*}} \le \frakC 
+    \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{\bsk_i =1}^{n_1}}.
+\end{equation}
+\end{proposition}
+
+If it is found in practice that condition \eqref{DHKM:PilotConeNecessary} is violated, then Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  An alternative is to make the cone more inclusive by increasing $\frakC$ and/or $n_1$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Tracking the Decay Rate of the Fourier Coefficients} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \FredNote{The \cite{DinHic20a} case with tractability}
 
+From the argument leading to \eqref{DHKM:SOL_A} it follows that 
+\begin{equation} \label{DHKM:APP_Err_Coef}
+    \norm[\calG]{\SOL(f) - \APP(f,n)} = \norm[\tau]{\bigl(\hf(\bsk_i)\bigr)_{i=n+1}^\infty}.
+\end{equation}
+Thus, the faster the $\hf(\bsk_i)$ decay, the faster $\APP(f,n)$ converges to the solution.  A disadvantage of Algorithm \ref{DHKM:PilotConeAlg} is that it cannot adapt to the decay rate of the $\hf(\bsk_i)$ as $i \to \infty$. In this section, we develop an algorithm that can do so.
+
+Let $(n_j)_{j\ge 0}$ be a strictly increasing sequence of non-negative integers.  This sequence may increase geometrically or algebraically. For any $f \in \calF$, define the partial sums of powers of series coefficients:
+\[
+\sigma_j (f):=\norm[\tau]{\bigl(\hf(\bsk_i)\bigr)_{i=n_{j-1}-1}^{n_j}} \qquad \text{for}\ j \in \N,
+\]
+We now define the cone of input functions, $\calC$, by
+\begin{equation} \label{DHKM:TrackConeDef}
+  \calC : =\left\{f\in\calF \colon \sigma_{j+r} (f)\le ab^r \sigma_j (f)\ \forall j,r\in\NN\right\}.
+\end{equation}
+Here, $a$ and $b$ are positive reals with $b< 1 < a$. The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in \calC$. Because $ab^r$ may be greater than one, we do not require the series coefficients of the solution, $S(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.
+
+From the expression for the error in \label{DHKM:APP_Err_Coef} and the definition of the cone in  \eqref{DHKM:TrackConeDef}, one can now derive a data-driven error bound for $j \in \bbN$:
+\begin{align}
+\nonumber
+\norm[\calG]{\SOL(f)-\APP(f,n_j)} &= \norm[\tau]{\left(\hf(\bsk_i) \right)_{i = n_j+1}^\infty} \\
+\nonumber 
+& = \left\{\sum_{r=1}^\infty \sum_{i=n_{j+r-1}+1}^{n_{j+r}}  \abs{\hf(\bsk_i) }^{\tau}  \right\}^{1/\tau} = \norm[\tau]{ \bigl(\sigma_{j+r}(f)\bigr)_{r=1}^{\infty}} \\
+&\le \norm[\tau]{ \bigl(ab^r\sigma_{j}(f)\bigr)_{r=1}^{\infty}}
+ = \displaystyle a \left(\frac{b^\tau}{1 - b^\tau} \right)^{1/\tau} \sigma_{j}(f)
+ \label{DHKM:algoineq}
+\end{align}
+This upper bound depends only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ as $j \to \infty$.  Moreover, the error of $\APP(f,n_j)$ is asymptotically no worse than $\sigma_j(f)$, whose rate of decay need not be postulated in advance.
+
+\FredNote{Perhaps Yuhan can fill in here following our \cite{DinHic20a} paper.}
+
+\FredNote{Pity, I do not see our cost upper bounds reflecting different rates of decay of the series coefficients.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Adaptive Algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}
+	\caption{Adaptive ALG for a Cone of Input Functions} 
+	\begin{algorithmic}
+	\PARAM a strictly increasing sequence of non-negative integers, $(n_j)_{j\ge 0},$ where $j \in \N$ starts from 1;  $\APP$ satisfying \eqref{DHKM:algoineq}
+		\INPUT a black-box function, $f$; an absolute error tolerance,
+		$\varepsilon>0$
+
+\Ensure  Choose $j^* =  \min \left \{j \in \N : 
+\sigma_{j}(f) < \frac{\varepsilon}{a}\left(\frac{1 - b^\tau}{b^\tau} \right)^{1/\tau} 
+\right \}$
+
+\RETURN $\ALG(f,\varepsilon) = \APP(f,j^*)$
+\end{algorithmic}
+\end{algorithm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{
-.0
-.
-.} 
+\section{Inferring Coordinate Importance and Smoothness} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \FredNote{The work with Simon}
 
 
 
 \begin{acknowledgement}
-  ...
+ P.~Kritzer gratefully acknowledges support by the Austrian Science Fund (FWF) Project  F5506-N26, 
+which is part of the Special Research Program ``Quasi-Monte Carlo Methods: Theory and Applications''.
 \end{acknowledgement}
 
 \bibliographystyle{spbasic.bst}
