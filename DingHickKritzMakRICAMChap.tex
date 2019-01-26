@@ -12,8 +12,8 @@
 
 %% Beginning of author included packages and defined macros
 \usepackage{color,mathtools,bbm,xspace,natbib}
-\usepackage{algorithm, algorithmicx}
 \usepackage{algpseudocode}
+\usepackage{algorithm, algorithmicx}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \algnewcommand\algorithmicparam{\textbf{Parameters:}}
 \algnewcommand\PARAM{\item[\algorithmicparam]}
@@ -111,7 +111,7 @@
 \section{Introduction} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-There are many situations in which adaptive algorithms cannot perform much better than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from having to stipulate the computational effort required to achieve the desired accuracy.  Adaptive algorithms infer the computational effort required based on the function data sampled.
+In many situations, adaptive algorithms can be rigorously shown to perform \emph{essentially no better} than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from having to stipulate the computational effort required to achieve the desired accuracy.  Adaptive algorithms infer the computational effort required based on the function data sampled.  The key to resolving this seeming contradiction is to construct a theory based on assumptions that favor adaptive algorithms.  That is what we do here.
 
 Adaptive algorithms may perform better if the set of input functions is not convex, and that is the situation studied here. We propose adaptive algorithms for general multivariate linear problems where the input function lies in non-convex cones.  Our algorithms use series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable.  In the remainder of this section we define the problem and essential notation.
 
@@ -234,7 +234,7 @@ The non-adaptive Algorithm \ref{DHKM:BallAlg} satisfies this error criterion for
 In contrast to error bound \eqref{DHKM:APP_errorBd}, we will construct data-based error bounds for $\APP(f,n)$, which will lead to \emph{adaptive} algorithms $\ALG$ satisfying \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}.
 
 \begin{algorithm}
-	\caption{Non-Adaptive $\ALG$ for a Ball of Input Functions} \label{DHKM:BallAlg}
+\caption{Non-Adaptive $\ALG$ for a Ball of Input Functions \label{DHKM:BallAlg}}
 	\begin{algorithmic}
 	\PARAM the ball radius, $R$; $\APP$ satisfying \eqref{DHKM:APP_errorBd}
 	\INPUT a black-box function, $f$; an absolute error tolerance, $\varepsilon>0$
@@ -247,7 +247,7 @@ In contrast to error bound \eqref{DHKM:APP_errorBd}, we will construct data-base
 \end{algorithmic}
 \end{algorithm}
 
-Note that algorithms satisfying \eqref{DHKM:err_crit} cannot exist for $\calC = \calF$. No matter how large a sample size is required by an algorithm, it is finite.  Then, there must exist some $f \in \calF$ that looks exactly like the zero function to the algorithm but for which $\norm[\calG]{\SOL(f)}$ is arbitrarily large.  Thus, algorithms satisfying the error criterion only exist for some strict subset of $\calF$, and choosing that subset well is both an art and a science.
+Note that algorithms satisfying \eqref{DHKM:err_crit} cannot exist for $\calC = \calF$. Any algorithm must require a finite sample size, even if it is huge.  Then, there must exist some $f \in \calF$ that looks exactly like the zero function to the algorithm but for which $\norm[\calG]{\SOL(f)}$ is arbitrarily large.  Thus, algorithms satisfying the error criterion only exist for some strict subset of $\calF$, and choosing that subset well is both an art and a science.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
