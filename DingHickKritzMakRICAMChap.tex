@@ -58,6 +58,8 @@
 \newcommand{\tbbK}{\widetilde{\bbK}}
 \newcommand{\lo}{\textup{lo}}
 \newcommand{\up}{\textup{up}}
+\newcommand{\inc}{\textup{in}}
+\newcommand{\out}{\textup{out}}
 \newcommand{\E}{\textup{e}}
 \def\abs#1{\ensuremath{\left \lvert #1 \right \rvert}}
 \newcommand{\normabs}[1]{\ensuremath{\lvert #1 \rvert}}
@@ -124,7 +126,7 @@
 
 In many situations, adaptive algorithms can be rigorously shown to perform \emph{essentially no better} than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from stipulating the computational effort required to achieve the desired accuracy.  The key to resolving this seeming contradiction is to construct a theory based on assumptions that favor adaptive algorithms. We do that here.
 
-Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is not convex. We construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones.  Our algorithms use series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable.  In the remainder of this section we define the problem and essential notation.
+Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is non-convex. We construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones.  Our algorithms use series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable, i.e., the information cost of constructing the approximate solution does not increase exponentially with the dimension of the input function domain.  In the remainder of this section we define the problem and essential notation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{An Illustrative Example}
@@ -133,16 +135,17 @@ Adaptive algorithms infer the necessary computational effort based on the functi
 Consider the case of approximating functions defined over $[-1,1]^d$, using a Chebyshev polynomial basis.  The input function is denoted $f$, and the solution is $\SOL(f) = f$ in this case
 	\begin{align*}
 	f &  = \sum_{\bsk \in \bbN_0^d} \widehat{f}(\bsk) u_\bsk =: \SOL(f) \\
-    u_\bsk & := \prod_{\ell =1}^d \tu_{k_\ell} , & \tu_{k}(x) & := \begin{cases} 1, & k =0 ,\\
-	x, & k=1,\\
-	2x \tu_{k-1}(x)-\tu_{k-2}(x), & k = 2, 3, \ldots.
+    u_\bsk & := \prod_{\ell =1}^d \tu_{k_\ell} , 
+    \qquad \tu_{k_\ell}(x) & := \begin{cases} 1, & k_\ell =0 ,\\
+	x, & k_\ell=1,\\
+	2x \tu_{k_\ell-1}(x)-\tu_{k_\ell-2}(x), & k_\ell = 2, 3, \ldots.
 	\end{cases}
 	\end{align*}
-If one can observe the series coefficients, then $f$ can be approximated by a finite sum.  However, one should have some notion of which terms in the infinite series for $f$ are more important.  Let 
+The function $f$ may be well approximated by a finite sum, however, this requires knowing which terms in the infinite series for $f$ are more important.  Let 
 \begin{equation*}
-    \lambda_\bsk := \prod_{\ell =1}^d \frac{1}{\max(1,k^r_\ell)}, \qquad \norm[\calF]{f} := \norm[2]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}}\right)_{\bsk \in \N_0^d}}.
+    \norm[\calF]{f} := \norm[2]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}}\right)_{\bsk \in \N_0^d}}, \qquad \text{where } \lambda_\bsk := \prod_{\ell =1}^d \frac{1}{\max(1,k^r_\ell)}, \quad r > 0.
 \end{equation*}
-By this definition, an input function with modest sized norm must have series coefficients that decay quickly enough as the degree of the polynomial increases.  The assumed decay is quicker for larger $r$, and this assumed decay governs the assumed smoothness of the input functions.  
+This definition implies that an input function with modest sized norm must have series coefficients that decay quickly enough as the degree of the polynomial increases.  This assumed decay governs the assumed smoothness of the input functions and is quicker for larger $r$.  
 
 The weights, $\lambda_{\bsk}$, can be ordered,
 \begin{equation} \label{DHKM:lambda_order}
@@ -159,11 +162,11 @@ The error of this approximation can be defined as
     \norm[\calG]{\sum_{\bsk \in \N_0^d} \hg(\bsk) u_{\bsk}} : = \norm[2]{\bigl(\hg(\bsk) \bigr)_{\bsk \in \N_0^d}}.
 \end{gather*}
 
-If one has a fixed data budget, $n$, then choosing approximation $\APP(f,n)$ is appropriate.  However, often one has an error tolerance, $\varepsilon$, for which one desires an algorithm, $\ALG(f,\varepsilon)$, which satisfies
+If one has a fixed data budget, $n$, then $\APP(f,n)$ is the correct answer.  However, often one has an error tolerance, $\varepsilon$, for which one desires an algorithm, $\ALG(f,\varepsilon)$, that satisfies
 \begin{equation*}
     \norm[\calG]{\SOL(f) - \ALG(f,\varepsilon)} \le \varepsilon.
 \end{equation*}
-Such an algorithm must have a rule of choosing the correct $n$---depending on $f$ and $\varepsilon$---so that $\ALG(f,\varepsilon) = \APP(f,n)$.  Choosing such a rule, choosing a set $\calC$ of input functions for which the rule is valid,  characterizing the information cost of $\ALG$, and determining whether $\ALG$ has optimal information cost, and understanding the dependence of this cost on the the number of input variables, $d$, as well as the error tolerance, $\varepsilon$, are all objectives of this chapter.
+Such an algorithm must have a rule for choosing $n$---depending on $f$ and $\varepsilon$---so that $\ALG(f,\varepsilon) = \APP(f,n)$.  The objectives of this chapter are to construct such a rule, choose a set $\calC$ of input functions for which the rule is valid,  characterize the information cost of $\ALG$, determine whether $\ALG$ has optimal information cost, and understand the dependence of this cost on the the number of input variables, $d$, as well as the error tolerance, $\varepsilon$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,13 +177,13 @@ Our general linear problem is defined by a solution operator mapping an input fu
     \calF = \left \{f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk} : \norm[\calF]{f} : = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}} < \infty \right\}, \quad 1 \le \rho \le \infty, \\
     \calG = \left \{g = \sum_{\bsk \in \mathbb{K}} \hg(\bsk) v_{\bsk} : \norm[\calG]{g} : = \norm[\tau]{\bigl(  \hg(\bsk)  \bigr)_{\bsk \in \mathbb{K}}} < \infty \right\}, \quad 1 \le \tau \le \rho.
 \end{gather}
-Here, $\{u_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the input Banach space $\calF$, and $\{v_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the output Banach space $\calG$. These bases are defined to match the solution operator:
+Here, $\{u_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the input Banach space $\calF$, and $\{v_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the output Banach space $\calG$, and $\mathbb{K}$ is a countable index set. These bases are defined to match the solution operator:
 \begin{equation} \label{DHKM:basis_relate}
-    \SOL(u_{\bsk}) = v_{\bsk} \qquad \forall \bsk \in \mathbb{K},
+    \SOL(u_{\bsk}) = v_{\bsk} \qquad \forall \bsk \in \mathbb{K}.
 \end{equation}
-where $\mathbb{K}$ is a general index set. The $\lambda_{\bsk}$ represent the importance of the series coefficients of the input function.  The larger $\lambda_{\bsk}$ is, the more important $\hf(\bsk)$ is.
+The $\lambda_{\bsk}$ represent the importance of the series coefficients of the input function.  The larger $\lambda_{\bsk}$ is, the more important $\hf(\bsk)$ is.
 
-Although this problem formulation is quite general in some aspects, condition \eqref{DHKM:basis_relate} is somewhat restrictive.  In theory, the choice of basis can be made via the singular value decomposition, but in practice, if the norms of $\calF$ and $\calG$ are typical, the bases satisfying \eqref{DHKM:basis_relate} may be difficult to identify explicitly.
+Although this problem formulation is quite general in some aspects, condition \eqref{DHKM:basis_relate} is somewhat restrictive.  In theory, the choice of basis can be made via the singular value decomposition, but in practice, if the norms of $\calF$ and $\calG$ are specified without reference to their respective bases, it may be difficult to identify bases satisfying \eqref{DHKM:basis_relate}.
 
 To facilitate our derivations below, we establish the following lemma, which follows from H\"older's inequality:
 
@@ -204,9 +207,6 @@ so $\tau \le \rho' \le \infty$.  Let $\Lambda =  \bignorm[\rho']{\bigl(  \lambda
    \\ 
     \implies  \ \ \norm[\calF]{f} = R \ \& \ \norm[\calG]{\SOL(f)} = R \Lambda.
     \end{multline}
-    
-\PeterNote{Please excuse me for asking stupid questions all the time, but I was wondering: if $\rho'=\infty$, how would the formula for the $\hf (\bsk)$ in (7) look like? We would have $\infty$ in the exponents.}
-\FredNote{How does it look now?}
 Equality \eqref{DHKM:SOL_tight_ineq} illustrates how inequality \eqref{DHKM:SOL_ineq} may be made tight.
 \end{lemma}
 \begin{proof}
@@ -239,20 +239,36 @@ Moreover,
 This completes the proof.
 \end{proof} \
 
-%\hspace{\parindent} 
 Based on this lemma and taking $\calK = \bbK$, the norm of the solution operator can be expressed in terms of the $\lambda_\bsk$ as follows:
 \begin{equation} \label{DHKM:SOLNorm}
     \norm[\calF \to \calG]{\SOL}  = \sup_{\norm[\calF]{f} \le 1} \norm[\calG]{\SOL(f)} = \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \mathbb{K}}}.
 \end{equation}
-The $\lambda_{\bsk}$ define the smoothness of the input space and are assumed to have a known order:
-\begin{equation} \label{DHKM:lambda_order}
-    \lambda_{\bsk_1} \ge \lambda_{\bsk_2} \ge \cdots >0.
+We assume throughout that this norm is finite, namely,
+\begin{equation} \label{DHKM:SOLNormFinite}
+    \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \mathbb{K}}} < \infty.
 \end{equation}
+The $\lambda_{\bsk}$ are assumed to have a known order as was specified in \eqref{DHKM:lambda_order}.
 We assume that all $\lambda_{\bsk_i}$ are positive to avoid the trivial case where the problem can be solved by knowing a finite number of series coefficients.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{An Approximation and an Algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 An optimal approximation  based on $n$ series coefficients of the input function can be defined in terms of the series coefficients of the input function corresponding to the largest $\lambda_{\bsk}$ as follows:
 \begin{equation} \label{DHKM:APP_def}
     \APP : \calF \times \N_0 \to \calG, \quad  \APP(f,0) = 0, \ \ \APP(f,n) := \sum_{i=1}^n \hf(\bsk_i) v_{\bsk_i} \ \forall n \in \N.
 \end{equation}
+From the argument leading to \eqref{DHKM:SOL_A} it follows that 
+\begin{equation} \label{DHKM:APP_Err_Coef}
+    \norm[\calG]{\SOL(f) - \APP(f,n)} = \norm[\tau]{\bigl(\hf(\bsk_i)\bigr)_{i=n+1}^\infty}.
+\end{equation}
+An upper bound on the approximation error follows from Lemma \ref{DHKM:Key_Lem}:
+\begin{equation} \label{DHKM:Refined_APP_err}
+    \norm[\calG]{\SOL(f) - \APP(f,n) } \le \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}
+    \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}.
+\end{equation}
+This leads to the following theorem.
+
 
 \begin{theorem} \label{DHKM:APP_optimality_thm} Let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.  The error of the approximation defined in \eqref{DHKM:APP_def} is bounded tightly above as 
 \begin{equation} \label{DHKM:APP_errorBd}
@@ -262,8 +278,7 @@ Moreover, the worst case error over $\calB_R$ of any approximation based on $n$ 
 \end{theorem}
 
 \begin{proof}
-The proof of \eqref{DHKM:APP_errorBd} follows from an argument similar to that used to derive 
-\eqref{DHKM:SOLNorm}.  The optimality of $\APP$ follows by bounding the error of an arbitrary approximation, $\APP'$ applied to functions that mimic the zero function.
+The proof of \eqref{DHKM:APP_errorBd} follows immediately from \eqref{DHKM:Refined_APP_err} and  Lemma \ref{DHKM:Key_Lem}.  The optimality of $\APP$ follows by bounding the error of an arbitrary approximation, $\APP'$, applied to functions that mimic the zero function.
 
  Let $\APP'(0,n)$ depend on the series coefficients indexed by $\calJ  = \{\bsk'_1, \ldots, \bsk'_n\}$.  Use Lemma \ref{DHKM:Key_Lem} with $\calK = \bbK \setminus \calJ$ to choose $f$ to satisfy the following conditions:
 \begin{gather*}
@@ -280,9 +295,7 @@ Then $\APP'(\pm f,n) = \APP'(0,n)$, and
  = R  \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}} \qquad \text{by \eqref{DHKM:SOL_tight_ineq}}.
 \end{align*}
 The ordering of the $\lambda_{\bsk}$ implies that $\norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}}$ for arbitrary $\calJ$ can be no smaller than the case $\calJ = \{\bsk_1, \ldots, \bsk_n\}$.  This completes the proof.
-\end{proof}
-
-\hspace{\parindent} The decay rate of the approximation error in \eqref{DHKM:APP_errorBd} depends on the decay rate of the tail norm of the $\lambda_{\bsk_i}$.  This decay may be algebraic or exponential and will determine the complexity of the problem as a function of the error tolerance.  
+\end{proof} \
 
 While approximation $\APP$ is a key piece of the puzzle, our ultimate goal is an algorithm, $\ALG : \calC \subset \calF \times [0,\infty)$, satisfying the absolute error criterion
 \begin{equation} \label{DHKM:err_crit}
@@ -315,7 +328,7 @@ Note that algorithms satisfying \eqref{DHKM:err_crit} cannot exist for $\calC = 
 \subsection{Information Cost and Problem Complexity}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The information cost of $\ALG(f,\varepsilon)$ is denoted $\COST(\ALG,f,\varepsilon)$ and defined as the number of function data---in our case series coefficients---required by $\ALG(f,\varepsilon)$.  For adaptive algorithms this cost varies with the input function $f$.  We also define the information cost of the algorithm in general, recognizing that it will tend to depend on $\norm[\calF]{f}$
+The information cost of $\ALG(f,\varepsilon)$ is denoted $\COST(\ALG,f,\varepsilon)$ and defined as the number of function data---in our case, series coefficients---required by $\ALG(f,\varepsilon)$.  For adaptive algorithms this cost varies with the input function $f$.  We also define the information cost of the algorithm in general, recognizing that it will tend to depend on $\norm[\calF]{f}$:
 \begin{equation*}
     \COST(\ALG, \calC, \varepsilon,R) : = \max_{f \in \calC \cap \calB_{R}} \COST(\ALG,f,\varepsilon).
 \end{equation*}
@@ -352,9 +365,12 @@ Construct an input function $f \in \calB_{R'}$ as in the proof of Theorem \ref{D
 & \le \COMP(\calA(\calB_{R'}),\omega \varepsilon, R') \le  \COMP(\calA(\calB_{R}),\omega \varepsilon, R').
 \end{align*}
 Thus, Algorithm \ref{DHKM:BallAlg} is essentially optimal. For $R'=R \ (\omega = 1)$, we have optimality.
-\end{proof}
+\end{proof} \
 
-\hspace{\parindent} This theorem illustrates how an essentially optimal algorithm for solving a problem for a ball of input functions, $\calC = \calB_R$, can be non-adaptive.  However, as alluded to above, we claim that it is impractical to know a priori which ball your input function lies in.  On the other hand, in the situations described below where $\calC$ is a cone, we will show that $\calA(\calC)$ actually contains only adaptive algorithms via the lemma below.  The proof of this lemma follows directly from the definition of non-adaptivity.
+The decay rate of the approximation error in \eqref{DHKM:APP_errorBd} depends on the decay rate of the tail norm of the $\lambda_{\bsk_i}$.  This decay may be algebraic or exponential and will determine the complexity of the problem as a function of the error tolerance.  
+
+
+This theorem illustrates how an essentially optimal algorithm for solving a problem for a ball of input functions, $\calC = \calB_R$, can be non-adaptive.  However, as alluded to above, we claim that it is impractical to know a priori which ball your input function lies in.  On the other hand, in the situations described below where $\calC$ is a cone, we will show that $\calA(\calC)$ actually contains only adaptive algorithms via the lemma below.  The proof of this lemma follows directly from the definition of non-adaptivity.
 
 \begin{lemma} \label{DHKM:NoNonAdpatLem}
 For a given set of input functions, $\calC$, if  $\calA(\calC)$ contains any non-adaptive algorithms, then for every $\varepsilon > 0$,
@@ -367,7 +383,7 @@ Consider the example in Section 1.1, we obtain
 	\begin{align*}
 	\textup{COMP}(\calA(\calB_{R}),\varepsilon,R) &= \textup{COST}(ALG,\calB_{R},\varepsilon,R) 
 	=\min\{ n \in \N_0 : \lambda_{\bsk_{n+1}} \le \varepsilon/R \} \\
-	& = \min \left\{ n \in \N_0: \prod_{\ell =1}^d \frac{1}{\max(1,k^r_{n+1,\ell})} \le \frac{\varepsilon}{R} \right\} 
+	& = \min \left\{ n \in \N_0: \prod_{\ell =1}^d \frac{1}{\max(1,k^r_{{ n+1}_\ell})} \le \frac{\varepsilon}{R} \right\} 
 	% & \lambda_{n+1} = \frac{1}{\lceil (n+1)/2 \rceil^r}.
 	\end{align*}
 	\YuhanNote{I can't get an explicit bound of n}
@@ -457,10 +473,7 @@ is given by
 \end{equation}
 
 The error of $\APP(f,n)$ given in Theorem \ref{DHKM:APP_optimality_thm} can be refined by noting that the error only depends on the series coefficients numbered $n+1$ and more.  Specifically, 
-\begin{equation} \label{DHKM:Refined_APP_err}
-    \norm[\calG]{\SOL(f) - \APP(f,n) } \le \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}
-    \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}.
-\end{equation}
+\eqref{DHKM:Refined_APP_err} \FredNote{Note to self:  FIX}
 Moreover, by the definitions of the $\calF$-norm and $\calC$,
 \begin{align*}
      \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty} & =  \left[ \norm[\calF]{f}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
@@ -737,7 +750,7 @@ Using the same notation as above, the following statements hold for the case $\r
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Tracking the Decay Rate of the Series Coefficients \FredNote{of the Input Function}}
+\section{Tracking the Decay Rate of the Series Coefficients of the Input Function}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -747,9 +760,9 @@ From the argument leading to \eqref{DHKM:SOL_A} it follows that
 \begin{equation} \label{DHKM:APP_Err_Coef}
     \norm[\calG]{\SOL(f) - \APP(f,n)} = \norm[\tau]{\bigl(\hf(\bsk_i)\bigr)_{i=n+1}^\infty}.
 \end{equation}
-The faster the $\hf(\bsk_i)$ decay, the faster $\APP(f,n)$ converges to the solution.  Unfortunately, adaptive Algorithm \ref{DHKM:PilotConeAlg} does not adapt to the decay rate of the $\hf(\bsk_i)$ as $i \to \infty$. It simply bounds $\norm[\calF]{f}$ based on a pilot sample.  The algorithm presented in this section does track the rate of decay of the $\hf(\bsk_i)$ and terminate sooner if the $\hf(\bsk_i)$ decay more quickly.
+The faster the $\hf(\bsk_i)$ decay, the faster $\APP(f,n)$ converges to the solution.  Unfortunately, adaptive Algorithm \ref{DHKM:PilotConeAlg} does not adapt to the decay rate of the $\hf(\bsk_i)$ as $i \to \infty$. It simply bounds $\norm[\calF]{f}$ based on a pilot sample.  The algorithm presented in this section tracks the rate of decay of the $\hf(\bsk_i)$ and terminates sooner if the $\hf(\bsk_i)$ decay more quickly.
 
-Let $(n_j)_{j\ge 0}$ be a strictly increasing sequence of non-negative integers.  This sequence may increase geometrically or algebraically. Define the sets of wavenumbers analogously to \eqref{DHKM:KOnedef}.
+Let $(n_j)_{j\ge 0}$ be a strictly increasing sequence of non-negative integers.  This sequence may increase geometrically or algebraically. Define the sets of wavenumbers analogously to \eqref{DHKM:KOnedef},
 \begin{equation}
    n_{-1}=0, \qquad \calK_j := \{\bsk_{n_{j-1}+1}, \ldots, \bsk_{n_j}\} \quad \text{for } j \in \N_0.
 \end{equation}
@@ -819,7 +832,7 @@ To illustrate the exponential case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} =
 \begin{align*}
     \sigma_j(f) &= \left[ \sum_{i=n_0 + j s -s + 1}^{n_0 + j s} \biggabs{\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
     = \calO \left( \left [ \sum_{i=n_0 + j s -s + 1}^{n_0 + j s} \E^{- \rho r_\Delta i} \right]^{1/\rho} \right) \\
-    & = \calO \left(  \E^{-j r_{\Delta} s} \right)
+    & = \calO \left(  \E^{-j r_{\Delta} s} \right).
 \end{align*}
 Analogous to the algebraic case, reasonable functions would satisfy 
     $C_{\lo} \E^{-j r_{\Delta} s} \le \sigma_j(f) \le C_{\up} \E^{-j r_{\Delta} s}$
@@ -902,11 +915,12 @@ A lower bound on the complexity of the linear problem is
 &\COMP(\calA(\calC),\varepsilon,R) > n_{j^\ddagger}, 
 \intertext{where}
 %\label{compbdB}
-j^\ddagger & = \max \left \{ j \in \bbN :  b^{j+1} \Lambda_{j+1}    >
+j^\ddagger & = \max \left \{ j \in \bbN :  b^{j+1} \Lambda_{j+1}    > \varepsilon\,
  \frac{2a}{R(a-1)(1 - b^\rho)^{1/\rho}}  \left[1 + \left(\frac 1 {S_2} -1 \right) S_1^\rho \right]^{1/\rho}
 \right \}.
 \end{align*}
 \end{theorem}
+\PeterNote{added $\varepsilon$ in the right hand side of the bound in $j^\ddagger$}
 
 \begin{proof}
 
@@ -996,7 +1010,7 @@ Since $\hf_2(\bsk) = 0$ for $\bsk \in \calJ$, it follows that $\ALG'(f_1,\vareps
 \nonumber
 \varepsilon &\ge \max \bigl\{\norm[\calG]{\SOL(f_+) - \ALG'(f_+,\varepsilon)}, \norm[\calG]{\SOL(f_-) - \ALG'(f_-,\varepsilon)} \bigr\} \\
 \nonumber
-&\ge \frac 12 \bigl[\norm[\calG]{\SOL(f_+) - \ALG(f_1,\varepsilon)} + \norm[\calG]{S(f_-) - \ALG'(f_1,\varepsilon)}  \bigr] \\
+&\ge \frac 12 \bigl[\norm[\calG]{\SOL(f_+) - \ALG(f_1,\varepsilon)} + \norm[\calG]{\SOL(f_-) - \ALG'(f_1,\varepsilon)}  \bigr] \\
 \nonumber
 &\qquad \qquad \text{since } \ALG'(f_\pm,\varepsilon) = \ALG'(f_1,\varepsilon) \\
 \nonumber
@@ -1018,6 +1032,11 @@ We make some further assumptions, which I think are reasonable, but can be check
 \begin{equation*}
      \Lambda_1 \ge \Lambda_2 \ge \cdots.
 \end{equation*}
+\PeterNote{I first thought this assumption is very strict but it seems it is not (e.g. it is okay if the $\lambda_{\bsk_i}$ decay like $i^{-2}$). However, looking at the proof below, can we weaken it 
+to $b^j \Lambda_j \ge b^{j+1}\Lambda_{j+1}$?}
+\FredNote{Yes, we probably can.  Let's leave it for now and return to it after the rest of the proof is in place.  I think that we want to bound 
+$\norm[\tau]{ \bigl(b^{j+r}\Lambda_{j+r} \bigr)_{r=1}^\infty}$ in \eqref{DHKM:TractConejdagger} in terms of $\Lambda_{j+1}$ so we may need to keep a stronger decay than you suggest.}
+
 We also assume that the ratio of the largest to smallest $\lambda_{\bsk}$ in a group is bounded above:
 \begin{equation*}
     \sup_{j \in \N} \frac{\lambda_{\bsk_{n_{j-1}+1}}}{\lambda_{\bsk_{n_{j}}}} \le S_1 < \infty.
@@ -1027,7 +1046,10 @@ Finally, we assume that if $n\le n_j$, then at least some of the $\tcalK_l$ must
     \max_{1 \le l \le j+1} \frac{\bigabs{\tcalK_l}}{\abs{\calK_l}} \ge S_2 > 0.
 \end{equation*}
 
-Suppose that $n = \abs{\calJ} = \COST(\ALG',f_{\pm},\varepsilon) \le n_l$.  Then by the above third condition, there exists an $l^*$ where $\normabs{\tcalK} \ge S_2 \abs{\calK}$.  This implies a lower bound on $\tLambda_{l^*}$.  Let $m = n_{l^*} - n_{l^*-1}$, $m_{\inc} = \lceil S_2 m \rceil$, and $m_{\out} = m - m_{\inc}$
+Suppose that $n = \abs{\calJ} = \COST(\ALG',f_{\pm},\varepsilon) \le n_l$.  Then by the above third condition, there exists an $l^* \le l+1$ where $\normabs{\tcalK_{l^*}} \ge S_2 \abs{\calK_{l^*}}$.  
+
+This implies a lower bound on $\tLambda_{l^*}$.  Let $m = n_{l^*} - n_{l^*-1}$ denote the cardinality of $\calK_{l^*}$, which is the number of terms in the sum defining $\Lambda_{l^*}$.  Then, $m_{\inc} = \lceil S_2 m \rceil$ is lower bound on the cardinality of $\tcalK_{l^*}$, and $m_{\out} = m - m_{\inc}$ is an upper bound on the cardinality of in $\calK_{l^*} \setminus \tcalK_{l^*}$.  Then
+
 \begin{align*}
     \Lambda_{l^*}^\rho & = \sum_{i \in \calK_{l^*}} \lambda_{\bsk_i}^{\rho} =  \tLambda_{l^*}^\rho + \sum_{i \in \calK_{l^*} \setminus \tcalK_{l^*}} \lambda_{\bsk_i}^{\rho}
     \\
@@ -1049,7 +1071,7 @@ Thus, going back to \eqref{DHKM:eps_LBA} it follows that
 \nonumber
 & \ge  \frac{R(a-1)(1 - b^\rho)^{1/\rho}}{2a}  \left[1 + \left(\frac 1 {S_2} -1 \right) S_1^\rho \right]^{-1/\rho} b^{l+1} \Lambda_{n_{l+1}}
 \end{align}
-Therefore, if this inequality is violated for any $l$, we must have $n>n_l$}
+Therefore, if this inequality is violated for any $l$, we must have $n>n_l$.}
 
 \FredNote{The expression above has been corrected.  The hard work is still to bridge the gap.
 
@@ -1081,7 +1103,7 @@ Can we use the two-dimensional mean value theorem?
 Just tried numerically, no it does not work. There are counterexamples.
 }
 
-\FredNote{Peter suggeted Jensen's inequality.  But I could not figure out how to apply that.
+\FredNote{Peter suggested Jensen's inequality.  But I could not figure out how to apply that.
 }
 
 
@@ -1147,610 +1169,7 @@ Regarding necessity of the conditions \ldots (\PeterNote{To come once we have lo
 \subsection{Numerical Example}
 %%%%%%%%%%%%
 
-\iffalse
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Tracking the Decay Rate of the Series Coefficients \FredNote{of the Solution}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-From the argument leading to \eqref{DHKM:SOL_A} it follows that 
-\begin{equation} \label{DHKM:APP_Err_Coef}
-    \norm[\calG]{\SOL(f) - \APP(f,n)} = \norm[\tau]{\bigl(\hf(\bsk_i)\bigr)_{i=n+1}^\infty}.
-\end{equation}
-The faster the $\hf(\bsk_i)$ decay, the faster $\APP(f,n)$ converges to the solution.  Unfortunately, adaptive Algorithm \ref{DHKM:PilotConeAlg} does not adapt to the decay rate of the $\hf(\bsk_i)$ as $i \to \infty$. It simply bounds $\norm[\calF]{f}$ based on a pilot sample.  The algorithm presented in this section does track the rate of decay of the $\hf(\bsk_i)$ and terminate sooner if the $\hf(\bsk_i)$ decay more quickly.
-
-Let $(n_j)_{j\ge 0}$ be a strictly increasing sequence of non-negative integers.  This sequence may increase geometrically or algebraically. Define the sets of wavenumbers analogously to \eqref{DHKM:KOnedef}.
-\begin{equation}
-    \calK_0 : = \{\bsk_1, \ldots, \bsk_{n_0} \}, \qquad \calK_j := \{\bsk_{n_{j-1}+1}, \ldots, \bsk_{n_j}\} \quad \text{for } j \in \N.
-\end{equation}For any $f \in \calF$, define the partial sums of powers of series coefficients:
-\begin{equation} \label{DHKM:SigmaDef}
-\sigma_j (f):=\norm[\tau]{\bigl(\hf(\bsk)\bigr)_{\bsk \in \calK_j}} \qquad \text{for } j \in \N.
-\end{equation}
-For this section, we define the cone of input functions, $\calC$, by
-\begin{equation} \label{DHKM:TrackConeDef}
-  \calC : =\left\{f\in\calF \colon \sigma_{j+r} (f)\le ab^r \sigma_j (f)\ \forall j,r\in\NN\right\}.
-\end{equation}
-Here, $a$ and $b$ are positive reals with $b< 1 < a$. The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in \calC$. Because $ab^r$ may be greater than one, we do not require the series coefficients of the solution, $\SOL(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.  The series coefficients for  wavenumbers $\bsk \in \calK_0$ do not affect the definition of $\calC$ and may be have erratically.  If $n_0 = 0$, then $\calK_0$ is empty.
-
-If $f$ belongs to the $\calC$ defined in \eqref{DHKM:TrackConeDef}, then 
-
-\PeterNote{Fred, in our last discussion we talked about the problem in Section 2 being ``easier" than that in Section 3. Intuitively, I agree; but how do we make this precise? It does not seem obvious to me.}
-
-From the expression for the error in \eqref{DHKM:APP_Err_Coef} and the definition of the cone in  \eqref{DHKM:TrackConeDef}, one can now derive a data-driven error bound 
-\begin{align}
-\nonumber
-\norm[\calG]{\SOL(f)-\APP(f,n_j)} &= \norm[\tau]{\left(\hf(\bsk_i) \right)_{i = n_j+1}^\infty} 
-= \norm[\tau]{\bigl(\sigma_l(f) \bigr)_{l = j+1}^\infty} \\
-\nonumber 
-& = \norm[\tau]{ \bigl(\sigma_{j+r}(f)\bigr)_{r=1}^{\infty}} \\
-\nonumber
-&\le \norm[\tau]{ \bigl(ab^r\sigma_{j}(f)\bigr)_{r=1}^{\infty}} \\
-& = \displaystyle \frac{ab  \sigma_{j}(f)}{(1 - b^\tau)^{1/\tau}} \quad \forall f \in \calC, \ j \in \bbN.
- \label{DHKM:algoineq}
-\end{align}
-This upper bound depends only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ as $j \to \infty$.  Moreover, the error of $\APP(f,n_j)$ is asymptotically no worse than $\sigma_j(f)$, whose rate of decay need not be postulated in advance.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{The Adaptive Algorithm and Its
- Computational Cost}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-The data-driven error bound in \eqref{DHKM:algoineq} forms the basis for an adaptive Algorithm \ref{DHKM:TrackConeAlg}, which solves our problem for input functions in the cone $\calC$ defined in \eqref{DHKM:TrackConeDef}.  The following theorem establishes its viability and computational cost.
-
-\begin{algorithm}
-	\caption{Adaptive ALG for a Cone of Input Functions Tracking the Series Coefficient Decay Rate \label{DHKM:TrackConeAlg}}
-	\begin{algorithmic}
-	\PARAM a strictly increasing sequence of non-negative integers, $(n_j)_{j\ge 0},$ where $j \in \N$ starts from 1; an inflation factor, $a$; the general decay rate, $b$; $\APP$ satisfying \eqref{DHKM:APP_Err_Coef}
-		\INPUT a black-box function, $f$; an absolute error tolerance,
-		$\varepsilon>0$
-
-\Ensure Error criterion \eqref{DHKM:err_crit} for  the cone defined in \eqref{DHKM:TrackConeDef}
-
-\State Let $j \leftarrow 0$
-\Repeat
-
-\State Let $j \leftarrow j + 1$
-
-\State Compute $\sigma_{j}(f)$ as defined in \eqref{DHKM:SigmaDef}
-
-\Until $\sigma_{j}(f) \le \varepsilon (1 - b^\tau)^{1/\tau}/ab$
-
-\RETURN $\ALG(f,\varepsilon) = \APP(f,n_{j})$
-\end{algorithmic}
-\end{algorithm}
-
-\begin{theorem}\label{DHKM:TractConeCompCost}
-Algorithm \ref{DHKM:TrackConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\calC)$ for $\calC$ defined in \eqref{DHKM:TrackConeDef}.  The information cost is $\COST(\ALG,f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly as
-\begin{equation} \label{DHKM:EqTractConejstar}
-j^* = \min\left \{ j \in \bbN : \sigma_{j}(f) \le \frac{\varepsilon (1 - b^\tau)^{1/\tau}}{ab}   \right\}.
-\end{equation}
-Moreover, $\COST(\ALG,\calC,\varepsilon,R) \le n_{j^\dagger}$, where $j^\dagger$ is defined as follows:
-\begin{equation} \label{DHKM:TractConejdagger}
-j^\dagger = \min \left \{j \in \bbN :  \norm[\rho]{\left(\frac{b^{1-j}}{a \Lambda_1}, \ldots, \frac{b^{-1}}{a \Lambda_{j-1}}, \frac{1}{ \Lambda_{j}} \right) } \ge \frac{Ra b}{\varepsilon (1 - b^\tau)^{1/\tau}}  \right\},
-\end{equation}
-where
-\begin{equation}
-    \label{DHKM:LambdaDef}
- \text{where } \Lambda_j : = \norm[\rho']{\bigl(\lambda_{\bsk} \bigr)_{\bsk \in \calK_j}}.
-\end{equation}
-\end{theorem}
-
-\begin{proof}
-This algorithm terminates for some $j = j^*$ because $\sigma_j(f) \le ab^{j-1} \sigma_{1}(f) \to 0$ as $j \to \infty$. The value of $j^*$ in \eqref{DHKM:EqTractConejstar} follows directly from the error criterion. The success of the algorithm follows from the error bound in \eqref{DHKM:algoineq}.
-
-For the remainder of the proof consider $R$ and $\varepsilon$ to be fixed.  To derive an upper bound on $\COST(\ALG,\calC,\varepsilon,R)$ we first note a key inequality involving the $\sigma_j(f)$ for all $f \in \calF$ and norms of subsequences of the $\lambda_{\bsk_i}$ for all $j \ge 1$.  This inequality follows directly from H\"older's inequality:
-\begin{equation}\label{DHKM:SigmaInEq}
- \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_j}} \ge 
- \frac{ \norm[\tau]{\bigl(\hf(\bsk) \bigr)_{\bsk \in \calK_j}}} {
-  \norm[\rho']{\bigl(\lambda_{\bsk} \bigr)_{\bsk \in \calK_j}}}
- = \frac{\sigma_j(f) }{\Lambda_j}.
-\end{equation}
-
-For any $f \in  \calC \cap \calB_R$ and for any $j^\dagger$ defined  as in \eqref{DHKM:TractConejdagger}, it follows that
-\begin{align*}
-R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \bbK}}
-\ge \norm[\rho]{\left(\norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_j}} \right)_{j=1}^{j^\dagger}}
-\\
-& \ge \norm[\rho]{\left(\frac{\sigma_j(f)}{\Lambda_{j}} \right)_{j=1}^{j^\dagger}}  
-\qquad \text{by \eqref{DHKM:SigmaInEq} }\\
-& \ge \norm[\rho]{\left(\frac{b^{1-j^\dagger}\sigma_{j^\dagger}(f)}{a \Lambda_1}, \ldots, \frac{b^{-1}\sigma_{j^\dagger}(f)}{a \Lambda_{j^\dagger-1}}, \frac{\sigma_{j^\dagger}(f)}{ \Lambda_{j^\dagger}} \right) } \quad \text{by the definition of } \calC \text{ in \eqref{DHKM:TrackConeDef}}\\
-& = \sigma_{j^\dagger}(f)\norm[\rho]{\left(\frac{b^{1-j^\dagger}}{a \Lambda_1}, \ldots, \frac{b^{-1}}{a \Lambda_{j^\dagger-1}}, \frac{1}{ \Lambda_{j^\dagger}} \right) } \\
-& \ge \sigma_{j^\dagger}(f)\,\frac{Ra b }{\varepsilon (1 - b^\tau)^{1/\tau}}\qquad \text{by the definition of } j^\dagger \text{ in \eqref{DHKM:TractConejdagger}}
-\end{align*}
-From this last inequality, it follows that $j^\dagger \ge j^*$.
-\end{proof}
-
-\FredNote{Pity, I do not see our cost upper bounds reflecting different rates of decay of the series coefficients.  Perhaps a remark here is in order.}
-
-
-
-\PeterNote{Added a remark that may be useful for tractability results:}
-\begin{remark}
-A loose bound on $j^\dagger$ can be obtained in the following way. 
-%\begin{itemize}
-%    \item[(a)] For any $j<j^* \le j^\dagger$ we have, by \eqref{DHKM:SigmaInEq}
-%    \begin{align*}
-%        R &\ge \norm[\calF]{f}\ge\norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=n_{j-1}+1}^{n_j}}\ge \frac{\sigma_j(f) }{\Lambda_j}> \frac{\varepsilon (1 - b^\tau)^{1/\tau}}{ab}\, \frac{1}{\Lambda_j}.
-%    \end{align*}
-%    Hence, an upper bound on $j^\dagger$ is the first $j$ violating this inequality,
-%    \begin{align}\label{DHKM:jdaggerbound1}
-%        j^\dagger \le \min\left \{ j \in \bbN \colon \Lambda_j \le \frac{\varepsilon (1 - b^\tau)^{1/\tau}}{abR} \right\}.
-%    \end{align}
-%    \item[(b)] A slightly looser bound can be obtained 
-%    by the following observation. 
-    
-    For
-    $j<j^* \le j^\dagger$ we have, again by \eqref{DHKM:SigmaInEq}
-    \begin{align*}
-        R &\ge\norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=n_{j-1}+1}^{n_j}}\ge \frac{\sigma_j(f) }{\Lambda_j}> \frac{\varepsilon (1 - b^\tau)^{1/\tau}}{ab}\, \frac{1}{\norm[\rho']{\left(\lambda_{\bsk_i} \right)_{i=n_{j-1}+1}^{\infty}}}.
-    \end{align*}
-    Hence, an upper bound on $j^\dagger$ is the first $j$ violating this inequality,
-    \begin{align}\label{DHKM:jdaggerbound2}
-        j^\dagger \le \min\left \{ j \in \bbN \colon \norm[\rho']{\left(\lambda_{\bsk_i} \right)_{i=n_{j-1}+1}^{\infty}} \le \frac{\varepsilon (1 - b^\tau)^{1/\tau}}{abR} \right\}.
-    \end{align}
-%\end{itemize}
-\end{remark}
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Essential Optimality of the Algorithm and Tractability}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-The following theorem establishes a lower bound on the complexity of our problem for input functions in $\calC$. To obtain a result that can be compared with the cost of our algorithm, we assume that 
-\begin{equation} \label{DHKM:lambdaRatio}
-S = \sup_{l \in \bbN} \frac{\Lambda_l}{\lambda_{\bsk_{n_l}}} < \infty.
-\end{equation} The theorem after that shows that the cost of our algorithm as given in Theorem \ref{DHKM:TractConeCompCost} is essentially no worse than this lower bound.
-
-
-\begin{theorem} \label{DHKM:TractConeLowBdComp}
-A lower bound on the complexity of the linear problem is
-\begin{align*}
- %\label{compbdA}
-&\COMP(\calA(\calC),\varepsilon,R) \ge n_{j^\ddagger}, 
-\intertext{where}
-%\label{compbdB}
-j^\ddagger & = \max \left \{ j \in \bbN : \left[\frac{(a+1)^{\rho}  }{(a-1)^\rho} + 1\right] \sum_{l=0}^j \frac{b^{\rho(l-j)}}{\lambda_{\bsk_{n_l}}^\rho}   <
-\frac{R^\rho}{\varepsilon^\rho}
-\right \}.
-\end{align*}
-\end{theorem}
-
-\begin{proof}
-\FredNote{Fred working on the part below}
-
-\FredNote{Now trying a proof technique more aligned with \cite{DinHic20a}.}
-
-As in the proof of Theorem \ref{DHKM:PilotCostThm} we consider fixed and arbitrary R and $\varepsilon$.
-We proceed by carefully constructing the test input functions, $f_1$ and $f_{\pm} = f_1 \pm f_2$, lying in $\calC \cap \calB_{R}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $\COMP(\calA(\calC),\varepsilon,R)$. 
-
-Let $j$ be the positive integer satisfying 
-\[
-n_{j-1} \le \COMP(\calA(\calC),\varepsilon,\rho) < n_j.
-\]  
-The first test function $f_1 \in \calC$ is defined in terms of its series coefficients---inspired by Lemma \ref{DHKM:Key_Lem}---as
-\begin{align}
-\nonumber
-f_1 &= f_{11} + \cdots + f_{1j}, \qquad
-\hf_{1l}(\bsk) := \begin{cases}
-\displaystyle
-\frac{c_1 b^{l-j} \lambda_{\bsk}^{\rho'/\rho+1}}{\Lambda_l^{\rho'/\rho+1}},  & \bsk \in \calK_l,
-\\
-0, & \bsk \notin \calK_l,
-\end{cases}
-\\
-\nonumber
-c_1 &:=  \frac{R(a+1)}{2a} \norm[\rho]{ \biggl(\frac{b^{l-j}}{\Lambda_j} \biggr)_{l=1}^j }^{-1}.
-\end{align}
-It can be verified that $f_1$ lies in both $\calB_{R}$ and $\calC$.  Note that 
-\begin{align}
-\nonumber
-\norm[\calF]{f_{1l}} &= \norm[\rho]{\biggl(\frac{\hf_{1l}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_l}} 
-= \frac{c_1 b^{l-j}}{\Lambda_l} \qquad l \in \N,\\
-\nonumber
-\norm[\calF]{f_1} &= \norm[\rho]{\bigl( \norm[\calF]{f_{1l}} \bigr)_{l=1}^{j} } 
-=  c_1 \norm[\rho]{ \biggl(\frac{b^{l-j}}{\Lambda_l} \biggr)_{l=1}^{j} } = \frac{R(a+1)}{2a} \le R,
-\end{align}
-so $f_1 \in \calB_R$.  Also,
-\begin{align}
-\nonumber
-\sigma_l(f_1) &= \begin{cases}
-c_1 b^{l-j}, & l=1, \ldots, j, \\
-0, & l=j+1, j+2, \ldots,
-\end{cases}
-\\
-\nonumber
-\sigma_{l+r}(f_1) &= 
-\begin{cases}
-c_1 b^{l+r - j}, & l=1, \ldots, \max(0,j-r), \\
-0, & l = \max(0,j-r)+1, \max(0,j-r) +2, \ldots, 
-\end{cases}
-\\
-\nonumber 
-& \le b^r \sigma_l(f_1), \qquad l,r \in \N,
-\end{align}
-so $f_1$ also lies in the cone $\calC$.
-
-
-
-Let $u$ be a linear combination of $u_1, \cdots, u_{n_j}$, expressed as
-\[
-u =  \sum_{k=0}^{j}\frac{b^{k-j}u^{(k)}}{\lambda_{n_k}},
-\]
-where $u^{(0)}$ is a linear combination of $u_{1}, \ldots, u_{n_0}$, and each $u^{(k)}$ is a linear combination of $u_{n_{k-1}+1}, \ldots, u_{n_k}$, for $k =1, \ldots, j$.  We constrain $u$ to satisfy:
-\begin{equation}\label{uConstraint}
-L_1(u) = \cdots = L_n(u) = 0, \qquad \langle u,f \rangle_{\calF} = 0, \qquad 
-\max_{0\le k\le j} \DHJRbignorm[\calF]{u^{(k)}} = 1.
-\end{equation}
-Since $u$ is a linear combination of $n_j >n+1$ basis functions, these constraints can be satisfied.
-
-Let the other two test functions be constructed in terms of $u$ as 
-\begin{align}
-\nonumber
-f_\pm & := f \pm \eta u, \qquad \eta : =  \frac {(a-1)c}{(a+1)R}, \\
-\nonumber
-\DHJRnorm[\calF]{f_\pm}^2 & \le \DHJRnorm[\calF]{f}^2 + \DHJRnorm[\calF]{\eta u }^2 \qquad \text{by \eqref{uConstraint}} \\
-& \nonumber 
-\le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \DHJRbignorm[\calF]{u^{(k)}}^2\right) + \eta^2 \DHJRbignorm[\calF]{u^{(0)}}^2 \frac{b^{-2j}}{\lambda_{n_0}^2}\\
-\nonumber
-& \le  \left(c^2+ \eta^2 \right) \sum_{k=0}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}}  \qquad \text{by \eqref{uConstraint}}\\
-& \nonumber 
-\le \rho^2,
-\end{align} 
-so $f_{\pm} \in \calB_{\rho}$.  By design, $A^*(f_\pm,\varepsilon) = A^*(f,\varepsilon)$, which will be used below.
-
-
-
-
-\FredNote{The approach below does not seem to work, but I do not want to erase it. I will try another approach above.}
-
-As in the proof of Theorem \ref{DHKM:PilotCostThm} we consider fixed and arbitrary R and $\varepsilon$.
-We proceed by carefully constructing the test input functions, $f_1$ and $f_{\pm} = f_1 \pm f_2$, lying in $\calC \cap \calB_{R}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $\COMP(\calA(\calC),\varepsilon,R)$. 
-
-The first test function $f_1 \in \calC$ is defined in terms of its series coefficients---inspired by Lemma \ref{DHKM:Key_Lem}---as
-\begin{align}
-\nonumber
-f_1 &= f_{11} + f_{12} +  \cdots, \qquad
-\hf_{1j}(\bsk) := \begin{cases}
-\displaystyle
-\frac{c_1 b^{j} \lambda_{\bsk}^{\rho'/\rho+1}}{\Lambda_j^{\rho'/\rho+1}},  & \bsk \in \calK_j,
-\\
-0, & \bsk \notin \calK_j,
-\end{cases}
-\\
-\nonumber
-c_1 &:=  \frac{R(a+1)}{2a} \norm[\rho]{ \biggl(\frac{b^{j}}{\Lambda_j} \biggr)_{j \in \N} }^{-1}.
-\end{align}
-It can be verified that the test function lies both in $\calB_{R}$ and in $\calC$:
-\begin{align}
-\nonumber
-\norm[\calF]{f_{1j}} &= \norm[\rho]{\biggl(\frac{\hf_1(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}} 
-= \frac{c_1 b^j}{\Lambda_j} \qquad j \in \N,\\
-\nonumber
-\norm[\calF]{f_1} &= \norm[\rho]{\bigl( \norm[\calF]{f_{1j}} \bigr)_{j \in \N} } 
-=  c_1 \norm[\rho]{ \biggl(\frac{b^{j}}{\Lambda_l} \biggr)_{j \in \N} } = \frac{R(a+1)}{2a} \le R,
-\\
-\nonumber
-\sigma_j(f_1) &= \sigma_j(f_{1j}) = 
-c_1 b^{j}, \qquad j \in \N, 
-\\
-\nonumber
-\sigma_{j+r}(f_1) &= 
-b^{r} \sigma_j(f_1) \le a b^r \sigma_j(f_1), \qquad j,r \in \N.
-\end{align}
-
-Now suppose that $\ALG' \in \calA(\calC)$, and suppose that $\ALG'(f_1,\varepsilon)$ samples $f_1(\bsk)$ for $\bsk \in \calJ$, where the cardinality of $\calJ$ is $n$.  Let $\tcalK_j = \calK_j \setminus \calJ$ for all positive integer $j$. Construct the input function $f_2$, having zero coefficients for $\bsk \in \calJ$, but otherwise looking like $f_1$:
-\begin{align}
-\nonumber
-f_2 &= f_{21} + f_{22} +  \cdots, \qquad \hf_{2j}(\bsk_i) := \begin{cases}
-\displaystyle
-\frac{c_2 b^{j} \lambda_{\bsk}^{\rho'/\rho+1}}{\tLambda_j^{\rho'/\rho} \Lambda_j},  
-& \bsk \in \tcalK_j,
-\\
-0, & \text{otherwise},
-\end{cases}
-\\
-\nonumber
-c_2 &:= \frac{R(a-1)}{2a} \norm[\rho]{ \biggl(\frac{b^{j}}{\Lambda_j} \biggr)_{j \in \N}}^{-1}, \qquad
-\tLambda_j := \norm[\rho']{\bigl(\lambda_\bsk \bigr)_{\bsk \in \tcalK_j}} \le \Lambda_j, \\
-\norm[\calF]{f_2} &= \norm[\rho]{\bigl( \norm[\calF]{f_{2j}} \bigr)_{j \in \N} } 
-\le  c_2 \norm[\rho]{ \biggl(\frac{b^{j}}{\Lambda_l} \biggr)_{j \in \N} } \le R, \\
-\sigma_j(f_2) &= \sigma_j(f_{2j}) = 
-\frac{c_2 b^{j}\tLambda_j}{\Lambda_j} , \qquad j \in \N.
-\end{align}
-Furthermore, define $f_{\pm} = f_1 \pm f_2$.
-It can be verified that $f_{\pm}$ also lie both in $\calB_{R}$ and in $\calC$:
-\begin{align}
-\nonumber
-\norm[\calF]{f_\pm} &\le \norm[\calF]{f_1} + \norm[\calF]{f_2} \le (c_1 + c_2) \norm[\rho]{ \biggl(\frac{b^{j}}{\Lambda_l} \biggr)_{j \in \N} } = R,
-\\
-\nonumber
-\sigma_j(f_\pm) & \ge \sigma_j(f_1) - \sigma_j(f_2) \ge
-\left(c_1 - c_2 \right) b^{j},  \qquad j \in \N,
-\\
-\nonumber
-\sigma_{j+r}(f_\pm) & \le \sigma_{j+r}(f_1) + \sigma_{j+r}(f_2) = 
-(c_1+c_2) b^{j+r}
-\\
-\nonumber
-& = (c_1 - c_2) a b^{j+r}
-\le a b^r \sigma_j(f_\pm),  \qquad j \in \N.
-\end{align}
-
-Since $\hf_2(\bsk) = 0$ for $\bsk \in \calJ$, it follows that $\ALG'(f_1,\varepsilon) = \ALG'(f_\pm,\varepsilon)$.  But, even though the two test functions $f_\pm$ lead to the same approximate solution, they have different true solutions.  In particular,
-\begin{align*}
-\varepsilon &\ge \max \bigl\{\norm[\calG]{\SOL(f_+) - \ALG'(f_+,\varepsilon)}, \norm[\calG]{\SOL(f_-) - \ALG'(f_-,\varepsilon)} \bigr\} \\
-&\ge \frac 12 \bigl[\norm[\calG]{\SOL(f_+) - \ALG(f_1,\varepsilon)} + \norm[\calG]{S(f_-) - \ALG'(f_1,\varepsilon)}  \bigr] \\
-&\qquad \qquad \text{since } \ALG'(f_\pm,\varepsilon) = \ALG'(f_1,\varepsilon) \\
-&\ge \frac 12 \norm[\calG]{\SOL(f_+) - \SOL(f_-)} \quad \text{by the triangle inequality}\\
-&\ge \frac 12 \norm[\calG]{\SOL(f_+ - f_-)} \quad \text{since $\SOL$ is linear}\\
-&= \norm[\calG]{\SOL(f_2)} = \norm[\tau]{\bigl( \sigma_j(f_2) \bigr)_{j \in N}} \\
-& = 
-\frac{R(a-1)}{2a} \norm[\tau]{ \biggl(\frac{b^{j}\tLambda_j}{\Lambda_j} \biggr)_{j \in \N}} \norm[\rho]{ \biggl(\frac{b^{j}}{\Lambda_j} \biggr)_{j \in \N}}^{-1}.
-\end{align*}
-
-
-%%%%%%%%%%%%%% 
-\FredNote{Still playing around}
-
-Now suppose that $\ALG' \in \calA(\calC)$ is an optimal algorithm, i.e., \[\COST(\ALG,\calC,\varepsilon,R) =  \COMP(\calA(\calC),\varepsilon,R)\]
-for all $\varepsilon, R > 0$.  For our particular input $f_1$ defined above, suppose that $\ALG'(f_1,\varepsilon)$ samples $f_1(\bsk)$ for $\bsk \in \calJ$, where the cardinality of $\calJ$ is $n$ with 
-\[
-n + 1\le \COMP(\calA(\calC),\varepsilon,R) +1 < n_j.
-\]  
-Now, construct the input function $f_2$, having zero coefficients for $\bsk \in \calJ$, but otherwise looking like $f_1$:
-\begin{align}
-\nonumber
-\hf_2(\bsk_i) &:= \begin{cases}
-\displaystyle
-\frac{c_2 b^{l-j} \lambda_{\bsk_i}^{\rho'/\rho+1}}{\Lambda_l^{\rho'/\rho+1}},  & \bsk_i \notin \calJ \text{ and } i =  1, \ldots, n_l, \ l = 1, \ldots, j,
-\\
-0, & \text{otherwise},
-\end{cases}
-\\
-\nonumber
-c_2 &:= \frac{R(1-a)}{2} \norm[\rho]{ \biggl(\frac{b^{l-j}}{\Lambda_l} \biggr)_{l=1}^j }^{-1}, \\
-\norm[\calF]{f_2} &= \norm[\rho]{\Biggl( \norm[\rho]{\biggl(\frac{\hf_2(\bsk_i)}{\lambda_{\bsk_i}} \biggr)_{i = n_{l-1} + 1}^{n_l}} \Biggr)_{j=1}^l } 
-\le  c_2 \norm[\rho]{ \biggl(\frac{b^{l-j}}{\Lambda_l} \biggr)_{l=1}^j } \le R, \\
-\sigma_l(f_2) & \le \begin{cases}
-\displaystyle
-c_2 b^{l-j}, & l =1, \ldots, j, \\
-0, & \text{otherwise},
-\end{cases}
-\end{align}
-Furthermore, define $f_{\pm} = f_1 \pm f_2$.
-It can be verified that $f_{\pm}$ also lie both in $\calB_{R}$ and in $\calC$:
-\begin{align}
-\nonumber
-\norm[\calF]{f_\pm} &\le \norm[\calF]{f_1} + \norm[\calF]{f_2} \le (c_1 + c_2) \norm[\rho]{ \biggl(\frac{b^{l-j}}{\Lambda_l} \biggr)_{l=1}^j } = R,
-\\
-\nonumber
-\sigma_l(f_\pm) & \ge \sigma_l(f_1) - \sigma_2(f_2) = \begin{cases}
-\displaystyle
-(c_1 - c_2) b^{l-j}, & l =1, \ldots, j, \\
-0, & \text{otherwise},
-\end{cases}
-\\
-\nonumber
-\sigma_{l+r}(f_\pm) & \le \sigma_{l+r}(f_1) + \sigma_{l+r}(f_2) = \begin{cases}
-\displaystyle
-(c_1+c_2) b^{l+r-j}, & l =1, \ldots, j-r, \\
-0, & \text{otherwise},
-\end{cases}
-\\
-\nonumber
-& = \begin{cases}
-\displaystyle
-(c_1 - c_2) a b^{l+r-j}, & l =1, \ldots, j-r, \\
-0, & \text{otherwise},
-\end{cases}
-\\
-\nonumber
-& \le b^r \sigma_l(f_\pm), \qquad l =1, \ldots .
-\end{align}
-
-Since $\hf_2(\bsk) = 0$ for $\bsk \in \calJ$, it follows that $\ALG(f_1,\varepsilon) = \ALG(f_\pm,\varepsilon)$.  But, even though the two test functions $f_\pm$ lead to the same approximate solution, they have different true solutions.  In particular,
-\begin{align*}
-\varepsilon &\ge \max \bigl\{\norm[\calG]{\SOL(f_+) - \ALG(f_+,\varepsilon)}, \norm[\calG]{\SOL(f_-) - \ALG(f_-,\varepsilon)} \bigr\} \\
-&\ge \frac 12 \bigl[\norm[\calG]{\SOL(f_+) - \ALG(f_1,\varepsilon)} + \norm[\calG]{S(f_-) - \ALG(f_1,\varepsilon)}  \bigr] \\
-&\qquad \qquad \text{since } \ALG(f_\pm,\varepsilon) = \ALG(f_1,\varepsilon) \\
-&\ge \frac 12 \norm[\calG]{\SOL(f_+) - \SOL(f_-)} \quad \text{by the triangle inequality}\\
-&\ge \frac 12 \norm[\calG]{\SOL(f_+ - f_-)} \quad \text{since $\SOL$ is linear}\\
-&= \norm[\calG]{\SOL(f_2)}.
-\end{align*}
-\FredNote{Fred has got to here on 1/18/19}
-
-
-======
-
-Now suppose that $ALG \in \calA(\calC)$ is an optimal algorithm, i.e., \[\COST(ALG,\calC,\varepsilon,R) =  \textup{comp}(\calA(\calC),\varepsilon,R)\]
-for all $\varepsilon, R > 0$.  For our particular input $f$ defined above, suppose that $ALG(f,\varepsilon)$ samples $L_1(f), \ldots, L_n(f)$ where 
-\[
-n + 1\le \textup{comp}(\calA(\calC),\varepsilon,R) +1 < n_j.
-\]  
-
-Let $u$ be a linear combination of $u_1,\ldots, u_{n_j}$, expressed as
-\[
-u =  \sum_{l=0}^{j}\frac{b^{l-j}u^{(l)}}{\lambda_{\bsk_{n_l}}},
-\]
-where $u^{(0)}$ is a linear combination of $u_{1}, \ldots, u_{n_0}$, and each $u^{(l)}$ is a linear combination of $u_{n_{l-1}+1}, \ldots, u_{n_l}$, for $l =1, \ldots, j$.  We constrain $u$ to satisfy:
-\begin{equation}\label{DHKM:uConstraint}
-L_1(u) = \cdots = L_n(u) = 0, \qquad \langle u,f \rangle_{\calF} = 0, \qquad 
-\max_{0\le l\le j} \norm[\calF]{u^{(l)}} = 1.
-\end{equation}
-
-
-Since $u$ is a linear combination of $n_j >n+1$ basis functions, these constraints can be satisfied.
-
-Let the other two test functions be constructed in terms of $u$ as 
-\begin{align}
-\nonumber
-f_\pm & := f \pm \eta u, \qquad \eta : =  \frac {(a-1)c}{(a+1)S}, \\
-\nonumber
-\norm[\calF]{f_\pm}^\rho & \le \norm[\calF]{f}^\rho + \norm[\calF]{\eta u }^\rho \qquad \text{by \eqref{DHKM:uConstraint}} \\
-& \nonumber 
-\le \sum_{l=1}^j \frac{ b^{\rho(l-j)}}{\lambda^\rho_{\bsk_{n_l}}} \left(c^\rho+ \eta^\rho \norm[\calF]{u^{(l)}}^\rho\right) + \eta^\rho \norm[\calF]{u^{(0)}}^\rho \frac{b^{-\rho j}}{\lambda_{\bsk_{n_0}}^\rho}\\
-\nonumber
-& \le  \left(c^\rho+ \eta^\rho \right) \sum_{l=0}^j \frac{ b^{\rho(k-j)}}{\lambda^\rho_{\bsk_{n_l}}}  \qquad \text{by \eqref{DHKM:uConstraint}}\\
-& \nonumber 
-\le R^{\rho},
-\end{align} 
-so $f_{\pm} \in \calB_{B}$.  By design, $ALG(f_\pm,\varepsilon) = ALG(f,\varepsilon)$, which will be used below.
-
-
-Now we must check that $f_\pm \in \calC$. From the definition in \eqref{DHKM:SigmaDef} it follows that for $l = 1, \ldots, j$ and $r \ge 1$,
-\begin{equation*}
-\sigma_l(f_\pm)  \begin{cases} 
-\displaystyle
-\le \sigma_l(f) + \sigma_l(\eta u)\le 
-c b^{l-j} + \eta b^{l-j}\frac{\Lambda_l}{\lambda_{\bsk_{n_l}}}\norm[\calF]{u^{(l)} }
-\le b^{l-j}\left(c+ \eta S \right)
-\\[1ex]
-\displaystyle
-\ge \sigma_l(f) - \sigma_l(\eta u)\ge 
-c b^{l-j} - \eta b^{l-j} \frac{\Lambda_l}{\lambda_{\bsk_{n_l}}}\norm[\calF]{u^{(k)}  }
-\ge b^{l-j}\left(c-\eta S\right) , 
-\end{cases}
-\end{equation*}
-Therefore, 
-\begin{equation*}
-\sigma_{l+r}(f_\pm)
-\le b^{l+r-j}(c+\eta S) = ab^r b^{l-j}\frac{2c}{a+1}
-=ab^r b^{l-j}\left(c-\eta S \right) \le a b^r \sigma_{l}(f_\pm),
-\end{equation*}
-which establishes that $f_\pm \in \calC$.
-
-Although two test functions $f_\pm$ yield the same approximate solution, they have different true solutions.  In particular,
-\begin{align*}
-\varepsilon &\ge \max \bigl\{\norm[\calG]{\SOL(f_+) - ALG(f_+,\varepsilon)}, \norm[\calG]{\SOL(f_-) - ALG(f_-,\varepsilon)} \bigr\} \\
-&\ge \frac 12 \bigl[\norm[\calG]{\SOL(f_+) - ALG(f,\varepsilon)} + \norm[\calG]{S(f_-) - ALG(f,\varepsilon)}  \bigr] \\
-&\qquad \qquad \text{since } ALG(f_\pm,\varepsilon) = ALG(f,\varepsilon) \\
-&\ge \frac 12 \norm[\calG]{\SOL(f_+) - \SOL(f_-)} \quad \text{by the triangle inequality}\\
-&\ge \frac 12 \norm[\calG]{\SOL(f_+ - f_-)} \quad \text{since $S$ is linear}\\
-&= \eta \norm[\calG]{\SOL(u)}.
-\end{align*}
-Thus, we have
-\begin{align*}
-\varepsilon^2  & \ge \eta^2 \norm[\calG]{\SOL(u)}^2= 
-\eta^2 \sum_{l=0}^{j} \norm[\calG]{\SOL(u^{(l)})}^2  \frac{b^{2(l-j)}}{\lambda_{n_k}^2}\\
-& \ge \eta^2 
-\sum_{k=0}^{j} \norm[\calF]{u^{(k)}}^2 
-b^{2(k-j)}\\
-& \ge  \eta^2 b^{2(k^{*}-j)} \qquad \text{ where } k^* = \argmax_{0 \le k \le j} \norm[\calF]{u^{(k)}} \\
-& \ge \eta^2 = \frac{(a-1)^2c^2}{(a+1)^2} \\
-&
-=\frac{(a-1)^2 \rho^2}{(a+1)^2R^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} R^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
-& =  \rho^2 \left[\left\{\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right\}\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
-\end{align*}
-
-This lower bound must be satisfied by $j$ to be consistent with the assumption $\textup{comp}(\calA(\calC),\varepsilon,R) \le n_j - 1$.  Thus, for any $j$ violating this inequality it follows that $\textup{comp}(\calA(\calC),\varepsilon,R) \ge n_j$.  This implication provides a lower bound on $\textup{comp}(\calA(\calC),\varepsilon,R)$.
-\end{proof}
-
-\PeterNote{Working on tractability below
-
-\medskip
-
-We again would like to study tractability. To this end, we assume in the following that $n_0$ is some given positive integer, and that $(n_j)_{j\ge 1}=(g^j n_0)_{j\ge 1}$ for some real $g>1$. Like in Section~\ref{DHKM:SecPilotTract}, we distinguish whether $\rho'=\infty$ or not. 
-
-\paragraph*{CASE 1: $\rho'=\infty$:}
-
-\begin{theorem} \label{DHKM:thmtract3}
-Using the same notation as above, strong polynomial, polynomial, and weak tractability for the case $\rho'=\infty$ hold under exactly the 
-same conditions as in Theorem \ref{DHKM:thmtract1}.
-\end{theorem}
-\begin{proof}
-Our starting point is \eqref{DHKM:jdaggerbound2}.
- We define, for $d\in\NN$ and $\varepsilon\in (0,1)$,
- \[
-  n^*(\varepsilon,d):=\min\left\{n\in\NN\colon \lambda_{d,\bsk_{n+1}}\le \varepsilon\right\}\asymp
-  \min\left\{n\in\NN\colon \lambda_{d,\bsk_{n+1}}\le \frac{\varepsilon (1-b^\tau)^{1/\tau}}{abR}\right\}.
- \]
- To show the sufficient condition for strong polynomial tractability, let now $\widetilde{\varepsilon}:=\sqrt{\varepsilon}$ such that $n^*(\varepsilon,d)=\min\{n\in\NN\colon \lambda_{d,\bsk_{n+1}}\le (\widetilde{\varepsilon})^2 \}$. From \cite{NovWoz08a}, we know that if \eqref{DHKM:eq:condspt} holds for some real $\eta>0$ and some $i_0\in\NN$, then 
- \[
-  n^* (\varepsilon,d) \le C\,((\widetilde{\varepsilon})^{-1})^{2\eta}= C\, (\varepsilon^{-1})^\eta 
- \]
- with some $C>0$.
- 
- Suppose that $n^*(\varepsilon,d) /n_0 < 1/g$. Then, $n^*(\varepsilon,d) < n_0$, and it follows by the monotonicity of the $\lambda_{d,\bsk_i}$ that
- $\lambda_{d,\bsk_{n_0+1}}\le \lambda_{d,\bsk_{n^*(\varepsilon,d)+1}}$, and hence $j^\dagger =1$, which yields $n_{j^\dagger}=g\,n_0$. 
- 
- If $n^*(\varepsilon,d) /n_0 \ge 1/g$, let $j_0\in \NN$ be maximal such that $g^{j_0-2}\le n^*(\varepsilon,d) /n_0$. This means that 
- \[
- n^*(\varepsilon,d)  < g^{j_0-1} n_0=n_{j_0-1},
- \] 
- and hence, again by the monotonicity of the $\lambda_{d,i}$, that 
- \[
- \lambda_{d,\bsk_{n_{j_0-1}+1}}\le \lambda_{d,\bsk_{n^*(\varepsilon,d)+1}}.
- \] 
- Consequently, 
- \[
- n_{j^\dagger} \le n_{j_0}=g^{j_0} n_0 \le 
- n^*(\varepsilon,d)\, g^2\,n_0.
- \]
- Hence, in any case we obtain
- \[
-  \textup{comp} (\calA (\calC_d),\varepsilon,R) \le n_{j^\dagger} \le 
-  C\, (\varepsilon^{-1})^\eta g^2 n_0+ gn_0.
- \]
- 
- This implies strong polynomial tractability, as claimed, and hence the sufficiency of Condition \eqref{DHKM:eq:condspt} for 
- strong polynomial tractability is shown. Note that this also shows the upper bound of $\eta$ for the exponent 
- of strong polynomial tractability. The proof of the sufficient condition for polynomial tractability is done analogously
- 
- Regarding the proof of the sufficient condition for weak tractability, let $\widetilde{\varepsilon}$ and $n^*(\varepsilon,d)$ be defined as above. Let
- $\widetilde{n}^*(\widetilde{\varepsilon},d)=\min\{n\in\NN\colon \lambda_{d,\bsk_{n+1}}\le (\widetilde{\varepsilon})^2 \}$. 
- Note, as above, that we have $n^*(\varepsilon,d)=\widetilde{n}^*(\widetilde{\varepsilon},d)$. This yields
- $$   
-\lim_{d+\varepsilon^{-1}\to\infty}\   
-\frac{\log\, n^*(\varepsilon,d)}   
-{d +(\varepsilon^{-1}) }\,=\, \lim_{d+\varepsilon^{-1}\to\infty}\   
-\frac{\log\, \widetilde{n}^*(\widetilde{\varepsilon},d)}   
-{d +(\widetilde{\varepsilon}^{-1})^{2}}  
-$$ 
-As shown in \cite{WerWoz17}, we have 
-\[
- \lim_{d+\varepsilon^{-1}\to\infty}\   
-\frac{\log\, \widetilde{n}^*(\widetilde{\varepsilon},d)}   
-{d +(\widetilde{\varepsilon}^{-1})^{2}}=0
-\]
-if \eqref{DHKM:eq:condwt} holds. 
-
-As above, we see that $n_{j^\dagger}\le n^*(\varepsilon,d)\, g^2 n_0+g\,n_0$, hence 
-$$ 
-  0\le\lim_{d+\varepsilon^{-1}\to\infty}\   
- \frac{\log\, n_{j^\dagger}}   
-{d +(\varepsilon^{-1}) }
- \, \le\, k\,
-\lim_{d+\varepsilon^{-1}\to\infty}\   
-\frac{\log\, n^*(\varepsilon,d)}   
-{d+(\varepsilon^{-1})}\,=\, k\,\lim_{d+\varepsilon^{-1}\to\infty}\   
-\frac{\log\, \widetilde{n}^*(\widetilde{\varepsilon},d)}   
-{d +(\widetilde{\varepsilon}^{-1})^{2}}  
-$$
-for some positive constant $k$.
-Hence, we conclude that we have weak tractability if \eqref{DHKM:eq:condwt} holds. 
-\end{proof}
-}
-
-
-%%%%%%%%%%%%
-\subsection{Numerical Example}
-%%%%%%%%%%%%
-
-\fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
