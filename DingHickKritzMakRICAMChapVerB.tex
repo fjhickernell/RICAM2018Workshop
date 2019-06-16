@@ -78,6 +78,8 @@
 \newcommand{\YuhanNote}[1]{{\color{magenta}Yuhan: #1}}
 \newcommand{\PeterNote}[1]{{\color{orange}Peter: #1}}
 \newcommand{\SimonNote}[1]{{\color{purple}Simon: #1}}
+\newcommand{\DHKMchange}[1]{{\color{red}{#1}}}
+
 \newcommand{\tLambda}{\widetilde{\Lambda}}
 \newcommand{\bcalK}{\bar{\calK}}
 \newcommand{\fapp}{f_{\text{app}}}
@@ -107,7 +109,7 @@
   %\subtitle{...}
   \abstract{We study adaptive approximation algorithms for general multivariate linear 
   problems where the sets of input functions are non-convex cones. While it is known that adaptive algorithms perform 
-  essentially no better than non-adaptive algorithms for convex input sets, the 
+  essentially no better than non-adaptive algorithms for \DHKMchange{convex and symmetric} input sets, the 
   situation may be different for non-convex sets. A typical example
   considered here is function approximation based on series expansions. Given 
   an error tolerance, we use series coefficients of the input to construct an 
@@ -138,7 +140,7 @@
 
 In many situations, adaptive algorithms can be rigorously shown to perform \emph{essentially no better} than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from stipulating the computational effort required to achieve the desired accuracy.  The key to resolving this seeming contradiction is to construct a theory based on assumptions that favor adaptive algorithms. We do that here.
 
-Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex}. We construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones.  Our algorithms use a finite number of series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable, i.e., the information cost of constructing the approximate solution does not increase exponentially with the dimension of the input function domain.  In the remainder of this section we define the problem and essential notation.  But first, we present a helpful example.
+Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex} \DHKMchange{or \emph{non-symmetric}}. \DHKMchange{Here we focus on the former situation and} construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones.  Our algorithms use a finite number of series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable, i.e., the information cost of constructing the approximate solution does not increase exponentially with the dimension of the input function domain.  In the remainder of this section we define the problem and essential notation.  But first, we present a helpful example.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{An Illustrative Example}\label{DHKM:secexamp}
@@ -166,7 +168,7 @@ implies an ordering of the wavenumbers, $\bsk$.  It is natural to approximate th
    \APP(f,n) := \sum_{i=1}^n \hf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n \in \N.
 \end{equation*}
 
-Here, we assume that it is possible to sample the series coefficients of the input function.  This is a less restrictive assumption than being able to sample any linear functional, but it is more restrictive than only being able to sample function values.  An important future problem is to extend the theory in this chapter to the case where the only function data available are function values.
+Here, we assume that it is possible to sample the series coefficients of the input function.  This is a \DHKMchange{more} restrictive assumption than being able to sample any linear functional, but it is \DHKMchange{less} restrictive than only being able to sample function values.  An important future problem is to extend the theory in this chapter to the case where the only function data available are function values.
 
 The error of this approximation in terms of the norm on the output space, $\calG$, can be expressed as
 \begin{gather*}
@@ -174,13 +176,14 @@ The error of this approximation in terms of the norm on the output space, $\calG
     \text{where}\qquad
     \norm[\calG]{\sum_{\bsk \in \N_0^d} \hg(\bsk) u_{\bsk}} : = \norm[2]{\bigl(\hg(\bsk) \bigr)_{\bsk \in \N_0^d}}.
 \end{gather*}
-If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer.  
+If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer \DHKMchange{for certain classes of inputs in $\calF$ as for example balls, which 
+are among the most prominent examples studied in the literature}.  
 
-However, our goal is an algorithm, $\ALG(f,\varepsilon)$ that satisfies the error criterion
+However, our goal is an algorithm $\ALG(f,\varepsilon)$ that satisfies the error criterion
 \begin{equation} \label{DHKM:err_crit}
     \norm[\calG]{\SOL(f) - \ALG(f,\varepsilon)} \le \varepsilon \qquad \forall \varepsilon > 0, \ f \in \calC,
 \end{equation}
-where  $\varepsilon$ is the error tolerance, and $\calC \subset \calF$ is the set of input functions for which $\ALG$ is successful.  This algorithm contains a rule for choosing $n$---depending on $f$ and $\varepsilon$---so that $\ALG(f,\varepsilon) = \APP(f,n)$.  The objectives of this chapter are to 
+where  $\varepsilon$ is the error tolerance, and $\calC \subset \calF$ is the set of input functions for which $\ALG$ is successful.  \DHKMchange{Such an algorithm will  contain} a rule for choosing $n$---depending on $f$ and $\varepsilon$---so that $\ALG(f,\varepsilon) = \APP(f,n)$.  The objectives of this chapter are to 
 \begin{itemize}
     \item construct such a rule, 
     \item choose a set $\calC$ of input functions for which the rule is valid,  
@@ -188,7 +191,7 @@ where  $\varepsilon$ is the error tolerance, and $\calC \subset \calF$ is the se
     \item determine whether $\ALG$ has optimal information cost, and 
     \item understand the dependence of this cost on the number of input variables, $d$, as well as the error tolerance, $\varepsilon$.
 \end{itemize}
-We return to this example in Section \ref{DHKM:revisexamp} to discuss the answers to some of these questions.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
+We return \DHKMchange{to the example of functions on $[-1,1]^d$, using a Chebyshev polynomial basis}, in Section \ref{DHKM:revisexamp} to discuss the answers to some of these questions.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -263,7 +266,7 @@ Taking $\calK = \bbK$ in the lemma above, the norm of the solution operator can 
 \begin{equation} \label{DHKM:SOLNorm}
     \norm[\calF \to \calG]{\SOL}  = \sup_{\norm[\calF]{f} \le 1} \norm[\calG]{\SOL(f)} = \bignorm[\rho']{\bslambda}.
 \end{equation}
-We assume throughout this chapter that the weights are chosen to keep this norm is finite, namely,
+We assume throughout this chapter that the weights are chosen to keep this norm finite, namely,
 \begin{equation} \label{DHKM:SOLNormFinite}
     \bignorm[\rho']{\bslambda} < \infty.
 \end{equation}
@@ -415,7 +418,7 @@ The set of functions for which our algorithms succeed, $\calC_d$, depends on the
 \bigskip
 
 Different dependencies of $\COMP(\calA(\calC_d), \varepsilon,R)$ on the dimension $d$ and the error tolerance $\varepsilon$ are formalized as different notions of tractability. Since 
-the complexity is defined in terms of the best available algorithm, tractability is a property that is inherent to the problem, not to a particular algorithm. 
+the complexity is defined in terms of the best algorithm, tractability is a property that is inherent to the problem, not to a particular algorithm. 
 We define the following notions of tractability (for further information on tractability we refer to the trilogy 
 \cite{NovWoz08a}, \cite{NovWoz10a}, \cite{NovWoz12a}). Note that in contrast to 
 these references we explicitly include the dependence on $R$ in our definitions. This 
@@ -487,7 +490,7 @@ If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\
 \subsection{What Comes Next}
 In the following section we define a cone of input functions, $\calC$, in \eqref{DHKM:pilot_cone} whose norms can be bounded above in terms of the series coefficients obtained from a pilot sample.  Adaptive Algorithm \ref{DHKM:PilotConeAlg} is shown to be optimal for this $\calC$.  We also identify necessary and sufficient conditions for tractability.
 
-Section \ref{DHKM:tracking_sec} considers the situation where function data ies relatively inexpensive, and we track the decay rate of the series coefficients.  Adaptive Algorithm \ref{DHKM:TrackConeAlg} is shown to be optimal in this situation.
+Section \ref{DHKM:tracking_sec} considers the situation where function data is relatively inexpensive, and we track the decay rate of the series coefficients.  Adaptive Algorithm \ref{DHKM:TrackConeAlg} is shown to be optimal in this situation.
 
 Section \ref{DHKM:smoothimportance_sec} considers the case where the most suitable weights $\bslambda$ are not known a priori and are instead inferred from function data.  Adaptive Algorithm \ref{DHKM:InfPilotConeAlg} combines this inference step with Algorithm \ref{DHKM:PilotConeAlg} to construct an approximation that satisfies the error criterion.
 
@@ -517,20 +520,20 @@ tells us something about what is not observed.  Let $n_1$ denote the number of p
 where the $\bsk_i$ are defined by the ordering of the $\lambda_{\bsk}$ in \eqref{DHKM:lambda_order}.  Let $A$ be some constant inflation factor greater than one.  The cone of functions whose norm can be bounded well in terms of a pilot sample, $\{\hf(\bsk_1), \ldots, \hf(\bsk_{n_1})\}$,
 is given by
 \begin{equation} \label{DHKM:pilot_cone}
-    \calC = \left \{ f \in \calF : \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}} \right\}.
+    \DHKMchange{\calC_{\boldsymbol{\lambda},A}} = \left \{ f \in \calF : \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}} \right\}.
 \end{equation}
 
-Referring to error bound \eqref{DHKM:Refined_APP_err}, we see that the error of $\APP(f,n)$ depends on the series coefficients not sampled.  The definition of $\calC$ allows us to bound these as follows: 
+Referring to error bound \eqref{DHKM:Refined_APP_err}, we see that the error of $\APP(f,n)$ depends on the series coefficients not sampled.  The definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$ allows us to bound these as follows: 
 \begin{align*}
      \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty} & =  \left[ \norm[\calF]{f}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
     \right]^{1/\rho} \qquad \forall f \in \calF \\
     &  \le  \left[ A^\rho \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
-    \right]^{1/\rho} \quad \forall f \in \calC.
+    \right]^{1/\rho} \quad \forall f \in \DHKMchange{\calC_{\boldsymbol{\lambda},A}}.
 \end{align*}
 This inequality together with error bound \eqref{DHKM:Refined_APP_err} implies the data-based error bound 
 \begin{subequations} \label{DHKM:pilot_errbd}
 \begin{equation}
-\norm[\calG]{\SOL(f) - \APP(f,n)}  \le \ERRN  \qquad \forall f \in \calC,
+\norm[\calG]{\SOL(f) - \APP(f,n)}  \le \ERRN  \qquad \forall f \in \DHKMchange{\calC_{\boldsymbol{\lambda},A}},
 \end{equation}
 where 
 \begin{multline}
@@ -541,7 +544,7 @@ where
     \\ n \ge n_1.
 \end{multline}
 \end{subequations}
-This error bound decays as $\bignorm[\rho]{\bigl( f(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^n}$ increases and as the tail norm of the $\lambda_{\bsk_i}$ decreases.  This data-driven error bound underlies  Algorithm \ref{DHKM:PilotConeAlg}, which is successful for $\calC$ defined in \eqref{DHKM:pilot_cone}:
+This error bound decays as $\bignorm[\rho]{\bigl( f(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^n}$ increases and as the tail norm of the $\lambda_{\bsk_i}$ decreases.  This data-driven error bound underlies  Algorithm \ref{DHKM:PilotConeAlg}, which is successful for $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$ defined in \eqref{DHKM:pilot_cone}:
 
 \begin{algorithm}
 	\caption{$\ALG$ Based on a Pilot Sample\label{DHKM:PilotConeAlg}} 
@@ -567,25 +570,25 @@ This error bound decays as $\bignorm[\rho]{\bigl( f(\bsk_i)/\lambda_{\bsk_i} \bi
 \end{algorithm}
 
 \begin{theorem} \label{DHKM:PilotCostThm}
-Algorithm \ref{DHKM:PilotConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\calC)$ for $\calC$ defined in \eqref{DHKM:pilot_cone}.  The information cost is
+Algorithm \ref{DHKM:PilotConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\DHKMchange{\calC_{\boldsymbol{\lambda},A}})$ for $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$ defined in \eqref{DHKM:pilot_cone}.  The information cost is
 \begin{multline} \label{DHKM:PilotConeAlg_cost}
-    \COST(\ALG,\calC,\varepsilon,R) \\
+    \COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},A}},\varepsilon,R) \\
     = \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
     \le \varepsilon/[(A^\rho -1)^{1/\rho}R] \right \}.
 \end{multline}
 There exist positive $\varepsilon_{\max}$ and $R_{\min}$ for which the computational complexity has the lower bound
 \begin{multline} \label{DHKM:PilotConeAlg_comp}
-        \COMP(\calA(\calC),\varepsilon,R) \ge \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+        \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},A}}),\varepsilon,R) \ge \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
     \le 2\varepsilon/[(1 - 1/A) R] \right \} \\
     \forall \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
 \end{multline}
-Algorithm \ref{DHKM:PilotConeAlg} is essentially optimal.  Moreover, $\calA(\calC)$ contains only adaptive algorithms.
+Algorithm \ref{DHKM:PilotConeAlg} is essentially optimal.  Moreover, $\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},A}})$ contains only adaptive algorithms.
 \end{theorem}
 
 \begin{proof} 
 The upper bound on the computational cost of this algorithm is obtained by noting that 
 \begin{align*}
-    \MoveEqLeft[1]{\COST(\ALG,\calC,\varepsilon,R)} \\
+    \MoveEqLeft[1]{\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},A}},\varepsilon,R)} \\
     & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : \ERRN \le \varepsilon \right \} \\
      & \le \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : 
      (A^\rho -1)^{1/\rho} \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1 }} \, 
@@ -595,14 +598,14 @@ The upper bound on the computational cost of this algorithm is obtained by notin
      (A^\rho -1)^{1/\rho} R \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} 
     \le \varepsilon \right \},  
 \end{align*}
-since $\bignorm[\rho]{\bigl( \hf(\bsk)/\lambda_{\bsk} \bigr)_{\bsk \in \calK_1}} \le \bignorm[\rho]{\bigl( \hf(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^{n}} \le  \norm[\calF]{f} \le R$ for all $f \in \calB_R$, $n \ge n_1$.  Moreover, this inequality is tight for some $f \in \calC \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
+since $\bignorm[\rho]{\bigl( \hf(\bsk)/\lambda_{\bsk} \bigr)_{\bsk \in \calK_1}} \le \bignorm[\rho]{\bigl( \hf(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^{n}} \le  \norm[\calF]{f} \le R$ for all $f \in \calB_R$, $n \ge n_1$.  Moreover, this inequality is tight for some $f \in \DHKMchange{\calC_{\boldsymbol{\lambda},A}} \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
 
 To prove the lower complexity bound, choose $\varepsilon_{\max}$ and $R_{\min}$ such that 
 \[
 \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n_1+1}^{\infty}} \,
     > 2\varepsilon_{\max}/[(1 - 1/A) R_{\min}].
     \]
-Let $\ALG'$ be any algorithm that satisfies the error criterion, \eqref{DHKM:err_crit}, for this choice of $\calC$ in \eqref{DHKM:pilot_cone}.   Fix $R \in [R_{\min},\infty)$ and $\varepsilon \in (0,\varepsilon_{\max}]$ arbitrarily.  Two fooling functions will be constructed of the form $f_\pm = f_1 \pm f_2$.  
+Let $\ALG'$ be any algorithm that satisfies the error criterion, \eqref{DHKM:err_crit}, for this choice of $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$ in \eqref{DHKM:pilot_cone}.   Fix $R \in [R_{\min},\infty)$ and $\varepsilon \in (0,\varepsilon_{\max}]$ arbitrarily.  Two fooling functions will be constructed of the form $f_\pm = f_1 \pm f_2$.  
 
 The input function $f_1$ is defined via its series coefficients as in Lemma \ref{DHKM:Key_Lem}, having nonzero coefficients only for $\bsk \in \calK_1$:
 \begin{equation*}
@@ -635,7 +638,7 @@ Let $f_{\pm} = f_1 \pm f_2$.  By the definitions above, it follows that
     \nonumber
     & \ge \norm[\calF]{ f_1} - \norm[\calF]{ f_2 } =  \frac{R}{A} \ge \frac{\norm[\calF]{f_{\pm}}}{A}.
 \end{align}
-Therefore, $f_\pm \in \calC \cap \calB_R$.  Moreover, since the series coefficients for $f_\pm$ are the same for $\bsk \in \calJ$, it follows that $\ALG'(f_+,\varepsilon) = \ALG'(f_-,\varepsilon)$.  Thus, $\SOL(f_{+})$ must be quite similar to $\SOL(f_{-})$.
+Therefore, $f_\pm \in \DHKMchange{\calC_{\boldsymbol{\lambda},A}} \cap \calB_R$.  Moreover, since the series coefficients for $f_\pm$ are the same for $\bsk \in \calJ$, it follows that $\ALG'(f_+,\varepsilon) = \ALG'(f_-,\varepsilon)$.  Thus, $\SOL(f_{+})$ must be quite similar to $\SOL(f_{-})$.
 
 Using an argument like that in the proof of  Theorem \ref{DHKM:APP_optimality_thm}, it follows that 
 \begin{align*}
@@ -647,28 +650,28 @@ Using an argument like that in the proof of  Theorem \ref{DHKM:APP_optimality_th
 =\frac{R(1 - 1/A)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}} \qquad \text{by \eqref{DHKM:SOLf2bd}} \\
 & \ge \frac{R(1 - 1/A)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^\infty},
 \end{align*}
-by the ordering of the $\bsk$ in \eqref{DHKM:lambda_order}.  By the choice of $R_{\min}$ and $\varepsilon_{\max}$ above, it follows that $n > n_1$.  This inequality then implies lower complexity bound \eqref{DHKM:PilotConeAlg_comp}. Because $\lim_{R \to \infty} \COMP(\calA(\calC), \varepsilon,R) = \infty$  it follows from Lemma \ref{DHKM:NoNonAdpatLem} that $\calA(\calC)$ contains only adaptive algorithms.
+by the ordering of the $\bsk$ in \eqref{DHKM:lambda_order}.  By the choice of $R_{\min}$ and $\varepsilon_{\max}$ above, it follows that $n > n_1$.  This inequality then implies lower complexity bound \eqref{DHKM:PilotConeAlg_comp}. Because $\lim_{R \to \infty} \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},A}}), \varepsilon,R) = \infty$  it follows from Lemma \ref{DHKM:NoNonAdpatLem} that $\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},A}})$ contains only adaptive algorithms.
 
 The essential optimality of Algorithm \ref{DHKM:PilotConeAlg} follows by observing that 
 \[
-\COST(\ALG,\calC,\varepsilon,R) \le \COMP(\calA(\calC),\omega \varepsilon,R) \qquad \text{for } \omega = \frac{1-1/A}{2(A^\rho -1)^{1/\rho}}.
+\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},A}},\varepsilon,R) \le \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},A}}),\omega \varepsilon,R) \qquad \text{for } \omega = \frac{1-1/A}{2(A^\rho -1)^{1/\rho}}.
 \]
 This satisfies definition \eqref{DHKM:EssentialOpt}.  
 \end{proof} \
 
-The above derivation assumes that $A > 1$.  If $A =1$, then our cone consists of functions whose series coefficients vanish for wavenumbers outside $\calK_1$.  The exact solution can be constructed using only the pilot sample.  Our algorithm is then non-adaptive, but succeeds for input functions in the cone $\calC$, which is an unbounded set.
+The above derivation assumes that $A > 1$.  If $A =1$, then our cone consists of functions whose series coefficients vanish for wavenumbers outside $\calK_1$.  The exact solution can be constructed using only the pilot sample.  Our algorithm is then non-adaptive, but succeeds for input functions in the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$, which is an unbounded set.
 
-We may not be able to guarantee that a particular $f$ of interest lies in our cone, $\calC$, but we may derive necessary conditions for $f$ to lie in $\calC$.  The following proposition follows from the definition of $\calC$ in \eqref{DHKM:pilot_cone} and the fact that the term on the left below underestimates $\norm[\calF]{f}$.
+We may not be able to guarantee that a particular $f$ of interest lies in our cone, $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$, but we may derive necessary conditions for $f$ to lie in $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$.  The following proposition follows from the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$ in \eqref{DHKM:pilot_cone} and the fact that the term on the left below underestimates $\norm[\calF]{f}$.
 
 \begin{proposition}
 If $f \in \calC$, then 
 \begin{equation} \label{DHKM:PilotConeNecessary}
-    \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{\bsk_i =1}^{n}} \le A
+    \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{\DHKMchange{i =1}}^{n}} \le A
     \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}} \qquad \forall n \in \NN.
 \end{equation}
 \end{proposition}
 
-If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \notin \calC$, and Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  The remedy is to make $\calC$ more inclusive by increasing the inflation factor, $A$, and/or the pilot sample size, $n_1$.
+If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \notin \DHKMchange{\calC_{\boldsymbol{\lambda},A}}$, and Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  The remedy is to make $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$ more inclusive by increasing the inflation factor, $A$, and/or the pilot sample size, $n_1$.
 
 
 
@@ -676,7 +679,7 @@ If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \n
 \subsection{Tractability}\label{DHKM:SecPilotTract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section, we write $\calC_d$ instead of $\calC$, to stress the dependence on $d$, and for the same reason we write $\lambda_{d,\bsk_i}$ instead of $\lambda_{\bsk_i}$. Recall that we assume that 
+In this section, we write $\calC_d$ instead of $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$, to stress the dependence on $d$, and for the same reason we write $\lambda_{d,\bsk_i}$ instead of $\lambda_{\bsk_i}$. Recall that we assume that 
 $\lambda_{d,\bsk_1}\ge \lambda_{d,\bsk_2}\ge \cdots >0$. Let 
 \[
 n(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bigl(  \lambda_{d,\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
@@ -1225,7 +1228,7 @@ here. A general result for necessary conditions seems to be more difficult to ob
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}, the weights $\bslambda = (\lambda_{\bsk})_{\bsk \in \bbK}$, which appear in the definition of the cone of inputs, $\calC$, are taken as given and fixed.  One may assume the form suggested in \eqref{DHKM:prodwts}, which defines $\bslambda$ in terms of coordinate weights and smoothness weights.  However, practically speaking it may be difficult to know a priori the values of these weights.
+In Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}, the weights $\bslambda = (\lambda_{\bsk})_{\bsk \in \bbK}$, which appear in the definition of the cone of inputs, $\calC_{\bslambda,A}$, are taken as given and fixed.  One may assume the form suggested in \eqref{DHKM:prodwts}, which defines $\bslambda$ in terms of coordinate weights and smoothness weights.  However, practically speaking it may be difficult to know a priori the values of these weights.
 This section explores a situation where the initial data collected for the input function data can be used to learn $\bslambda$, inferring which input variables in $f$ may be more important and the smoothness of the function.  
 
 The motivation for this section is situations where the relative importance of the $d$ input variables of the function is not known from physical considerations. We also envision situations where the cost of function data is large, e.g., the result of an expensive computer simulation.  Thus, we are not concerned with the cost of the algorithm beyond the information cost, which we hope to limit to $\calO(d)$.
@@ -1246,13 +1249,15 @@ where $\bsw = (w_\ell)_{l=1}^d$ is the vector of coordinate weights, $\bss = (s_
 
 This parametrization is motivated by several guiding principles from the experimental design literature \citep{WuHam2009}, which are briefly described below.  In statistical parlance, the terms $\hf(\bsk) u_{\bsk}$ are effects.
 \begin{itemize}
-\item \emph{Effect sparsity} assumes that only a small number of inputs in $f$ are important. In \eqref{DHKM:posdeq}, this sparsity means that only a small number of product weights $\bsw$ are large.  This principle arises in the sufficient condition for strong tractability in Corollary \ref{DHKM:sptexample_cor}.
+\item \emph{Effect sparsity} assumes that only a small number of \DHKMchange{coordinates in} $f$ are important. In \eqref{DHKM:posdeq}, this sparsity means that only a small number of product weights $\bsw$ are large.  This principle arises in the sufficient condition for strong tractability in Corollary \ref{DHKM:sptexample_cor}.
 \item \emph{Effect heredity} assumes that lower-order effects are more important than higher-order effects. E.g., $\lambda_{(1,0, 0,\ldots, 0)}$ should be larger than $\lambda_{(1, 1, 0, \ldots, 0)}$. In \eqref{DHKM:posdeq}, this heredity can be enforced by assuming that the order weights $\Gamma_{m}$ decrease with $m$. 
 \item \emph{Effect hierarchy} assumes that an effect is active \emph{only} when all its component effects are active. For example, $\lambda_{(1, 1, 0, \ldots, 0)} > 0$ only when $\lambda_{(1, 0, 0, \ldots, 0)}$ and $\lambda_{(0, 1, 0, \ldots, 0)}$ are both nonzero. This hierarchy is implicitly enforced by the product structure of the weights in \eqref{DHKM:posdeq}.
 \item \emph{Effect smoothness} assumes that lower-degree effects are more important than higher-degree effects. For example, when the $(\tu_k)_{k \in \mathbb{N}_0}$ are polynomials, this means that linear effects are more important than quadratic effects, which are in turn more significant than cubic effects, and so on. Effect smoothness can be imposed by assuming $\bss$ to be a decreasing sequence. 
-\end{itemize} \ \vspace{-4ex}
+\end{itemize} 
+\vspace{-3ex}
+\DHKMchange{These principles will guide the inference of weights $\bslambda$ (and its corresponding cone of inputs $\calC_{\bslambda,A}$) from initial data.}
 
-The $\lambda_{\bsk}$ defined in \eqref{DHKM:posdeq} are called product, order and smoothness dependent (POSD) weights.  From a quasi-Monte Carlo (QMC) perspective, the POSD weights in \eqref{DHKM:posdeq} generalize upon the product-and-order dependent (POD) weights in \cite{KuoEtal12a}, which were introduced for analyzing QMC methods in partial differential equations with random coefficients. The latter POD weights can be recovered by ignoring the smoothness weights. 
+\hspace{\parindent} The $\lambda_{\bsk}$ defined in \eqref{DHKM:posdeq} are called product, order and smoothness dependent (POSD) weights.  From a quasi-Monte Carlo (QMC) perspective, the POSD weights in \eqref{DHKM:posdeq} generalize upon the product-and-order dependent (POD) weights in \cite{KuoEtal12a}, which were introduced for analyzing QMC methods in partial differential equations with random coefficients. The latter POD weights can be recovered by ignoring the smoothness weights. 
 
 Our POSD weights differ from the smoothness-driven product-and-order dependent (SPOD) weights in \cite{Dea2014}, which were recently used to analyze higher-order QMC methods for stochastic partial differential equations. These SPOD weights take the form:
 \begin{equation*}
@@ -1266,15 +1271,16 @@ Intuitively, the SPOD weights quantify the importance of each \textit{subspace} 
 
 \subsection{Inferring POSD Weights from an Initial Sample}
 
-Let $\calC_{\bslambda}$ denote the cone of inputs defined in \eqref{DHKM:pilot_cone} by POSD weights $\bslambda = \bigl( \lambda_{\bsk} \bigr)_{\bsk \in \N_0^d}$.  As mentioned above, our goal here is to infer $\bslambda$ from input function data.  We start with an initial set of wavenumbers:
+%Let $\calC_{\bslambda}$ denote the cone of inputs defined in \eqref{DHKM:pilot_cone} by POSD weights $\bslambda = \bigl( \lambda_{\bsk} \bigr)_{\bsk \in \N_0^d}$.
+As mentioned above, our goal here is to infer $\bslambda$ from input function data.  We start with an initial set of wavenumbers:
 \begin{equation} \label{DHKM:barKdef}
-    \bcalK= \{ (0, \ldots, 0, k, 0, \ldots, 0): k = 0, \ldots, k_{\max}\}.
+    \bcalK= \{ (0, \ldots, 0, k, 0, \ldots, 0): k = 0, \ldots, k_{\max}\},
 \end{equation}
-The approximation to $f$ based on sampling the series coefficients for these wavenumbers is
+\DHKMchange{where the only non-zero entry $k$ may be at any position in the vector}. The approximation to $f$ based on sampling the series coefficients for these wavenumbers is
 \begin{equation*}
     \fapp = \sum_{\bsk \in \bar{\calK}} \hf(\bsk) u_{\bsk}.
 \end{equation*}
-We choose the $\calC_{\bslambda}$ that best fits $f$ by selecting $\bslambda$ to make the norm of  $f_{\text{app}}$ small:
+\DHKMchange{To choose the cone $\calC_{\bslambda,A}$ which best fits $f$, we select the POSD weights $\bslambda$ to make the norm of $f_{\text{app}}$ small. These weights can be written as:}
 \begin{multline}
 \bar{\bslambda} = \bslambda(\bar{\bsw}, \bar{\bss}, \bsGamma), \\
 \text{where } (\bar{\bsw}, \bar{\bss} ) = \min \left\{ \argmin_{(\bsw,\bss) \in \calW \times \calS} \left\|\left( \frac{\hf(\bsk)}{\lambda_{\bsk}(\bsw,\bss,\bsGamma)} \right)_{\bsk \in \bar{\calK}}\right\|_{\rho} \right \}.
@@ -1290,21 +1296,21 @@ The optimization in \eqref{DHKM:eq:inf} is nontrivial to solve numerically. In p
 
 Algorithm \ref{DHKM:InfPilotConeAlg} combines the construction of data-inferred POSD weights, $\bar{\bslambda}$, with Algorithm \ref{DHKM:PilotConeAlg} of Section \ref{DHKM:pilot_sec}. This algorithm succeeds for input functions in the cone 
 \begin{equation} \label{DHKM:pilot_cone2}
-    \bar{\calC} := \left \{ f \in \calF : f \in \calC_{\bar{\bslambda}} \text{ for } \bar{\bslambda} \text{ defined in \eqref{DHKM:eq:inf}} \right\}.
+     \DHKMchange{\bar{\calC}_{A}} := \left \{ f \in \calF : f \in \DHKMchange{\calC_{\bar{\bslambda},A}} \text{ for } \bar{\bslambda} \text{ defined in \eqref{DHKM:eq:inf}} \right\}.
 \end{equation}
-The reason that $\bar{\calC}$ is a cone is that the data-inferred $\bar{\bslambda}$ for the input function $f$ is exactly the same as for the input function $cf$, where $c$ is any constant.
+The reason that \DHKMchange{$\bar{\calC}_A$} is a cone is that the data-inferred $\bar{\bslambda}$ for the input function $f$ is exactly the same as for the input function $cf$, where $c$ is any constant.
 
 \begin{algorithm}
 	\caption{Adaptive $\ALG$ Based on Data-Inferred POSD Weights \label{DHKM:InfPilotConeAlg}} 
 	\begin{algorithmic}
-	\PARAM the bases $\{u_{\bsk}\}_{\bsk \in \N_0^d}$ and $\{v_{\bsk}\}_{\bsk \in \N_0^d}$; candidate sets $\calW$ and $\calS$; maximum smoothness degree, $k_{\max}$; order weights, $\boldsymbol{\Gamma}$; an inflation factor, $A > 1$; $\APP$ satisfying \eqref{DHKM:Refined_APP_err} 
+	\PARAM the bases $\{u_{\bsk}\}_{\bsk \in \N_0^d}$ and $\{v_{\bsk}\}_{\bsk \in \N_0^d}$; candidate sets $\calW$ and $\calS$ \DHKMchange{for product and smoothness weights}; maximum smoothness degree, $k_{\max}$; order weights, $\boldsymbol{\Gamma}$; an inflation factor, $A > 1$; $\APP$ satisfying \eqref{DHKM:Refined_APP_err} 
 		\INPUT a black-box function, $f$; an absolute error tolerance,
 		$\varepsilon>0$
 
 \Ensure Error criterion \eqref{DHKM:err_crit} for the cone defined in \eqref{DHKM:pilot_cone2}
-\State  Define the initial set of  wavenumbers $\bcalK$ defined in \eqref{DHKM:barKdef}
+\State  Define the initial set of wavenumbers $\bcalK$ defined in \eqref{DHKM:barKdef}
 \State Evaluate initial sample $\bigl\{\hf(\bsk)\bigr\}_{\bsk \in \bcalK}$
-\State Compute data-driven POSD weights, $\bar{\bslambda}$ according to \eqref{DHKM:eq:inf}
+\State Compute data-driven POSD weight $\bar{\bslambda}$\DHKMchange{, by iteratively optimizing over $\bsw \in \calW$ and $\bss \in \calS$ in \eqref{DHKM:eq:inf} until convergence}
 \State Using these weights, $\bar{\bslambda}$, perform Algorithm \ref{DHKM:PilotConeAlg} to obtain $\ALG(f,\varepsilon)$
 \RETURN $\ALG(f,\varepsilon)$
 \end{algorithmic}
@@ -1343,7 +1349,9 @@ Figures \ref{fig:four} (a) and (b) display the total required sample size from A
 \end{figure}
 
 \begin{acknowledgement}
-F.~J.~Hickernell, P.~Kritzer, and S.~Mak gratefully acknowledge the support of the Statistical and Applied Mathematical Sciences Institute year-long ``Program on Quasi-Monte Carlo and High-Dimensional Sampling Methods for Applied Mathematics'' through NSF-DMS-1638521.  F.~J.~Hickernell also acknowledges the support of NSF-DMS-152268.
+\DHKMchange{The authors would like to thank two anonymous referees for their suggestions which helped to improve the presentation of the results.}
+
+F.~J.~Hickernell, P.~Kritzer, and S.~Mak gratefully acknowledge the support of the Statistical and Applied Mathematical Sciences Institute year-long ``Program on Quasi-Monte Carlo and High-Dimensional Sampling Methods for Applied Mathematics'' through NSF-DMS-1638521.  F.~J.~Hickernell also acknowledges the support of NSF-DMS-1522687.
 F.~J.~Hickernell and P.~Kritzer thank the RICAM Special Semester Program 2018 for support. P.~Kritzer gratefully acknowledges support by the Austrian Science Fund (FWF) Project  F5506-N26, which is part of the Special Research Program ``Quasi-Monte Carlo Methods: Theory and Applications''.
 \end{acknowledgement}
 

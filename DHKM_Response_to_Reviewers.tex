@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym,amsfonts,amsmath,theorem,amssymb}
+
+\newcommand{\il}{\left\langle}
+\newcommand{\ir}{\right\rangle}
+\newcommand{\bsb}{{\boldsymbol{b}}}
+\newcommand{\bsc}{{\boldsymbol{c}}}
+\newcommand{\bsgamma}{{\boldsymbol{\gamma}}}
+\newcommand{\bseta}{{\boldsymbol{\eta}}}
+\newcommand{\bstau}{{\boldsymbol{\tau}}}
+\newcommand{\bsh}{{\boldsymbol{h}}}
+\newcommand{\bsp}{{\boldsymbol{p}}}
+\newcommand{\bsell}{{\boldsymbol{\ell}}}
+\newcommand{\bst}{{\boldsymbol{t}}}
+\newcommand{\bsr}{{\boldsymbol{r}}}
+\newcommand{\bsu}{{\boldsymbol{u}}}
+\newcommand{\bsv}{{\boldsymbol{v}}}
+\newcommand{\bsx}{{\boldsymbol{x}}}
+\newcommand{\bsq}{{\boldsymbol{q}}}
+\newcommand{\bsy}{{\boldsymbol{y}}}
+\newcommand{\bsz}{{\boldsymbol{z}}}
+\newcommand{\bsw}{{\boldsymbol{w}}}
+\newcommand{\bsS}{{\boldsymbol{S}}}
+\newcommand{\bsW}{{\boldsymbol{W}}}
+\newcommand{\bspitch}{{\boldsymbol{\,\pitchfork}}}
+\newcommand{\bszero}{{\boldsymbol{0}}}
+\newcommand{\bsone}{{\boldsymbol{1}}}
+\newcommand{\rd}{\,\mathrm{d}}
+\newcommand{\ri}{\mathrm{i}}
+\newcommand{\re}{\mathrm{e}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbZ}{\mathbb{Z}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calZ}{\mathcal{Z}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\tr}{{\tt T}}
+\renewcommand{\pmod}[1]{\,(\bmod\,#1)}
+\renewcommand{\mod}[1]{\,(\negthickspace\bmod #1)}
+\newcommand{\ns}{\negthickspace\negthickspace}
+\newcommand{\nns}{\negthickspace\negthickspace\negthickspace\negthickspace}
+\newcommand{\mask}[1]{}
+\newcommand{\esup}{\operatornamewithlimits{ess\,sup}}
+\newcommand{\einf}{\operatornamewithlimits{ess\,inf}}
+\newcommand{\e}{{\varepsilon}}
+\newcommand{\setu}{{\mathfrak{u}}}
+\newcommand{\setv}{{\mathfrak{v}}}
+\newcommand{\setw}{{\mathfrak{w}}}
+\newcommand{\setU}{{\mathfrak{U}}}
+\newcommand{\sob}{{\rm Sob}}
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\sset}{[s]}
+\newcommand{\To}{\rightarrow}
+\newcommand{\dimtr}{{\rm dim}^{\rm trnc}}
+\newcommand{\dimtrint}{{\rm dim}^{\rm trnc-int}}
+
+\begin{document}
+
+\begin{center}
+ 
+{\Large Response to the Reviewers of the Manuscript\\
+``Adaptive Approximation for Multivariate Linear Problems with Inputs Lying in a Cone''}
+\end{center}
+
+\medskip
+
+\noindent We would like to thank you for your careful reviews of our manuscript and your helpful comments. 
+
+Following the suggestions of one of the reviewers, we have restructured the introductory parts of the paper. Thereby, we address several of the remarks 
+made by both referees. 
+
+Below, we respond to the points made in your reports.
+
+\subsection*{Referee Report 1 ``Summary. The authors study \ldots '' (2 pages):}
+
+\begin{itemize}
+\item Remarks (1)--(4): done. 
+\item Remark (6): What we mean by "this example" is the example of functions defined over $[-1,1]^d$ with a Chebyshev polynomial basis. We reformulated this passage to make this point clearer. 
+\item Remarks (7), (8): Due to the new structure of the paper, we hope to have addressed these issues accordingly. 
+\item Remark (9): done. 
+\item Remarks (11), (12): Due to the new structure of the paper, we hope to have addressed these issues accordingly. 
+\item Remark (13): We put this definition into a separate paragraph. 
+\item Remark (14): done. 
+\item Remark (15): Due to the new structure of the paper, we hope to have addressed these issues accordingly. 
+\item Remark (16): done. 
+\item Remark (17): The motivation for defining this cone is stated in the beginning of the section, but we have reformulated this passage to make it clearer. 
+\item Remark (18): Thanks, we have provided further details in Algorithm 4 for the step ``Compute data-driven POSD weights'', as well as for the sentence around (41). With this, the adaptive procedure is better defined, and we believe it should be called an algorithm.
+\end{itemize}
+
+\subsection*{Referee Report 2 ``The paper studies \ldots'' (4 pages):}
+
+\begin{itemize}
+\item Major issues 1.a)--1.d), 2.a), 2.b): Done. We have modified the introduction, and re-organized it into two sections. 
+\item Remark (i): The ordering is not necessarily unique, as we might have weights 
+that are equal. 
+\item Remark (ii): the referee is correct. Thanks for pointing this out. 
+\item Remark (iii): done. 
+\item Remark (iv): The paper will be a chapter in a proceedings volume.
+\item Remark (vii): We changed ``Choosing" to ``Identifying".
+\item Remark (viii): Theoretically, we could simplify this as suggested by the reviewer; however, we would like to keep the influence of $\varepsilon$ and $R$ separate and explicit. 
+\item Remark (ix): We have kept this result as a theorem, but due to the re-structuring of the paper, it is no longer part of the introduction. 
+\item Remark (x): we have moved the contents of the previous Section 1.5 as suggested by the reviewer. 
+\item Remark (xi): done. 
+\item Remark (xix): Here, we mean a ``small number of coordinates in $f$ are important''. We have made this change in the paper.
+\item Remark (xx): These guiding principles help guide the inference of weights $\boldsymbol{\lambda}$ (and its corresponding cone $\calC_{\boldsymbol{\lambda},A}$) from initial data. We have added a sentence on this on page 29. 
+\item Remark (xxi): Thanks, the cone in equation (16) is now denoted as $\calC_{\boldsymbol{\lambda},A}$, and the data-inferred cone on page 30 is now denoted as $\bar{\calC}_A = \calC_{\bar{\boldsymbol{\lambda}},A}$.
+\item Remark (xxii): Yes, this is correct. We have added a sentence after equation (40) clarifying this.
+\item Remark (xxiii): The data-adaptive cone $\bar{\calC}$ is the earlier cone $\calC_{\boldsymbol{\lambda},A}$ in equation (16) with data-adaptive weights $\boldsymbol{\lambda} = \bar{\boldsymbol{\lambda}}$. We have clarified this in equation (42).
+
+\end{itemize}
+
+\bigskip 
+
+\bigskip
+
+\noindent With kind regards,\\[0.25cm]
+The authors, 
+
+\noindent Y. Ding, F.J. Hickernell, P. Kritzer, and S. Mak.
+
+
+\end{document}
