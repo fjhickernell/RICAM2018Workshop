@@ -152,7 +152,14 @@ We study the approximation of a solution operator $\SOL:\calF \to \calG$, which 
 \begin{equation} \label{DHKM:err_crit}
     \norm[\calG]{\SOL(f) - \ALG(f,\varepsilon)} \le \varepsilon \qquad \forall \varepsilon > 0, \ f \in \calC,
 \end{equation}
-where  $\varepsilon$ denotes the error tolerance.
+where  $\varepsilon$ denotes the error tolerance. Such an algorithm will  contain a rule for choosing $n$---depending on $f$ and $\varepsilon$.  The objectives of this chapter are to 
+\begin{itemize}
+    \item construct such a rule, 
+    \item choose a set $\calC$ of input functions for which the rule is valid,  
+    \item characterize the information cost of $\ALG$, 
+    \item determine whether $\ALG$ has optimal information cost, and 
+    \item understand the dependence of this cost on the number of input variables, $d$, as well as the error tolerance, $\varepsilon$.
+\end{itemize}
 
 We assume in this paper that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk}$, and we allow algorithms $\ALG (f,\varepsilon)$ to use $n=n(f,\varepsilon)$ coefficients $\hf (\bsk)$ of this representation. I.e., 
 we will study algorithms which have an output of the form 
@@ -224,6 +231,10 @@ Section \ref{DHKM:smoothimportance_sec} considers the case where the most suitab
 \section{Problem Formulation and an Illustrative Example}\label{DHKM:secprobdef}
 
 \PeterNote{Can we find a better heading for this section?}
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{General problem formulation}
@@ -310,6 +321,8 @@ We assume throughout this chapter that the weights are chosen to keep this norm 
 The $\lambda_{\bsk}$ are assumed to have a known order, and
 we also assume that all $\lambda_{\bsk}$ are  positive to avoid the trivial case where $\SOL(f)$ can be expressed exactly as a finite sum for all $f \in \calF$.
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{An Illustrative Example}\label{DHKM:secexamp}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -347,17 +360,10 @@ The error of this approximation in terms of the norm on the output space, $\calG
 If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer \DHKMchange{for certain classes of inputs in $\calF$ as for example balls, which 
 are among the most prominent examples studied in the literature}.  
 
-However, our goal is to choose a set $\calC$ of input functions and an algorithm $\ALG(f,\varepsilon)$ on $\calC$ that satisfies the error criterion \eqref{DHKM:err_crit}.  Such an algorithm will be adaptive, so that $\ALG(f,\varepsilon) = \APP(f,n)$.  The objectives of this chapter are to 
-\begin{itemize}
-    \item construct such a rule, 
-    \item characterize the information cost of $\ALG$, 
-    \item determine whether $\ALG$ has optimal information cost, and 
-    \item understand the dependence of this cost on the number of input variables, $d$, as well as the error tolerance, $\varepsilon$.
-\end{itemize}
 \PeterNote{Should we keep the list of questions in this extensive form?}
+\YuhanNote{I moved it to introduction}
 
-We return \DHKMchange{to the example of functions on $[-1,1]^d$, using a Chebyshev polynomial basis}, in Section \ref{DHKM:revisexamp} to discuss the answers to some of these questions.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
-
+We return \DHKMchange{to the example of functions on $[-1,1]^d$, using a Chebyshev polynomial basis}, in Section \ref{DHKM:SecPilotTract} to discuss the computational cost and complexity.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
 
 
 
@@ -464,9 +470,6 @@ For a given set of input functions, $\calC$, if  $\calA(\calC)$ contains any non
     \COMP(\calA(\calC),\varepsilon) : = \sup_{R > 0} \COMP(\calA(\calC),\varepsilon, R) < \infty.
 \end{equation*}
 \end{lemma}
-
-
-
 
 
 
@@ -697,7 +700,7 @@ Suppose, $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$, we have
 Rearrange the terms, we obtain
 \begin{align*}
 \norm[\calF']{f}^\rho & \le \frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \\
- \iff	\norm[\calF']{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
+ \iff	\norm[\calF]{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
 \end{align*}
 Hence, if $A \ge \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \text{ and } \omega_{n_1+1}A' < 1,$
 we obtain $\calC_{\boldsymbol{\lambda}, A}
@@ -708,7 +711,7 @@ we obtain $\calC_{\boldsymbol{\lambda}, A}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tractability}\label{DHKM:SecPilotTract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\DHKMchange{
 Besides understanding the dependence of $\COMP(\calA(\calC), \varepsilon,R)$ on $\varepsilon$, we also want to understand how $\COMP(\calA(\calC), \varepsilon,R)$ depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  
 The set of functions for which our algorithms succeed, $\calC_d$, depends on the dimension, too.  Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
 
@@ -781,6 +784,7 @@ Hence, substituting the above upper bound on $\lambda_{\bsk_{n+1}}$ into the for
 \end{align*}
 
 If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $p^* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calA(\calB_{R}),\varepsilon,R) \ge 2^d$, and the problem is not tractable.
+}
 
 In this section, we write $\calC_d$ instead of $\DHKMchange{\calC_{\boldsymbol{\lambda},A}}$, to stress the dependence on $d$, and for the same reason we write $\lambda_{d,\bsk_i}$ instead of $\lambda_{\bsk_i}$. Recall that we assume that 
 $\lambda_{d,\bsk_1}\ge \lambda_{d,\bsk_2}\ge \cdots >0$. Let 
@@ -910,20 +914,20 @@ To be more concrete, we consider the situation where the $\lambda_{\bsk}$ are sp
 \lambda_{d,\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \NN_0^d, \ d \in \NN.
 \end{equation}
 This is a generalization of the example in Section \ref{DHKM:secexamp}, where $s_{k} = k^{-r}$.  This form of the $\lambda_{d,\bsk}$ is considered in greater detail in Section \ref{DHKM:smoothimportance_sec}.
-The same argument as in Section \ref{DHKM:revisexamp} implies that the sum of the $\lambda_{d,\bsk_i}^\eta$ is bounded above as
+The same argument as \DHKMchange{stated above} implies that the sum of the $\lambda_{d,\bsk_i}^\eta$ is bounded above as
 \[
 \sum_{i=1}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} \le \exp\left(\sum_{k=1}^\infty s_k^\eta \sum_{\ell = 1}^{d} w_\ell^{\eta} \right)\le \exp\left(\sum_{k =1 }^{\infty} s_k^\eta \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right). 
 \]
 Moreover, it also follows that for any fixed positive integer $i_0$, the sum of the $\lambda_{d,\bsk_i}^\eta$ is bounded below as
 \begin{align*}
-    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge w_1^\eta \sum_{k=i_0}^{\infty}s_{\kappa_i}^{\eta} \qquad \parbox{6cm}{considering only $\bsk_i$ of the form $(k, 0, 0, \ldots, 0)$, \\
-    and ordering $\bss$ so that $s_{\kappa_1} \ge s_{\kappa_2} \ge \cdots$,} \\
+    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge w_1^\eta \sum_{\DHKMchange{i=i_0}}^{\infty}s_{\DHKMchange{k_i}}^{\eta} \qquad \parbox{8cm}{considering only $\bsk_i$ of the form $(k, 0, 0, \ldots, 0)$, \\
+    and ordering $\bss$ so that $\DHKMchange{s_{k_1} \ge s_{k_2} \ge \cdots}$,} \\
     \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge  s_{1}^{\eta} \sum_{i=i_0}^{\infty} w_{\ell_i}^\eta
-    \qquad %\text{for } d \ge i_0 
-    \\
-    & \qquad \parbox{8cm}{considering only $\bsk_i$ of the form  $(0, \ldots, 0,1,0 , \ldots, 0)$,\\ 
-    where the non-zero component is at the $\ell$-th  position with \\
-    $i_0\le \ell \le d$, and ordering $\bsw$ so that $w_{\ell_1} \ge w_{\ell_2} \ge \cdots$.}
+    %\qquad %\text{for } d \ge i_0 
+    %\\ &
+    \qquad \parbox{8cm}{considering only $\bsk_i$ of the form\\  $(0, \ldots, 0,1,0 , \ldots, 0)$,
+    where the non-zero\\ component is at the $\ell$-th   position with 
+    $i_0\le \ell \le d$,\\ and ordering $\bsw$  so that $w_{\ell_1} \ge w_{\ell_2} \ge \cdots$.}
 \end{align*}
 Thus, we have necessary and sufficient conditions for strong tractability.
 \begin{corollary} \label{DHKM:sptexample_cor}
@@ -933,6 +937,12 @@ For the $\lambda_{d,\bsk}$ of the form \eqref{DHKM:prodwts} we have strong polyn
     \sum_{k=1}^\infty s_{k}^\eta < \infty \text{ and } 
     \sum_{\ell = 1}^{\infty} w_\ell^{\eta} < \infty.
 \end{equation*}
+\DHKMchange{In particular, considering example in Section \ref{DHKM:secexamp}, where $s_{k} = k^{-r}$, we have strong polynomial tractability if and only if there exists $\eta> 0 $ such that
+\begin{equation*}
+%\label{DHKM:sptexample}
+   r \eta > 1 \text{ and } 
+    \sum_{\ell = 1}^{\infty} w_\ell^{\eta} < \infty.
+\end{equation*}}
 \end{corollary}
 
 \begin{remark}
@@ -987,7 +997,7 @@ If $f$ belongs to the $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ defined i
     & \le \bignorm[\rho]{\bigl(\sigma_1(f), ab \sigma_1(f), ab^2 \sigma_1(f), \ldots \bigr)} \\
     & = \left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}  \norm[\rho]{\biggl(\frac{\hf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_1}}.
 \end{align*}
-Comparing this inequality to the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ in the previous section, it can be seen that  $\DHKMchange{\calC_{\boldsymbol{\lambda},A}} $ defined in \eqref{DHKM:TrackConeDef} is a subset of  $\calC$ defined in \eqref{DHKM:pilot_cone} if we choose 
+Comparing this inequality to the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ in the previous section, it can be seen that $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $  defined in \eqref{DHKM:TrackConeDef} is a subset of  $\DHKMchange{\calC_{\boldsymbol{\lambda},A}} $defined in \eqref{DHKM:pilot_cone} if we choose 
 $A=\left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}$ in \eqref{DHKM:pilot_cone}.
 
 
