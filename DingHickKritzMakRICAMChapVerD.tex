@@ -1116,7 +1116,7 @@ We also assume that the ratio of the largest to smallest $\lambda_{\bsk}$ in a g
 \begin{equation} \label{DHKM:MinMaxCond}
     \sup_{j \in \N} \frac{\lambda_{\bsk_{n_{j-1}+1}}}{\lambda_{\bsk_{n_{j}}}} \le S_1 < \infty.
 \end{equation}
-For the illustrative choices of $(n_j)_{j \in \N_0}$ and $\bigl(\bsk_i \bigr)_{i \in \N}$ preceding Section \ref{DHKM:SecAdapAlgTrackDecay} this assumption holds.  Let $\card(\cdot)$ denote the cardinality of a set. We assume that if $\calJ$ is an arbitrary set of wavenumbers with $\card(\calJ) \le n_j$, then there exists some $l \le n_{j+1}$ for which $\calK_l \setminus \calJ$ retains some significant fraction of the original $\calK_l$ elements: 
+For the illustrative choices of $(n_j)_{j \in \N_0}$ and $\bigl(\bsk_i \bigr)_{i \in \N}$ preceding Section \ref{DHKM:SecAdapAlgTrackDecay} this assumption holds.  Let $\card(\cdot)$ denote the cardinality of a set. We assume that if $\calJ$ is an arbitrary set of wavenumbers with $\card(\calJ) \le n_j$, then there exists some $l \le \DHKMchange{j+1}$ for which $\calK_l \setminus \calJ$ retains some significant fraction of the original $\calK_l$ elements: 
 \begin{equation} \label{DHKM:PropCond}
      \inf_{j \in \N} \ \min_{\calJ \subset \bbK \, : \, \card(\calJ) \le n_j} \ \max_{0 \le l \le j+1} \frac{\card(\calK_l \setminus \calJ)}{\card(\calK_l)} \ge S_2 > 0.
 \end{equation}
