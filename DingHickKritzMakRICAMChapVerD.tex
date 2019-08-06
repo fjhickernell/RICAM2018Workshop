@@ -142,13 +142,13 @@
 
 In many situations, adaptive algorithms can be rigorously shown to perform \emph{essentially no better} than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from stipulating the computational effort required to achieve the desired accuracy.  The key to resolving this seeming contradiction is to construct a theory based on assumptions that favor adaptive algorithms. We do that here.
 
-Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex} \DHKMchange{or \emph{non-symmetric}}. \DHKMchange{Here we focus on the former situation and} construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones. \DHKMchange{By a cone, we mean a set of functions satisfying that for each element also all its multiples lie in the set. We will study different variants of cone here, the precise definitions will be given below.}
+Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex} \DHKMchange{or \emph{non-symmetric}}. \DHKMchange{Here we focus on the former situation and} construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones. \DHKMchange{By a cone, we mean a set of functions where constant multiples of every element in the set also lie in the set. We study different variants of cone here, the precise definitions are given below.}
 
-Our algorithms use a finite number of series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable, i.e., the information cost of constructing the approximate solution does not increase exponentially with the dimension of the input function domain.  In the remainder of this section we outline the general idea of the paper. 
+Our algorithms use a finite number of series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable, i.e., the information cost of constructing the approximate solution does not increase exponentially with the dimension of the input function domain.  In the remainder of this section we outline the general idea of this chapter. 
 
 
 
-We study the approximation of a solution operator $\SOL:\calF \to \calG$, which maps $f\in\calF$ to some $g\in\calG$, where we assume that $\calF$ and and $\calG$ are Banach spaces with norms $\norm[\calF]{\cdot}$ and $\norm[\calG]{\cdot}$, respectively. Our goal is to define a suitable set of input functions $\calC$, and an algorithm $\ALG(f,\varepsilon)$ for $f\in\calC$ that satisfies the error criterion
+We study the approximation of a linear solution operator $\SOL:\calF \to \calG$, which maps $f\in\calF$ to some $g\in\calG$, where we assume that $\calF$ and and $\calG$ are Banach spaces with norms $\norm[\calF]{\cdot}$ and $\norm[\calG]{\cdot}$, respectively. Our goal is to define a suitable set of input functions $\calC$, and an algorithm $\ALG(f,\varepsilon)$ for $f\in\calC$ that satisfies the error criterion
 \begin{equation} \label{DHKM:err_crit}
     \norm[\calG]{\SOL(f) - \ALG(f,\varepsilon)} \le \varepsilon \qquad \forall \varepsilon > 0, \ f \in \calC,
 \end{equation}
@@ -161,21 +161,18 @@ where  $\varepsilon$ denotes the error tolerance. Such an algorithm will  contai
     \item understand the dependence of this cost on the number of input variables, $d$, as well as the error tolerance, $\varepsilon$.
 \end{itemize}
 
-We assume in this paper that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk}$, and we allow algorithms $\ALG (f,\varepsilon)$ to use $n=n(f,\varepsilon)$ coefficients $\hf (\bsk)$ of this representation. I.e., 
-we will study algorithms which have an output of the form 
+We assume in this chapter that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk}$, and we allow algorithms $\ALG (f,\varepsilon)$ to use $n=n(f,\varepsilon)$ coefficients $\hf (\bsk)$ of this representation. That is, 
+we study algorithms that have an output of the form 
 \begin{equation*} 
   \sum_{i=1}^{n(f,\varepsilon)}\hf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n \in \N,
 \end{equation*}
 where an oracle provides $\hf(\bsk_1),\ldots,\hf (\bsk_{n(f,\varepsilon)})$ 
 with $n(f,\varepsilon)$ being chosen based on a stopping rule. 
-I.e., we assume that it is possible to sample the series coefficients of the input function.  This is a \DHKMchange{more} restrictive assumption than being able to sample any linear functional, but it is \DHKMchange{less} restrictive than only being able to sample function values.  An important future problem is to extend the theory in this chapter to the case where the only function data available are function values.
+We assume that it is possible to sample the series coefficients of the input function.  This is a \DHKMchange{more} restrictive assumption than being able to sample any linear functional, but it is \DHKMchange{less} restrictive than only being able to sample function values.  An important future problem is to extend the theory in this chapter to the case where the only function data available are function values.
 
-We call an algorithm \emph{non-adaptive} if it is such that $n(f,\varepsilon)=n(\varepsilon)$, independently of the particular choice of $f\in\calC$. 
-
-The information cost of $\ALG(f,\varepsilon)$ is denoted $\COST(\ALG,f,\varepsilon)$ and defined as the number of function data---in our situation, series coefficients---required by $\ALG(f,\varepsilon)$.  For adaptive algorithms this cost varies with the input function $f$.  
+The information cost of $\ALG(f,\varepsilon)$ is denoted $\COST(\ALG,f,\varepsilon)$ and defined as the number of function data---in our situation, series coefficients---required by $\ALG(f,\varepsilon)$.  For adaptive algorithms this cost varies with the input function $f$.  We call an algorithm \emph{non-adaptive} if $n(f,\varepsilon)=n(\varepsilon)$, independently of the particular choice of $f\in\calC$. 
 
 In the following, let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.
-
 We now define the information cost of the algorithm in general, recognizing that it will tend to depend on $\norm[\calF]{f}$:
 \begin{equation*}
     \COST(\ALG, \calC, \varepsilon,R) : = \max_{f \in \calC \cap \calB_{R}} \COST(\ALG,f,\varepsilon).
@@ -185,7 +182,6 @@ Note that while the cost depends on $\norm[\calF]{f}$, $\ALG(f,\varepsilon)$ has
 \medskip
 
 \DHKMchange{A crucial concept is the set of all possible algorithms that may be constructed using series coefficients and that \emph{satisfy error criterion \eqref{DHKM:err_crit}}. We denote this set by $\calA(\calC)$. }
-
 Furthermore, we define the \emph{computational complexity} of a problem as the information cost of the best algorithm:
 \begin{equation*}
     \COMP(\calA(\calC), \varepsilon,R) := \min_{\ALG \in \calA(\calC)} \COST(\ALG, \calC, \varepsilon,R) .
@@ -198,22 +194,22 @@ We define an algorithm to be \emph{essentially optimal} if there exist some fixe
 If the complexity of the problem is $\calO(\varepsilon^{-p})$, the cost of an essentially optimal algorithm is also $\calO(\varepsilon^{-p})$. If the complexity of the problem is asymptotically $c \log(1 + \varepsilon^{-1})$, then  the cost of an essentially optimal algorithm is also asymptotically $c \log(1 + \varepsilon^{-1})$. 
 We will show that our adaptive algorithms presented in Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}  are essentially optimal.
 
-We will demonstrate below that non-adaptive algorithms are optimal when the set of inputs is chosen to be $\calC = \calB_R$. However, typically one cannot bound the norm of the input function a priori, so non-adaptive algorithms may be impractical. 
-  This will lead to \emph{adaptive} algorithms $\ALG$ satisfying error criterion \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}, not a ball. By a cone, we mean a set of functions satisfying that for each element also all its multiples lie in the set. We will study different variants of cones in different sections of this paper. The first definition of a cone will be given in \eqref{DHKM:pilot_cone}, 
+We demonstrate below that non-adaptive algorithms are optimal when the set of inputs is chosen to be $\calC = \calB_R$. However, typically one cannot bound the norm of the input function a priori, so non-adaptive algorithms may be impractical. 
+This will lead to \emph{adaptive} algorithms $\ALG$ satisfying error criterion \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}, not a ball. By a cone, we mean a set of functions where the constant multiples of each element of the set also lie in the set. We study different variants of cones in different sections of this chapter. The first definition of a cone is given in \eqref{DHKM:pilot_cone}, 
 where the idea is that the consists of $f\in\calF$ such that 
 $$
   \norm[\calF]{f}\le h (\hf(\bsk_1),\ldots,\hf (\bsk_{n_1}))
 $$
 for a suitably chosen homogeneous function $h:\bbR\to [0,\infty)$. This means that the norm of $f$ can be bounded well in terms of 
-a \emph{pilot sample} of size $n_1\in\bbN$, see \eqref{DHKM:pilot_cone} for the precise definition. In Section \ref{DHKM:SecAdapAlgTrackDecay}, we will modify the definition of cones such that we can keep track of the decay rate of the series coefficients of the input function (see \eqref{DHKM:TrackConeDef}), 
+a \emph{pilot sample} of size $n_1\in\bbN$. See \eqref{DHKM:pilot_cone} for the precise definition. In Section \ref{DHKM:SecAdapAlgTrackDecay}, we will modify the definition of cones such that we can keep track of the decay rate of the series coefficients of the input function (see \eqref{DHKM:TrackConeDef}), 
 and in Section \ref{DHKM:smoothimportance_sec} we allow a situation 
 where we infer coordinate and smoothness importance from some initial data, thus making the definition of the cone more practical (see  
 \eqref{DHKM:pilot_cone2}).
 
-Note that algorithms satisfying error criterion \eqref{DHKM:err_crit} cannot exist for $\calC = \calF$. Any algorithm must require a finite sample size, even if it is huge.  Then, there must exist some $f \in \calF$ that looks exactly like the zero function to the algorithm but for which $\norm[\calG]{\SOL(f)}$ is arbitrarily large.  Thus, algorithms satisfying the error criterion  exist only for some strict subset of $\calF$.  Identifying that subset is both an art and a science.
+Note that algorithms satisfying error criterion \eqref{DHKM:err_crit} cannot exist for $\calC = \calF$. Any algorithm must require a finite sample size, even if it is huge.  Then, there must exist some $f \in \calF$ that looks exactly like the zero function to the algorithm but for which $\norm[\calG]{\SOL(f)}$ is arbitrarily large.  Thus, algorithms satisfying the error criterion  exist only for some strict subset of $\calF$, such as a ball or a cone.  Identifying that subset is both an art and a science.
 
 
-The rest of the paper is structured as follows. In the next section, we will formulate our problem more formally, and we point out some results for non-adaptive algorithms with inputs from balls. Furthermore, we illustrate our theory by 
+The rest of this chapter is structured as follows. In the next section, we formulate our problem more formally, and we point out some results for non-adaptive algorithms with inputs from balls. Furthermore, we illustrate our theory by 
 a particular example, and mention some definitions regarding \emph{tractability}. 
 
 
@@ -228,16 +224,16 @@ Section \ref{DHKM:smoothimportance_sec} considers the case where the most suitab
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Problem Formulation and an Illustrative Example}\label{DHKM:secprobdef}
+\section{General Setting}\label{DHKM:secprobdef}
 
 \PeterNote{Can we find a better heading for this section?}
-
+\FredNote{How about the above?}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{General problem formulation}
+\subsection{Problem formulation}
 
 Now, we define our problem more formally.  The solution operator $\SOL$ maps the input function to an output, $\SOL:\calF \to \calG$.  The Banach spaces of inputs and outputs are defined by series expansions:
 \DHKMchange{
@@ -248,7 +244,7 @@ and
 \begin{gather*}
     \calG := \left \{g = \sum_{\bsk \in \mathbb{K}} \hg(\bsk) v_{\bsk} : \norm[\calG]{g} : = \norm[\tau]{\bigl(  \hg(\bsk)  \bigr)_{\bsk \in \mathbb{K}}} < \infty \right\}, \quad\mbox{with}\quad 1 \le \tau \le \rho.
 \end{gather*}
-}
+}%
 Here, $\{u_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the input Banach space $\calF$, and $\{v_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the output Banach space $\calG$, $\mathbb{K}$ is a countable index set, and $\bslambda = (\lambda_\bsk)_{\bsk \in \mathbb{K}}$ is the sequence of weights. These bases are defined to match the solution operator:
 \begin{equation} \label{DHKM:basis_relate}
     \SOL(u_{\bsk}) = v_{\bsk} \qquad \forall \bsk \in \mathbb{K}.
@@ -360,8 +356,8 @@ The error of this approximation in terms of the norm on the output space, $\calG
 If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer \DHKMchange{for certain classes of inputs in $\calF$ as for example balls, which 
 are among the most prominent examples studied in the literature}.  
 
-\PeterNote{Should we keep the list of questions in this extensive form?}
-\YuhanNote{I moved it to introduction}
+%\PeterNote{Should we keep the list of questions in this extensive form?}
+%\YuhanNote{I moved it to introduction}
 
 We return \DHKMchange{to the example of functions on $[-1,1]^d$, using a Chebyshev polynomial basis}, in Section \ref{DHKM:SecPilotTract} to discuss the computational cost and complexity.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
 
@@ -660,7 +656,7 @@ If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \n
 
 
 \DHKMchange{Let's consider an alternative cone, i.e.,
-\[\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}=\{ f \in \cf : \norm[\calF]{f} \le A'\norm[\calF']{f}\},\]
+\[\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\},\]
 where
 $\norm[\calF']{f} =\norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk}}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}}$ and $\omega_{\bsk}$ decreases. 
 \begin{proposition}
@@ -693,7 +689,7 @@ Suppose, $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$, we have
     \norm[\calF']{f}^\rho- \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho 
 	& = \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=n_1 + 1}^{\infty}}^\rho 
      \le \omega_{n_1+1}^\rho \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=n_1 + 1}^{\infty}}^\rho \\
-     & = \omega_{n_1+1}^\rho \left[ \norm[\cf]{f}^\rho - \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ]\\	
+     & = \omega_{n_1+1}^\rho \left[ \norm[\calF]{f}^\rho - \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ]\\	
      & \le \omega_{n_1+1}^\rho \left[ A'{}^\rho \norm[\calF']{f}^\rho - \omega_1^{-\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ].
 \end{align*}
 Rearrange the terms, we obtain
