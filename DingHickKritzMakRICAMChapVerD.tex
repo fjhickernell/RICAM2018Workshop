@@ -148,7 +148,7 @@ Our algorithms use a finite number of series coefficients of the input function 
 
 
 
-We study the approximation of a linear solution operator $\SOL:\calF \to \calG$, which maps $f\in\calF$ to some $g\in\calG$, where we assume that $\calF$ and and $\calG$ are Banach spaces with norms $\norm[\calF]{\cdot}$ and $\norm[\calG]{\cdot}$, respectively. Our goal is to define a suitable set of input functions $\calC$, and an algorithm $\ALG(\cdot,\cdot):\calC \times (0,\infty) \to \calG$ that satisfies the error criterion:
+We study the approximation of a linear solution operator $\SOL:\calF \to \calG$, which maps $f\in\calF$ to some $g\in\calG$, where we assume that $\calF$ and $\calG$ are Banach spaces with norms $\norm[\calF]{\cdot}$ and $\norm[\calG]{\cdot}$, respectively. Our goal is to define a suitable set of input functions $\calC$, and an algorithm $\ALG(\cdot,\cdot):\calC \times (0,\infty) \to \calG$ that satisfies the error criterion:
 \begin{equation} \label{DHKM:err_crit}
     \norm[\calG]{\SOL(f) - \ALG(f,\varepsilon)} \le \varepsilon \qquad \forall \varepsilon > 0, \ f \in \calC,
 \end{equation}
@@ -647,14 +647,14 @@ The above derivation assumes that $A > 1$.  If $A =1$, then our cone consists of
 If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \notin \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, and Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  The remedy is to make $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ more inclusive by increasing the inflation factor, $A$, and/or the pilot sample size, $n_1$.
 
 
-\DHKMchange{Let's consider an alternative cone, i.e.,
+\DHKMchange{Let us consider an alternative cone, i.e.,
 \begin{equation} \label{DHKM:altconedef}
     \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\},
 \end{equation}
 where
 $\norm[\calF']{f} =\norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk}}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}}$ and $\omega_{\bsk}$ decreases. The norm $\norm[\calF']{\cdot}$ is weaker than the norm $\norm[\calF]{\cdot}$, so this cone is defined as the subset of $\calF$ for which the weaker norm of the function  provides an upper bound the stronger norm of the function.  The following proposition describes the relationship between the cones defined in \eqref{DHKM:pilot_cone} and \eqref{DHKM:altconedef}.
 \begin{proposition}
-If there exists $A,A',A'', n_1,$ and $\boldsymbol{\omega}$ such that
+If there exist $A,A',A'', n_1,$ and $\boldsymbol{\omega}$ such that
 \[\omega_{n_1} A'' \ge A \ge \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \text{ and} \qquad  \omega_{n_1+1}A' < 1, \]
 then 
 \[\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}
@@ -665,10 +665,10 @@ then
 \end{proposition}
 
 \begin{proof}
-Let's prove $\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}
+Let us prove $\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}
 \subseteq 
 \calC_{\boldsymbol{\lambda}, A}$ at first.
-Suppose $f \in \calC_{\boldsymbol{\lambda}, A}$, then by definition, we have
+Suppose $f \in \calC_{\boldsymbol{\lambda}, A}$, then by definition we have
 \begin{align*}
     \norm[\calF]{f} &\le A \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk = 1} ^{ n_1}}
      \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk}}{\lambda_{\bsk}} \right)_{\bsk =1} ^{n_1}}
@@ -677,8 +677,8 @@ Suppose $f \in \calC_{\boldsymbol{\lambda}, A}$, then by definition, we have
 Thus, if $A'' \ge A\omega_{n_1}^{-1}$, i.e. $\omega_{n_1} A'' \ge A $,
 we obtain $\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$.
 
-Next, we show the rest part.
-Suppose, $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$, we have
+For the proof of the remaining part, 
+suppose $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$. Then we have
 \begin{align*}
     \norm[\calF']{f}^\rho- \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho 
 	& = \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=n_1 + 1}^{\infty}}^\rho 
@@ -686,7 +686,7 @@ Suppose, $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$, we have
      & = \omega_{n_1+1}^\rho \left[ \norm[\calF]{f}^\rho - \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ]\\	
      & \le \omega_{n_1+1}^\rho \left[ A'{}^\rho \norm[\calF']{f}^\rho - \omega_1^{-\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ].
 \end{align*}
-Rearrange the terms, we obtain
+Rearranging the terms, we obtain
 \begin{align*}
 \norm[\calF']{f}^\rho & \le \frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \\
  \iff	\norm[\calF]{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
@@ -708,12 +708,14 @@ we obtain $\calC_{\boldsymbol{\lambda}, A}
 Before we revisit the example in Section \ref{DHKM:secexamp}, we introduce several lemmas.
 
 \begin{lemma}\label{DHKM:lambdineq}
-Consider the ordering weights,
+Consider the ordered weights,
 $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0,$
-we have for $p>0$
+then we have for $p>0$,
 \[ \sum_{i=1}^\infty \lambda_{d,\bsk_{i}}^p \le \frac{1}{n^{1/p}}
-\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p\right)^{1/p}\]
+\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p\right)^{1/p}\].
 \end{lemma}
+\PeterNote{It seems to me that on the left-hand side of the 
+above inequality we need $\lambda_{\bsk_{n+1}}^p$, right?}
 \begin{proof}
 As $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0$, we obtain for $p>0$
 \begin{align*}
@@ -722,7 +724,7 @@ As $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0$, we obtain for $p>
     + \lambda_{\bsk_{n}}^p  \le \sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p \\
     \Longleftrightarrow 
     \lambda_{\bsk_{n+1}}&  \le \frac{1}{n^{1/p}}
-\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p \right)^{1/p}
+\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p \right)^{1/p}.
 \end{align*}
 \end{proof}
 
