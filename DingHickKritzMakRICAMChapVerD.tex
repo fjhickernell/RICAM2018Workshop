@@ -110,11 +110,11 @@
   \abstract{We study adaptive approximation algorithms for general multivariate linear 
   problems where the sets of input functions are non-convex cones. While it is known that adaptive algorithms perform 
   essentially no better than non-adaptive algorithms for \DHKMchange{convex and symmetric} input sets, the 
-  situation may be different for non-convex sets. A typical example
+  situation may be different for non-convex sets. \DHKMchange{The setting} 
   considered here is function approximation based on series expansions. Given 
   an error tolerance, we use series coefficients of the input to construct an 
   approximate solution such that the error does not exceed this tolerance. We study the situation where we can bound the norm of the input based on a pilot sample, and the situation where we keep track of the decay rate of the series coefficients of the input. Moreover, 
-  we consider situations where it makes sense to infer coordinate and smoothness importance. Besides performing an error analysis, we also study the information cost of our algorithms and the computational complexity 
+  we consider situations where it makes sense to infer coordinate and smoothness importance. Besides performing an error analysis, we also \DHKMchange{derive upper bounds on} the information cost of our algorithms and \DHKMchange{lower bounds on} the computational complexity 
   of our problems, and we identify conditions under which we can avoid a curse of 
   dimensionality.}
   %\keywords{...}
@@ -142,17 +142,17 @@
 
 In many situations, adaptive algorithms can be rigorously shown to perform \emph{essentially no better} than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from stipulating the computational effort required to achieve the desired accuracy.  The key to resolving this seeming contradiction is to construct a theory based on assumptions that favor adaptive algorithms. We do that here.
 
-Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex} \DHKMchange{or \emph{non-symmetric}}. \DHKMchange{Here we focus on the former situation and} construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones. \DHKMchange{By a cone, we mean a set of functions where constant multiples of every element in the set also lie in the set. We study different variants of cone here, the precise definitions are given below.}
+Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex} \DHKMchange{or \emph{non-symmetric}}. \DHKMchange{Here we focus on the former situation and} construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones. \DHKMchange{By a cone, we mean a set of functions where constant multiples of every function in the set also lie in the set. The precise definitions of the cones that we study are given below.}
 
 Our algorithms use a finite number of series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable, i.e., the information cost of constructing the approximate solution does not increase exponentially with the dimension of the input function domain.  In the remainder of this section we outline the general idea of this chapter. 
 
 
 
-We study the approximation of a linear solution operator $\SOL:\calF \to \calG$, which maps $f\in\calF$ to some $g\in\calG$, where we assume that $\calF$ and and $\calG$ are Banach spaces with norms $\norm[\calF]{\cdot}$ and $\norm[\calG]{\cdot}$, respectively. Our goal is to define a suitable set of input functions $\calC$, and an algorithm $\ALG(f,\varepsilon)$ for $f\in\calC$ that satisfies the error criterion
+We study the approximation of a linear solution operator $\SOL:\calF \to \calG$, which maps $f\in\calF$ to some $g\in\calG$, where we assume that $\calF$ and and $\calG$ are Banach spaces with norms $\norm[\calF]{\cdot}$ and $\norm[\calG]{\cdot}$, respectively. Our goal is to define a suitable set of input functions $\calC$, and an algorithm $\ALG(\cdot,\cdot):\calC \times (0,\infty) \to \calG$ that satisfies the error criterion:
 \begin{equation} \label{DHKM:err_crit}
     \norm[\calG]{\SOL(f) - \ALG(f,\varepsilon)} \le \varepsilon \qquad \forall \varepsilon > 0, \ f \in \calC,
 \end{equation}
-where  $\varepsilon$ denotes the error tolerance. Such an algorithm will  contain a rule for choosing $n$---depending on $f$ and $\varepsilon$.  The objectives of this chapter are to 
+where  $\varepsilon$ denotes the error tolerance. Such an algorithm will  contain a rule for choosing the number of series coefficients required, $n(f,\varepsilon)$, which depends on $f$ and $\varepsilon$.  The objectives of this chapter are to 
 \begin{itemize}
     \item construct such a rule, 
     \item choose a set $\calC$ of input functions for which the rule is valid,  
@@ -164,13 +164,13 @@ where  $\varepsilon$ denotes the error tolerance. Such an algorithm will  contai
 We assume in this chapter that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk}$, and we allow algorithms $\ALG (f,\varepsilon)$ to use $n=n(f,\varepsilon)$ coefficients $\hf (\bsk)$ of this representation. That is, 
 we study algorithms that have an output of the form 
 \begin{equation*} 
-  \sum_{i=1}^{n(f,\varepsilon)}\hf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n \in \N,
+  \ALG(f,\varepsilon) = \sum_{i=1}^{n(f,\varepsilon)}\hf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n \in \N,
 \end{equation*}
 where an oracle provides $\hf(\bsk_1),\ldots,\hf (\bsk_{n(f,\varepsilon)})$ 
 with $n(f,\varepsilon)$ being chosen based on a stopping rule. 
 We assume that it is possible to sample the series coefficients of the input function.  This is a \DHKMchange{more} restrictive assumption than being able to sample any linear functional, but it is \DHKMchange{less} restrictive than only being able to sample function values.  An important future problem is to extend the theory in this chapter to the case where the only function data available are function values.
 
-The information cost of $\ALG(f,\varepsilon)$ is denoted $\COST(\ALG,f,\varepsilon)$ and defined as the number of function data---in our situation, series coefficients---required by $\ALG(f,\varepsilon)$.  For adaptive algorithms this cost varies with the input function $f$.  We call an algorithm \emph{non-adaptive} if $n(f,\varepsilon)=n(\varepsilon)$, independently of the particular choice of $f\in\calC$. 
+The information cost of $\ALG(f,\varepsilon)$ is denoted $\COST(\ALG,f,\varepsilon)$ and defined as the number of function data---in our situation, series coefficients---required by $\ALG(f,\varepsilon)$, i.e., $\COST(\ALG,f,\varepsilon) = n(f,\varepsilon)$.  For adaptive algorithms this cost varies with the input function $f$.  We call an algorithm \emph{non-adaptive} if $n(f,\varepsilon)=n(\varepsilon)$, independently of the particular choice of $f\in\calC$. 
 
 In the following, let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.
 We now define the information cost of the algorithm in general, recognizing that it will tend to depend on $\norm[\calF]{f}$:
@@ -195,8 +195,8 @@ If the complexity of the problem is $\calO(\varepsilon^{-p})$, the cost of an es
 We will show that our adaptive algorithms presented in Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}  are essentially optimal.
 
 We demonstrate below that non-adaptive algorithms are optimal when the set of inputs is chosen to be $\calC = \calB_R$. However, typically one cannot bound the norm of the input function a priori, so non-adaptive algorithms may be impractical. 
-This will lead to \emph{adaptive} algorithms $\ALG$ satisfying error criterion \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}, not a ball. By a cone, we mean a set of functions where the constant multiples of each element of the set also lie in the set. We study different variants of cones in different sections of this chapter. The first definition of a cone is given in \eqref{DHKM:pilot_cone}, 
-where the idea is that the consists of $f\in\calF$ such that 
+This will lead to \emph{adaptive} algorithms $\ALG$ satisfying error criterion \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}, not a ball. We study different variants of cones in different sections of this chapter. The first definition of a cone is given in \eqref{DHKM:pilot_cone}, 
+where the idea is that the cone consists of $f\in\calF$ such that 
 $$
   \norm[\calF]{f}\le h (\hf(\bsk_1),\ldots,\hf (\bsk_{n_1}))
 $$
@@ -217,17 +217,14 @@ In Section \ref{DHKM:pilot_sec}, we define a cone of input functions, $\calC$, i
 
 Section \ref{DHKM:tracking_sec} considers the situation where function data is relatively inexpensive, and we track the decay rate of the series coefficients.  Adaptive Algorithm \ref{DHKM:TrackConeAlg} is shown to be optimal in this situation.
 
-Section \ref{DHKM:smoothimportance_sec} considers the case where the most suitable weights $\bslambda$ are not known a priori and are instead inferred from function data.  Adaptive Algorithm \ref{DHKM:InfPilotConeAlg} combines this inference step with Algorithm \ref{DHKM:PilotConeAlg} to construct an approximation that satisfies the error criterion.
+Section \ref{DHKM:smoothimportance_sec} considers the case where the most suitable weights $\bslambda$, which are used to define the input space, are not known a priori and are instead inferred from function data.  Adaptive Algorithm \ref{DHKM:InfPilotConeAlg} combines this inference step with Algorithm \ref{DHKM:PilotConeAlg} to construct an approximation that satisfies the error criterion.
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{General Setting}\label{DHKM:secprobdef}
-
-\PeterNote{Can we find a better heading for this section?}
-\FredNote{How about the above?}
+\section{Formal Setting}\label{DHKM:secprobdef}
 
 
 
@@ -353,7 +350,7 @@ The error of this approximation in terms of the norm on the output space, $\calG
     \text{where}\qquad
     \norm[\calG]{\sum_{\bsk \in \N_0^d} \hg(\bsk) u_{\bsk}} : = \norm[2]{\bigl(\hg(\bsk) \bigr)_{\bsk \in \N_0^d}}.
 \end{gather*}
-If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer \DHKMchange{for certain classes of inputs in $\calF$ as for example balls, which 
+Here we have chosen $\tau = 2$ so $\rho'=\infty$.  If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer \DHKMchange{for certain classes of inputs in $\calF$ as for example balls, which 
 are among the most prominent examples studied in the literature}.  
 
 %\PeterNote{Should we keep the list of questions in this extensive form?}
@@ -502,7 +499,8 @@ where the $\bsk_i$ are defined by the ordering of the $\lambda_{\bsk}$ in \eqref
 \end{equation}
 Referring to error bound \eqref{DHKM:Refined_APP_err}, we see that the error of $\APP(f,n)$ depends on the series coefficients not sampled.  The definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ allows us to bound these as follows: 
 \begin{align*}
-     \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty} & =  \left[ \norm[\calF]{f}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
+     \MoveEqLeft{\norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}} \\
+     & =  \left[ \norm[\calF]{f}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
     \right]^{1/\rho} \qquad \forall f \in \calF \\
     &  \le  \left[ A^\rho \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
     \right]^{1/\rho} \quad \forall f \in \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}.
@@ -513,12 +511,12 @@ This inequality together with error bound \eqref{DHKM:Refined_APP_err} implies t
 \norm[\calG]{\SOL(f) - \APP(f,n)}  \le \ERRN  \qquad \forall f \in \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}},
 \end{equation}
 where 
-\begin{multline}
+\begin{multline} \label{ErrNDef}
 \ERRN \\
     : =  
     \left[ A^\rho \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho \right]^{1/\rho} 
     \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} , 
-    \\ n \ge n_1.
+    \\ \forall n \ge n_1.
 \end{multline}
 \end{subequations}
 This error bound decays as $\bignorm[\rho]{\bigl( f(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^n}$ increases and as the tail norm of the $\lambda_{\bsk_i}$ decreases.  This data-driven error bound underlies  Algorithm \ref{DHKM:PilotConeAlg}, which is successful for $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ defined in \eqref{DHKM:pilot_cone}:
@@ -639,24 +637,22 @@ This satisfies definition \eqref{DHKM:EssentialOpt}.
 
 The above derivation assumes that $A > 1$.  If $A =1$, then our cone consists of functions whose series coefficients vanish for wavenumbers outside $\calK_1$.  The exact solution can be constructed using only the pilot sample.  Our algorithm is then non-adaptive, but succeeds for input functions in the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, which is an unbounded set.
 
-We may not be able to guarantee that a particular $f$ of interest lies in our cone, $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, but we may derive necessary conditions for $f$ to lie in $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$.  The following proposition follows from the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ in \eqref{DHKM:pilot_cone} and the fact that the term on the left below underestimates $\norm[\calF]{f}$.
-
-\YuhanNote{Should we delete Proposition 1 just keep Propostion 2?}
-\begin{proposition}
-If $f \in \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, then 
+\DHKMchange{We may not be able to guarantee that a particular $f$ of interest lies in our cone, $\calC_{\boldsymbol{\lambda},n_1,A}$, but the definition of $\ERRN$ in \eqref{ErrNDef} provides a necessary condition for  $f$ to lie in $\calC_{\boldsymbol{\lambda},n_1,A}$, namely,
 \begin{equation} \label{DHKM:PilotConeNecessary}
     \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{\DHKMchange{i =1}}^{n}} \le A
     \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}} \qquad \forall n \in \NN.
 \end{equation}
-\end{proposition}
+}
 
 If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \notin \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, and Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  The remedy is to make $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ more inclusive by increasing the inflation factor, $A$, and/or the pilot sample size, $n_1$.
 
 
 \DHKMchange{Let's consider an alternative cone, i.e.,
-\[\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\},\]
+\begin{equation} \label{DHKM:altconedef}
+    \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\},
+\end{equation}
 where
-$\norm[\calF']{f} =\norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk}}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}}$ and $\omega_{\bsk}$ decreases. 
+$\norm[\calF']{f} =\norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk}}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}}$ and $\omega_{\bsk}$ decreases. The norm $\norm[\calF']{\cdot}$ is weaker than the norm $\norm[\calF]{\cdot}$, so this cone is defined as the subset of $\calF$ for which the weaker norm of the function  provides an upper bound the stronger norm of the function.  The following proposition describes the relationship between the cones defined in \eqref{DHKM:pilot_cone} and \eqref{DHKM:altconedef}.
 \begin{proposition}
 If there exists $A,A',A'', n_1,$ and $\boldsymbol{\omega}$ such that
 \[\omega_{n_1} A'' \ge A \ge \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \text{ and} \qquad  \omega_{n_1+1}A' < 1, \]
@@ -701,6 +697,82 @@ we obtain $\calC_{\boldsymbol{\lambda}, A}
 \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}.$
 \end{proof}
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Illustrative Example Revisited}\label{DHKM:revisexamp}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FredNote{Fred got to here}
+\YuhanNote{Create a new subsection and move the content related with the example here}
+\DHKMchange{
+Before we revisit the example in Section \ref{DHKM:secexamp}, we introduce several lemmas.
+
+\begin{lemma}\label{DHKM:lambdineq}
+Consider the ordering weights,
+$\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0,$
+we have for $p>0$
+\[ \sum_{i=1}^\infty \lambda_{d,\bsk_{i}}^p \le \frac{1}{n^{1/p}}
+\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p\right)^{1/p}\]
+\end{lemma}
+\begin{proof}
+As $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0$, we obtain for $p>0$
+\begin{align*}
+    n \lambda_{\bsk_{n+1}}^p & \le 
+    \lambda_{\bsk_{1}}^p + \lambda_{\bsk_{2}}^p + \cdots 
+    + \lambda_{\bsk_{n}}^p  \le \sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p \\
+    \Longleftrightarrow 
+    \lambda_{\bsk_{n+1}}&  \le \frac{1}{n^{1/p}}
+\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p \right)^{1/p}
+\end{align*}
+\end{proof}
+
+To be more concrete, we consider the situation where the $\lambda_{\bsk}$ are specified in terms of positive \emph{coordinate weights}, $w_1, \ldots, w_d$, and positive \emph{smoothness weights}, $s_1, s_2, \ldots$:
+\begin{equation}
+    \label{DHKM:prodwts}
+\lambda_{d,\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \NN_0^d, \ d \in \NN.
+\end{equation}
+To stress the dependence on $d$, we write $\lambda_{d,\bsk_i}$ instead of $\lambda_{\bsk_i}$
+  This form of the $\lambda_{d,\bsk}$ is considered in greater detail in Section \ref{DHKM:smoothimportance_sec}.
+
+\begin{lemma}\label{DHKM:prodwtsupperbound}
+Consider $\lambda_{d,\bsk}$ defined in \eqref{DHKM:prodwts},
+we have for $p>0$,
+\[\sum_{\bsk \in \NN_0^d}^\infty \lambda_{d,\bsk}^p \le \exp\left(\sum_{k=1}^\infty s_k^p \sum_{\ell = 1}^{d} w_\ell^{p} \right)\le \exp\left(\sum_{k =1 }^{\infty} s_k^p \sum_{\ell = 1}^{\infty} w_\ell^{p} \right),\]
+if $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite.
+\end{lemma}
+\begin{proof}
+\begin{align*}
+   \sum_{\bsk \in \NN_0^d}^\infty \lambda_{d,\bsk}^p  & =
+   \prod_{\ell =1}^d\left(1+ w_\ell^p \sum_{k=1}^{\infty}s_{k}^p\right) \qquad \text{ by \eqref{DHKM:prodwts} }\\
+    & = \exp\left(\sum_{\ell = 1}^d \log\bigl(1 + w_\ell^{p}\sum_{k=1}^{\infty}s_{k}^p \bigr) \right)\\
+ &  \le \exp\left(\sum_{\ell = 1}^d  w_\ell^{p}\sum_{k=1}^{\infty}s_{k}^p \right)
+\qquad \text{since }\log(1+x) \le x \ \forall x\ge 0,\\
+&\le \exp\left(\sum_{\ell = 1}^\infty w_\ell^{p}\sum_{k=1}^{\infty}s_{k}^p \right)
+\qquad \text{ since  } \sum_{\ell = 1}^{\infty} w_\ell^{p} \text{ converges}.\\
+\end{align*}
+\end{proof}
+
+The example in Section \ref{DHKM:secexamp} chooses $\rho = \tau = 2$, $\rho' = \infty$. Thus, we obtain by Theorem \ref{DHKM:thm_cost_non_adapt}:
+\begin{align*}
+	\COMP(\calA(\calB_{R}),\varepsilon,R) &= \COST(\ALG,\calB_{R},\varepsilon,R) 
+	=\min\{ n \in \N_0 : \lambda_{\bsk_{n+1}} \le \varepsilon/R \}.
+\end{align*}
+Using the non-increasing ordering of the $\lambda_{\bsk_i}$, we employ a standard technique for bounding the $n+1^\text{st}$ largest $\lambda_{\bsk}$ in terms of the sum of the $p^\text{th}$ power of all the $\lambda_{\bsk}$.  For $0  < 1/r < p$, by Lemma \ref{DHKM:lambdineq} and Lemma \ref{DHKM:prodwtsupperbound} with $s_k = k^{-r}$, 
+\begin{align*}
+n\lambda_{\bsk_{n+1}}^{p} \le \sum_{\bsk \in \bbN_0^d}\lambda_{\bsk}^{p}  \le 
+\exp\left(\sum_{\ell = 1}^d  w_\ell^{p}\sum_{k=1}^{\infty}\frac{1}{k^{p r} }\right)
+ \le \exp\left(\zeta(pr) \sum_{\ell = 1}^{\infty} w_\ell^{p} \right).
+\end{align*}
+Hence, substituting the above upper bound on $\lambda_{\bsk_{n+1}}$ into the formula for the complexity of the problem, we obtain an upper bound on the complexity:
+\begin{align*}
+    \MoveEqLeft{\COMP(\calA(\calB_{R}),\varepsilon,R)} \\
+  &\le\min\left\{ n \in \N_0 : \frac{1}{n}\exp\left(\zeta(p r) \sum_{\ell = 1}^\infty w_\ell^{p} \right)  \le \left( \frac{\varepsilon}{R} \right)^{p}  \right\} \\
+  &= \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(p r) \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right) \right \rceil .
+\end{align*}
+
+If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $p^* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calA(\calB_{R}),\varepsilon,R) \ge 2^d$, and the problem is not tractable.
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tractability}\label{DHKM:SecPilotTract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -756,30 +828,17 @@ one would essentially replace $\varepsilon^{-1}$
 by $\log (1 + \varepsilon^{-1})$ in the previous tractability notions. A more detailed study of 
 tractability will be done in a future paper.
 
-
-The example in Section \ref{DHKM:secexamp} chooses $\rho = \tau = 2$ and $\rho' = \infty$.  Thus, we obtain by Theorem \ref{DHKM:thm_cost_non_adapt}:
+Consider the example in Section \ref{DHKM:secexamp}, we have
 \begin{align*}
-	\COMP(\calA(\calB_{R}),\varepsilon,R) &= \COST(\ALG,\calB_{R},\varepsilon,R) 
-	=\min\{ n \in \N_0 : \lambda_{\bsk_{n+1}} \le \varepsilon/R \}.
-\end{align*}
-Using the non-increasing ordering of the $\lambda_{\bsk_i}$, we employ a standard technique for bounding the $n+1^\text{st}$ largest $\lambda_{\bsk}$ in terms of the sum of the $p^\text{th}$ power of all the $\lambda_{\bsk}$.  For $0  < 1/r < p$, 
-\begin{align*}
-(n+1)\lambda_{\bsk_{n+1}}^{p} &\le \sum_{i=1}^{n+1}\lambda_{\bsk_{i}}^{p} \le \sum_{\bsk \in \bbN_0^d}\lambda_{\bsk}^{p} = \prod_{\ell =1}^d \left[1 + w_\ell^{p}\sum_{k = 1}^\infty \frac {1}{k^{pr}} \right ] \\
-& =  \prod_{\ell =1}^d \left[1 + w_\ell^{p}\zeta(pr)\right ] 
-= \exp\left(\sum_{\ell = 1}^d \log\bigl(1 + w_\ell^{p}\zeta(pr) \bigr) \right) \\
-& \le \exp\left(\zeta(pr) \sum_{\ell = 1}^{\infty} w_\ell^{p} \right) \qquad \text{since }\log(1+x) \le x \ \forall x\ge 0.
-\end{align*}
-Hence, substituting the above upper bound on $\lambda_{\bsk_{n+1}}$ into the formula for the complexity of the problem, we obtain an upper bound on the complexity:
-\begin{align*}
-    \MoveEqLeft{\COMP(\calA(\calB_{R}),\varepsilon,R)} \\
-  &\le\min\left\{ n \in \N_0 : \frac{1}{n+1}\exp\left(\zeta(pr) \sum_{\ell = 1}^\infty w_\ell^{p} \right)  \le \left( \frac{\varepsilon}{R} \right)^{p}  \right\} \\
-  &= \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(pr) \sum_{\ell = 1}^{\infty} w_\ell^{p} \right) \right \rceil - 1.
+    \MoveEqLeft{\COMP(\calA(\calB_{R}),\varepsilon,R)} 
+  \le \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(p r) \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right) \right \rceil .
 \end{align*}
 
-If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $p^* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calA(\calB_{R}),\varepsilon,R) \ge 2^d$, and the problem is not tractable.
+If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $p^* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calA(\calB_{R}),\varepsilon,R) \ge 2^d$, and the problem is not tractable.\\
+
 }
 
-In this section, we write $\calC_d$ instead of $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, to stress the dependence on $d$, and for the same reason we write $\lambda_{d,\bsk_i}$ instead of $\lambda_{\bsk_i}$. Recall that we assume that 
+Recall that we assume that 
 $\lambda_{d,\bsk_1}\ge \lambda_{d,\bsk_2}\ge \cdots >0$. Let 
 \[
 n(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bigl(  \lambda_{d,\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
@@ -824,7 +883,7 @@ Using the same notation as above, the following statements hold for the case $\r
  \end{equation}
  Furthermore, the exponent of strong polynomial tractability is then equal to the infimum of those $\eta>0$ for which \eqref{DHKM:eq:condspt} holds. 
  \item[2.] 
-  We have polynomial tractability if and only if there exist $\eta_1, \eta_2 \ge 0$ and $\eta_3, K>0$ such that
+  We have polynomial tractability if and only if there exist $\eta_1, p_2 \ge 0$ and $\eta_3, K>0$ such that
  \[
     \sup_{d\in\NN} d^{-\eta_1}\, \sum_{i=\lceil K d^{\eta_2} \rceil}^\infty \lambda_{d,\bsk_i}^{\eta_3} < \infty.
  \]
@@ -901,13 +960,13 @@ Using the same notation as above, the following statements hold for the case $\r
   tractability, can be shown using similar arguments as above and results from \cite{KriWoz19}, \cite{NovWoz10a}, \cite{WerWoz17}, and the papers cited therein. 
 \end{remark}
 
-To be more concrete, we consider the situation where the $\lambda_{\bsk}$ are specified in terms of positive \emph{coordinate weights}, $w_1, \ldots, w_d$, and positive \emph{smoothness weights}, $s_1, s_2, \ldots$:
-\begin{equation}
-    \label{DHKM:prodwts}
-\lambda_{d,\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \NN_0^d, \ d \in \NN.
-\end{equation}
-This is a generalization of the example in Section \ref{DHKM:secexamp}, where $s_{k} = k^{-r}$.  This form of the $\lambda_{d,\bsk}$ is considered in greater detail in Section \ref{DHKM:smoothimportance_sec}.
-The same argument as \DHKMchange{stated above} implies that the sum of the $\lambda_{d,\bsk_i}^\eta$ is bounded above as
+\DHKMchange{
+To be more concrete, we consider the situation 
+\[
+\lambda_{d,\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \NN_0^d, \ d \in \NN,
+\] one more time.
+By Lemma \ref{DHKM:prodwtsupperbound}, we have
+}
 \[
 \sum_{i=1}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} \le \exp\left(\sum_{k=1}^\infty s_k^\eta \sum_{\ell = 1}^{d} w_\ell^{\eta} \right)\le \exp\left(\sum_{k =1 }^{\infty} s_k^\eta \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right). 
 \]
@@ -1096,7 +1155,85 @@ R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \rig
 & = \frac{R}{\varepsilon} \ERRNjd\, .
 \end{align*}
 From this last inequality, it follows that $j^\dagger \ge j^*$.
-\end{proof} \
+\end{proof} 
+
+\YuhanNote{Create a new version of Theorem 6, as $ \frac{1 - b^{j\rho}}{1 - b^\rho} \ge 1 \forall j$. And based on that, derive the explicit bound of the example. }
+\DHKMchange{
+
+\begin{theorem}\label{DHKM:TractConeCompCost}
+Algorithm \ref{DHKM:TrackConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}})$ for $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The information cost is $\COST(\ALG,f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly as
+\begin{equation} \label{DHKM:EqTractConejstar}
+j^* = \min\left \{ j \in \bbN : \ERRNj \le \varepsilon  \right\}.
+\end{equation}
+Moreover, $\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}},\varepsilon,R) \le n_{j^\dagger}$, where $j^\dagger$ is defined as follows:
+\begin{equation} \label{DHKM:TractConejdagger}
+j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{j+r}\Lambda_{j+r} \bigr)_{r=1}^\infty}
+\le  \frac{b\varepsilon}{Ra^2}\right\}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The value of $j^*$ in \eqref{DHKM:EqTractConejstar} follows directly from the error criterion. The success of the algorithm follows from the error bound in \eqref{DHKM:algoineq}.
+
+For the remainder of the proof consider $R$ and $\varepsilon$ to be fixed.  For any $f \in  \DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} \cap \calB_R$ and for any $j^\dagger$ defined  as in \eqref{DHKM:TractConejdagger}, it follows that
+\begin{align*}
+R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \bbK}}
+ \ge \norm[\rho]{\left(\sigma_j(f)\right)_{j=1}^{j^\dagger}}  
+ \qquad \text{by \eqref{DHKM:SigmaDef} } \\
+& \ge \sigma_1(f) \ge a^{-1}b^{1-j^\dagger}\sigma_{j^\dagger}(f) \quad \text{by  \eqref{DHKM:TrackConeDef}}\\
+& \ge \sigma_{j^\dagger}(f)\,\frac{Ra}{\varepsilon} \norm[\tau]{ \bigl(b^r\Lambda_{j^\dagger+r} \bigr)_{r=1}^\infty}
+\qquad \text{by the definition of } j^\dagger \text{ in \eqref{DHKM:TractConejdagger}} \\
+& = \frac{R}{\varepsilon} \ERRNjd\, .
+\end{align*}
+From this last inequality, it follows that $j^\dagger \ge j^*$.
+\end{proof} 
+
+Let's revisit the example in Section \ref{DHKM:secexamp}. For this example,
+we choose $n_j = n_02^j,$ thus
+\[\calK_j = \{\bsk_{n_0 2^{j-1}+1}, \ldots, \bsk_{n_02^j}\} \quad \text{for } j \in \N \qquad \text{ and } \calK_1 = \{\bsk_{1}, \ldots, \bsk_{n_0}\}.\]
+For example, we have $\rho = \tau = 2$, $\rho' = \infty$. Therefore
+\[\Lambda_j = \|(\lambda_\bsk)_\bsk \in \calK_j\|_{\rho'} = \lambda_{\bsk_{n_0 2^{j-1}+1}}.\]
+By Lemma \ref{DHKM:lambdineq} and Lemma \ref{DHKM:prodwtsupperbound}, we obtain
+\[\Lambda_j \le \frac{1}{ n_0^{1/p} 2^{(j-1)/p}} \exp\left(\frac{1}{p}
+\zeta(pr)\sum_{\ell=1}^\infty 
+w_\ell^p
+\right),\]
+where $0< 1/r< p$.
+\begin{align*}
+\norm[\tau]{ \bigl(b^{j+q}\Lambda_{j+q} \bigr)_{q=1}^\infty}^\tau
+ & =  \sum_{q=1}^\infty
+( b^{j+q}\Lambda_{j+q})^\tau \\
+& \le \sum_{q=1}^\infty b^{(j+q)\tau} 
+ \frac{1}{ n_0^{\tau/p} 2^{(j+q-1)\tau/p}} \exp\left(\frac{\tau}{p}
+\zeta(pr)\sum_{\ell=1}^\infty 
+w_\ell^p
+\right)\\
+& = 
+\frac{\exp\left(\frac{\tau}{p}
+\zeta(pr)\sum_{\ell=1}^\infty 
+w_\ell^p
+\right)}{ n_0^{\tau/p} } \sum_{q=1}^\infty 
+\frac{b^{(j+q)\tau}}{2^{(j+q-1)\tau/p}}\\
+\Leftrightarrow 
+\norm[\tau]{ \bigl(b^{j+q}\Lambda_{j+q} \bigr)_{q=1}^\infty}
+ & \le  \frac{\exp\left(\frac{1}{p}
+\zeta(pr)\sum_{\ell=1}^\infty 
+w_\ell^p
+\right)}{ n_0^{1/p} } 
+\left(\sum_{q=1}^\infty 
+\frac{b^{(j+q)\tau}}{2^{(j+q-1)\tau/p}}
+\right)^{1/\tau}
+\end{align*}
+Therefore, the upper bound of the computation cost is $n_j^\dagger$, where
+\[j^\dagger = \min \left \{j \in \bbN : 
+\left(\sum_{q=1}^\infty 
+\frac{b^{(j+q)\tau}}{2^{(j+q-1)\tau/p}}
+\right)^{1/\tau}
+\le  \frac{b\varepsilon n_0^{1/p}}{Ra^2}\exp\left(\frac{1}{p}
+\zeta(pr)\sum_{\ell=1}^\infty 
+w_\ell^p
+\right) \right\}.\]
+}
 
 Although Algorithm \ref{DHKM:TrackConeAlg} tracks the decay rate of the $\hf(\bsk_i)$, the information cost bound and complexity bound in the theorem above do not reflect different decay rates of the $\hf(\bsk_i)$. That is a subject for future investigation.  
 
