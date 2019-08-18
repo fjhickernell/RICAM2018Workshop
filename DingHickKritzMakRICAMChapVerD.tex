@@ -647,37 +647,43 @@ The above derivation assumes that $A > 1$.  If $A =1$, then our cone consists of
 If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \notin \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, and Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  The remedy is to make $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ more inclusive by increasing the inflation factor, $A$, and/or the pilot sample size, $n_1$.
 
 
-\DHKMchange{Let us consider an alternative cone, i.e.,
-\begin{equation} \label{DHKM:altconedef}
-    \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\},
-\end{equation}
-where
-$\norm[\calF']{f} =\norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk}}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}}$ and $\omega_{\bsk}$ decreases. The norm $\norm[\calF']{\cdot}$ is weaker than the norm $\norm[\calF]{\cdot}$, so this cone is defined as the subset of $\calF$ for which the weaker norm of the function  provides an upper bound the stronger norm of the function.  The following proposition describes the relationship between the cones defined in \eqref{DHKM:pilot_cone} and \eqref{DHKM:altconedef}.
+\DHKMchange{Our $\calC_{\boldsymbol{\lambda},n_1,A}$ is a cone for which a pilot sample of the input function allows you to bound its norm.  An alternative might be to define a cone for which a weaker norm of the function provides an upper bound on the original norm.  Here is such a cone:
+\begin{multline} \label{DHKM:altconedef}
+    \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}:=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\}, \\ \text{where } \norm[\calF']{f} :=\norm[\rho]{\left( \frac{\hf(\bsk)\omega_{i}}{\lambda_{\bsk}} \right)_{i =  1}^n} \text{ and } \omega_1 \ge \omega_2 \ge \cdots.
+\end{multline}
+The norm $\norm[\calF']{\cdot}$ is weaker than the norm $\norm[\calF]{\cdot}$, so this cone is a strict subset of $\calF$.  The following proposition describes how the cones defined in \eqref{DHKM:pilot_cone} and \eqref{DHKM:altconedef} are related.
 \begin{proposition}
-If there exist $A,A',A'', n_1,$ and $\boldsymbol{\omega}$ such that
-\[\omega_{n_1} A'' \ge A \ge \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \text{ and} \qquad  \omega_{n_1+1}A' < 1, \]
+If the parameters $A,A',A'', n_1,$ and $\boldsymbol{\omega}$ satisfy
+\[ 
+\omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho}
+\le A \le \omega_{n_1} A'' \text{ and} \qquad  \omega_{n_1+1}A' < 1, 
+\]
 then 
-\[\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}
+\[
+\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}
 \subseteq 
-\calC_{\boldsymbol{\lambda}, A}
+\calC_{\boldsymbol{\lambda}, n_1, A}
 \subseteq
-\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}.\]
+\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}.
+\]
 \end{proposition}
 
 \begin{proof}
-Let us prove $\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}
-\subseteq 
-\calC_{\boldsymbol{\lambda}, A}$ at first.
-Suppose $f \in \calC_{\boldsymbol{\lambda}, A}$, then by definition we have
-\begin{align*}
-    \norm[\calF]{f} &\le A \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk = 1} ^{ n_1}}
-     \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk}}{\lambda_{\bsk}} \right)_{\bsk =1} ^{n_1}}
+Let us prove $
+\calC_{\boldsymbol{\lambda}, A} \subseteq \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$ first.
+Suppose $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$, then by the definition of $\calC_{\boldsymbol{\lambda}, n_1, A}$ we have
+\begin{equation*}
+    \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i = 1} ^{ n_1}}
+     \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk_i}}{\lambda_{\bsk_i}} \right)_{i =1} ^{n_1}}
      \le A \omega_{n_1}^{-1} \norm[\calF']{f}.
-\end{align*}
-Thus, if $A'' \ge A\omega_{n_1}^{-1}$, i.e. $\omega_{n_1} A'' \ge A $,
-we obtain $\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$.
+\end{equation*}
+Thus, if $A\omega_{n_1}^{-1} \le A''$, i.e. $A \le \omega_{n_1} A'' $, then
+we obtain $f \in \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$.  So, 
 
-For the proof of the remaining part, 
+For the proof that 
+$\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}
+\subseteq 
+\calC_{\boldsymbol{\lambda}, n_1, A}$, 
 suppose $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$. Then we have
 \begin{align*}
     \norm[\calF']{f}^\rho- \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho 
@@ -686,15 +692,17 @@ suppose $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$. Then we 
      & = \omega_{n_1+1}^\rho \left[ \norm[\calF]{f}^\rho - \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ]\\	
      & \le \omega_{n_1+1}^\rho \left[ A'{}^\rho \norm[\calF']{f}^\rho - \omega_1^{-\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ].
 \end{align*}
-Rearranging the terms, we obtain
+Assuming $\omega_{n_1+1}A' < 1$ and rearranging the above terms, we obtain
 \begin{align*}
 \norm[\calF']{f}^\rho & \le \frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \\
- \iff	\norm[\calF]{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
+	\norm[\calF]{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
 \end{align*}
-Hence, if $A \ge \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \text{ and } \omega_{n_1+1}A' < 1,$
-we obtain $\calC_{\boldsymbol{\lambda}, A}
+Hence, if $\omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \le A$, it follows that $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$ and so
+we obtain $
+\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}
 \subseteq
-\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}.$
+\calC_{\boldsymbol{\lambda}, n_1, A}
+$.
 \end{proof}
 }
 
@@ -780,7 +788,7 @@ If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DHKMchange{
 Besides understanding the dependence of $\COMP(\calA(\calC), \varepsilon,R)$ on $\varepsilon$, we also want to understand how $\COMP(\calA(\calC), \varepsilon,R)$ depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  
-The set of functions for which our algorithms succeed, $\calC_d$, depends on the dimension, too.  Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
+The set of functions for which our algorithms succeed, $\calC_d$, depends on the dimension, too.  Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on the dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
 
 \bigskip
 
@@ -793,7 +801,7 @@ dependence is natural for cones $\calC$ and might be different if $\calC$ is not
 
 \begin{itemize}   
 \item We say that the adaptive approximation problem is strongly polynomially tractable
-if and only if there are non-negative $C$, $p$, $\varepsilon_{\max}$, and $R_{\min}$ such that   
+if and only if there are non-negative $C$, $p$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
 $$   
 \COMP(\calA(\calC_d), \varepsilon,R)\le C\,R^p\,\varepsilon^{-p} \qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
 $$   
@@ -803,7 +811,7 @@ and is called the exponent of strong polynomial tractability.
 
 \item    
 We say that the problem is polynomially tractable
-if and only if there are non-negative $C,p$, $q$,  $\varepsilon_{\max}$, and $R_{\min}$ such that   
+if and only if there are non-negative $C,p$, $q$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
 $$   
 \COMP(\calA(\calC_d), \varepsilon,R)\le C\,d^{\,q}\,R^p\,   
 \varepsilon^{-p}\qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).  
@@ -821,7 +829,7 @@ $$
 \end{itemize}   
 
 Necessary and sufficient conditions on these tractability notions will be studied 
-for different types of algorithms in Sections \ref{DHKM:SecPilotTract} and \ref{DHKM:SecDecayTract}. 
+for different types of algorithms in this section and Section \ref{DHKM:SecDecayTract}. 
 
 We remark that, for the sake of brevity, we focus here on tractability notions that are summarized as 
 algebraic tractability in the recent literature 
@@ -853,7 +861,7 @@ Equations \eqref{DHKM:PilotConeAlg_cost} and \eqref{DHKM:PilotConeAlg_comp}, we 
         \COMP(\calA(\calC_d),\omega_{\textup{hi}} \varepsilon,R)  \\
         \forall \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty),
 \end{multline*}
-where the positive constants $\omega_{\textup{lo}}$ and $\omega_{\textup{hi}}$  depend on $A$, but not depend on $d$, $\varepsilon$, or $R$.  From the equation above, it is clear that tractability depends on the behavior of $n(\varepsilon/R,d)$ as $R/\varepsilon$ and $d$ tend to infinity. We would like to study under which conditions we obtain the various tractability notions defined above
+where the positive constants $\omega_{\textup{lo}}$ and $\omega_{\textup{hi}}$  depend on $A$, but do not depend on $d$, $\varepsilon$, or $R$.  From the equation above, it is clear that tractability depends on the behavior of $n(\varepsilon/R,d)$ as $R/\varepsilon$ and $d$ tend to infinity. We would like to study under which conditions we obtain the various tractability notions defined above.
 
 To this end, we distinguish two cases, depending on whether $\rho'$ is infinite or not. This 
 distinction is useful because it allows us to relate the computational complexity of the algorithms 
@@ -885,7 +893,7 @@ Using the same notation as above, the following statements hold for the case $\r
  \end{equation}
  Furthermore, the exponent of strong polynomial tractability is then equal to the infimum of those $\eta>0$ for which \eqref{DHKM:eq:condspt} holds. 
  \item[2.] 
-  We have polynomial tractability if and only if there exist $\eta_1, p_2 \ge 0$ and $\eta_3, K>0$ such that
+  We have polynomial tractability if and only if there exist $\eta_1, \eta_2 \ge 0$ and $\eta_3, K>0$ such that
  \[
     \sup_{d\in\NN} d^{-\eta_1}\, \sum_{i=\lceil K d^{\eta_2} \rceil}^\infty \lambda_{d,\bsk_i}^{\eta_3} < \infty.
  \]
@@ -1046,7 +1054,7 @@ Lemma \ref{DHKM:Key_Lem} implies that
 \end{equation}
 From \eqref{DHKM:SOLNorm} and \eqref{DHKM:SOLNormFinite} it follows that the norm of the solution operator is 
 \begin{equation} \label{DHKM:NormLambdaFinite}
-    \norm[\calF \to \calG]{\SOL} = \bignorm[\rho']{\bigl(\Lambda_j \bigr)_{j \in \N_0}} < \infty
+    \norm[\calF \to \calG]{\SOL} = \bignorm[\rho']{\bigl(\Lambda_j \bigr)_{j \in \N_0}} < \infty.
 \end{equation}
 
 If $f$ belongs to the $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ defined in \eqref{DHKM:TrackConeDef} and $n_0 = 0$, then 
@@ -1055,7 +1063,7 @@ If $f$ belongs to the $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ defined i
     & \le \bignorm[\rho]{\bigl(\sigma_1(f), ab \sigma_1(f), ab^2 \sigma_1(f), \ldots \bigr)} \\
     & = \left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}  \norm[\rho]{\biggl(\frac{\hf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_1}}.
 \end{align*}
-Comparing this inequality to the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ in the previous section, it can be seen that $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $  defined in \eqref{DHKM:TrackConeDef} is a subset of  $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}} $defined in \eqref{DHKM:pilot_cone} if we choose 
+Comparing this inequality to the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}} $ in the previous section, it can be seen that $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $  defined in \eqref{DHKM:TrackConeDef} is a subset of  $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ defined in \eqref{DHKM:pilot_cone} if we choose 
 $A=\left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}$ in \eqref{DHKM:pilot_cone}.
 
 
