@@ -744,15 +744,16 @@ To be more concrete, we consider the situation where the $\lambda_{\bsk}$ are sp
 \lambda_{\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \bbK :=\NN_0^d, \ d \in \NN.
 \end{equation}
 This is a generalization of our illustrative example, \eqref{DHKM:IllExWts}, in Section \ref{DHKM:secexamp} where $\bss = (1, 2^{-r}, 3^{-r}, \ldots )$.  
-This form of the $\lambda_{d,\bsk}$ is considered in greater detail in Section \ref{DHKM:smoothimportance_sec}.
+This form of the $\lambda_{\bsk}$ is considered in greater detail in Section \ref{DHKM:smoothimportance_sec}.
 
 \begin{lemma}\label{DHKM:prodwtsupperbound}
 For $\bslambda = \bigl(\lambda_{\bsk} \bigr)_{\bsk \in \bbN_0^d}$ defined in \eqref{DHKM:prodwts}
 we have 
 \begin{align*}
 \norm[p]{\bslambda} &\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw}^p  \right) \qquad \text{for general } \bss, \text{ provided that  $\norm[p]{\bss}$ is finite},\\
- \norm[p]{\bslambda} & \le \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \qquad \text{for } \bss = (1, 2^{-r}, 3^{-r}, \ldots ), \text{ provided that } pr > 1.
+ \norm[p]{\bslambda} & \le \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \qquad \text{for } \bss = (1, 2^{-r}, 3^{-r}, \ldots ), \text{ provided that } pr > 1,
 \end{align*}
+where $\zeta$ is the Riemann zeta function.
 \end{lemma}
 \begin{proof}
 The proof proceeds by straightforward calculation under the assumption that $\norm[p]{\bss}$ is finite:
@@ -786,7 +787,7 @@ These upper bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref
     \\ \le \max \left( n_1, 
     \left \lceil  \left(\frac{AR}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil \right).
     \end{multline*}
-Note that these costs are $\calO(R^p \varepsilon^{-p})$ for all $p > 1/r$. A faster decay rate of the $\lambda_{\bsk}$ due to the faster decay rate of the smoothness coefficients implies smaller information cost.
+Note that these costs are $\calO(R^p \varepsilon^{-p})$ for all $p > 1/r$. A faster decay rate of the $\lambda_{\bsk}$ due to the faster decay rate of the smoothness coefficients, $s_k$, implies asymptotically smaller information cost.
 }
 
 \FredNote{Fred got to here}
