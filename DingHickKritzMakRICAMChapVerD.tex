@@ -328,9 +328,10 @@ Consider the case of approximating functions defined over $[-1,1]^d$, using a Ch
     \qquad \tu_{k}(x) := \cos( k \cos^{-1}(x)) \quad \forall k \in \N_0.
 	\end{align*}
 For this example, let $\calF$ denote a Hilbert space of input functions where we choose $\bbK=\bbN_0^d$ and $\rho=2$,
-\begin{equation*}
-    \norm[\calF]{f} := \norm[2]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}}\right)_{\bsk \in \N_0^d}}, \qquad \text{where } \bslambda = \bigl( \lambda_{\bsk} \bigr)_{\bsk \in \N_0^d}, \quad \lambda_\bsk := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d \frac{w_\ell}{k^r_\ell}, \quad r > 0.
-\end{equation*}
+\begin{multline}
+\label{DHKM:IllExWts}
+    \norm[\calF]{f} := \norm[2]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}}\right)_{\bsk \in \N_0^d}}, \\ \text{where } \bslambda = \bigl( \lambda_{\bsk} \bigr)_{\bsk \in \N_0^d}, \quad \lambda_\bsk := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d \frac{w_\ell}{k^r_\ell}, \quad r > 0.
+\end{multline}
 The $w_\ell$ are non-negative \emph{coordinate weights}, which embody the assumption that $f$ may depend more strongly on coordinates with larger $w_\ell$ than those with smaller $w_\ell$.  The definition of the $\calF$-norm implies that an input function must have series coefficients that decay quickly enough as the degree of the polynomial increases.  Larger $r$ implies smoother input functions.
 
 The ordering of the weights,
@@ -642,23 +643,22 @@ The above derivation assumes that $A > 1$.  If $A =1$, then our cone consists of
     \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{\DHKMchange{i =1}}^{n}} \le A
     \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}} \qquad \forall n \in \NN.
 \end{equation}
-}
-
+}%
 If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \notin \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$, and Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  The remedy is to make $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ more inclusive by increasing the inflation factor, $A$, and/or the pilot sample size, $n_1$.
 
 
-\DHKMchange{Our $\calC_{\boldsymbol{\lambda},n_1,A}$ is a cone for which a pilot sample of the input function allows you to bound its norm.  An alternative might be to define a cone for which a weaker norm of the function provides an upper bound on the original norm.  Here is such a cone:
+\DHKMchange{Our $\calC_{\boldsymbol{\lambda},n_1,A}$ is a cone for which a pilot sample of the input function allows you to bound its norm.  An alternative is to define a cone for which a weaker norm of the function provides an upper bound on the original norm.  Here is such a cone:
 \begin{multline} \label{DHKM:altconedef}
-    \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}:=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\}, \\ \text{where } \norm[\calF']{f} :=\norm[\rho]{\left( \frac{\hf(\bsk)\omega_{i}}{\lambda_{\bsk}} \right)_{i =  1}^n} \text{ and } \omega_1 \ge \omega_2 \ge \cdots.
+    \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}:=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\}, \\ \text{where } \norm[\calF']{f} :=\norm[\rho]{\left( \frac{\hf(\bsk_i)\omega_{i}}{\lambda_{\bsk_i}} \right)_{i =  1}^n} \text{ and } \omega_1 \ge \omega_2 \ge \cdots.
 \end{multline}
 The norm $\norm[\calF']{\cdot}$ is weaker than the norm $\norm[\calF]{\cdot}$, so this cone is a strict subset of $\calF$.  The following proposition describes how the cones defined in \eqref{DHKM:pilot_cone} and \eqref{DHKM:altconedef} are related.
 \begin{proposition}
-If the parameters $A,A',A'', n_1,$ and $\boldsymbol{\omega}$ satisfy
+If the parameters $A,A',A'', n_1,$ and $\boldsymbol{\omega} = (\omega_1, \omega_2, \ldots)$ satisfy
 \[ 
 \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho}
 \le A \le \omega_{n_1} A'' \text{ and} \qquad  \omega_{n_1+1}A' < 1, 
 \]
-then 
+then the two types of cones defined in \eqref{DHKM:pilot_cone} and \eqref{DHKM:altconedef} include one another:
 \[
 \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}
 \subseteq 
@@ -670,15 +670,16 @@ then
 
 \begin{proof}
 Let us prove $
-\calC_{\boldsymbol{\lambda}, A} \subseteq \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$ first.
-Suppose $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$, then by the definition of $\calC_{\boldsymbol{\lambda}, n_1, A}$ we have
+\calC_{\boldsymbol{\lambda}, n_1, A} \subseteq \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$ first.
+If $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$, then by the definition of $\calC_{\boldsymbol{\lambda}, n_1, A}$ we have
 \begin{equation*}
     \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i = 1} ^{ n_1}}
      \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk_i}}{\lambda_{\bsk_i}} \right)_{i =1} ^{n_1}}
      \le A \omega_{n_1}^{-1} \norm[\calF']{f}.
 \end{equation*}
 Thus, if $A\omega_{n_1}^{-1} \le A''$, i.e. $A \le \omega_{n_1} A'' $, then
-we obtain $f \in \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$.  So, 
+we must have $f \in \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$.  So, $
+\calC_{\boldsymbol{\lambda}, n_1, A} \subseteq \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$.
 
 For the proof that 
 $\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}
@@ -710,78 +711,87 @@ $.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Illustrative Example Revisited}\label{DHKM:revisexamp}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\FredNote{Fred got to here}
+
 \YuhanNote{Create a new subsection and move the content related with the example here}
 \DHKMchange{
-Before we revisit the example in Section \ref{DHKM:secexamp}, we introduce several lemmas.
+We now interpret the information cost upper bounds of Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} for the example introduced in Section \ref{DHKM:secexamp}, where $\rho = \tau = 2$ and $\rho' = \infty$.  In this case, $\bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} = \lambda_{\bsk_{n+1}}$.  To facilitate this interpretation we establish a couple of commonly used lemmas.
 
 \begin{lemma}\label{DHKM:lambdineq}
 Consider the ordered weights,
 $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0,$
-then we have for $p>0$,
-\[ \sum_{i=1}^\infty \lambda_{d,\bsk_{i}}^p \le \frac{1}{n^{1/p}}
-\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p\right)^{1/p}\].
+then we have
+\[ 
+\lambda_{\bsk_{n+1}} \le \frac{\norm[p]{\bslambda}}{n^{1/p}} \qquad \forall p >0,
+\]
+provided that $\norm[p]{\bslambda}$ is finite.
 \end{lemma}
-\PeterNote{It seems to me that on the left-hand side of the 
-above inequality we need $\lambda_{\bsk_{n+1}}^p$, right?}
 \begin{proof}
-As $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0$, we obtain for $p>0$
-\begin{align*}
-    n \lambda_{\bsk_{n+1}}^p & \le 
+Since the $\lambda_{\bsk_i}$ are non-increasing it follows that 
+\begin{equation*}
+    n \lambda_{\bsk_{n+1}}^p \le 
     \lambda_{\bsk_{1}}^p + \lambda_{\bsk_{2}}^p + \cdots 
-    + \lambda_{\bsk_{n}}^p  \le \sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p \\
-    \Longleftrightarrow 
-    \lambda_{\bsk_{n+1}}&  \le \frac{1}{n^{1/p}}
-\left(\sum_{\bsk \in \NN_0^d}^\infty \lambda_{\bsk}^p \right)^{1/p}.
-\end{align*}
+    + \lambda_{\bsk_{n}}^p  \le \sum_{\bsk \in \bbK}^\infty \lambda_{\bsk}^p = \norm[p]{\bslambda}^p \qquad \forall p > 0.
+\end{equation*}
+Dividing both sides by $n$ and taking the $p^{\text{th}}$ root completes the proof.
 \end{proof}
 
-To be more concrete, we consider the situation where the $\lambda_{\bsk}$ are specified in terms of positive \emph{coordinate weights}, $w_1, \ldots, w_d$, and positive \emph{smoothness weights}, $s_1, s_2, \ldots$:
+\bigskip
+
+
+To be more concrete, we consider the situation where the $\lambda_{\bsk}$ are specified in terms of positive \emph{coordinate weights}, $\bsw = (w_1, \ldots, w_d)$, and positive \emph{smoothness weights}, $\bss = (s_1, s_2, \ldots)$:
 \begin{equation}
     \label{DHKM:prodwts}
-\lambda_{d,\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \NN_0^d, \ d \in \NN.
+\lambda_{\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \bbK :=\NN_0^d, \ d \in \NN.
 \end{equation}
-To stress the dependence on $d$, we write $\lambda_{d,\bsk_i}$ instead of $\lambda_{\bsk_i}$
-  This form of the $\lambda_{d,\bsk}$ is considered in greater detail in Section \ref{DHKM:smoothimportance_sec}.
+This is a generalization of our illustrative example, \eqref{DHKM:IllExWts}, in Section \ref{DHKM:secexamp} where $\bss = (1, 2^{-r}, 3^{-r}, \ldots )$.  
+This form of the $\lambda_{d,\bsk}$ is considered in greater detail in Section \ref{DHKM:smoothimportance_sec}.
 
 \begin{lemma}\label{DHKM:prodwtsupperbound}
-Consider $\lambda_{d,\bsk}$ defined in \eqref{DHKM:prodwts},
-we have for $p>0$,
-\[\sum_{\bsk \in \NN_0^d}^\infty \lambda_{d,\bsk}^p \le \exp\left(\sum_{k=1}^\infty s_k^p \sum_{\ell = 1}^{d} w_\ell^{p} \right)\le \exp\left(\sum_{k =1 }^{\infty} s_k^p \sum_{\ell = 1}^{\infty} w_\ell^{p} \right),\]
-if $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite.
+For $\bslambda = \bigl(\lambda_{\bsk} \bigr)_{\bsk \in \bbN_0^d}$ defined in \eqref{DHKM:prodwts}
+we have 
+\begin{align*}
+\norm[p]{\bslambda} &\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw}^p  \right) \qquad \text{for general } \bss, \text{ provided that  $\norm[p]{\bss}$ is finite},\\
+ \norm[p]{\bslambda} & \le \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \qquad \text{for } \bss = (1, 2^{-r}, 3^{-r}, \ldots ), \text{ provided that } pr > 1.
+\end{align*}
 \end{lemma}
 \begin{proof}
+The proof proceeds by straightforward calculation under the assumption that $\norm[p]{\bss}$ is finite:
 \begin{align*}
-   \sum_{\bsk \in \NN_0^d}^\infty \lambda_{d,\bsk}^p  & =
-   \prod_{\ell =1}^d\left(1+ w_\ell^p \sum_{k=1}^{\infty}s_{k}^p\right) \qquad \text{ by \eqref{DHKM:prodwts} }\\
-    & = \exp\left(\sum_{\ell = 1}^d \log\bigl(1 + w_\ell^{p}\sum_{k=1}^{\infty}s_{k}^p \bigr) \right)\\
- &  \le \exp\left(\sum_{\ell = 1}^d  w_\ell^{p}\sum_{k=1}^{\infty}s_{k}^p \right)
-\qquad \text{since }\log(1+x) \le x \ \forall x\ge 0,\\
-&\le \exp\left(\sum_{\ell = 1}^\infty w_\ell^{p}\sum_{k=1}^{\infty}s_{k}^p \right)
-\qquad \text{ since  } \sum_{\ell = 1}^{\infty} w_\ell^{p} \text{ converges}.\\
+   \norm[p]{\bslambda}^ p & 
+   = \sum_{\bsk \in \NN_0^d}^\infty \lambda_{d,\bsk}^p  
+   = \prod_{\ell =1}^d\left(1+ w_\ell^p \sum_{k=1}^{\infty}s_{k}^p\right) 
+   = \prod_{\ell =1}^d\left(1+ w_\ell^p \norm[p]{\bss}^p \right) 
+   \qquad \text{ by \eqref{DHKM:prodwts} }\\
+    & = \exp\left(\sum_{\ell = 1}^d \log\bigl(1 + w_\ell^{p}\norm[p]{\bss}^p \bigr) \right)\\
+ &  \le \exp\left(\sum_{\ell = 1}^d  w_\ell^{p} \norm[p]{\bss}^p \right) = \exp\left(\norm[p]{\bsw}^p\norm[p]{\bss}^p \right)
+\quad \text{since }\log(1+x) \le x \ \forall x\ge 0.
 \end{align*}
+Taking the $p^{\text{th}}$ root completes the proof for the general case.  For the particular form of $\bss$ introduced in \eqref{DHKM:IllExWts} it follows that $\norm[p]{\bss}^p = \zeta(pr)$ for $pr > 1$.
 \end{proof}
 
-The example in Section \ref{DHKM:secexamp} chooses $\rho = \tau = 2$, $\rho' = \infty$. Thus, we obtain by Theorem \ref{DHKM:thm_cost_non_adapt}:
-\begin{align*}
-	\COMP(\calA(\calB_{R}),\varepsilon,R) &= \COST(\ALG,\calB_{R},\varepsilon,R) 
-	=\min\{ n \in \N_0 : \lambda_{\bsk_{n+1}} \le \varepsilon/R \}.
-\end{align*}
-Using the non-increasing ordering of the $\lambda_{\bsk_i}$, we employ a standard technique for bounding the $n+1^\text{st}$ largest $\lambda_{\bsk}$ in terms of the sum of the $p^\text{th}$ power of all the $\lambda_{\bsk}$.  For $0  < 1/r < p$, by Lemma \ref{DHKM:lambdineq} and Lemma \ref{DHKM:prodwtsupperbound} with $s_k = k^{-r}$, 
-\begin{align*}
-n\lambda_{\bsk_{n+1}}^{p} \le \sum_{\bsk \in \bbN_0^d}\lambda_{\bsk}^{p}  \le 
-\exp\left(\sum_{\ell = 1}^d  w_\ell^{p}\sum_{k=1}^{\infty}\frac{1}{k^{p r} }\right)
- \le \exp\left(\zeta(pr) \sum_{\ell = 1}^{\infty} w_\ell^{p} \right).
-\end{align*}
-Hence, substituting the above upper bound on $\lambda_{\bsk_{n+1}}$ into the formula for the complexity of the problem, we obtain an upper bound on the complexity:
-\begin{align*}
-    \MoveEqLeft{\COMP(\calA(\calB_{R}),\varepsilon,R)} \\
-  &\le\min\left\{ n \in \N_0 : \frac{1}{n}\exp\left(\zeta(p r) \sum_{\ell = 1}^\infty w_\ell^{p} \right)  \le \left( \frac{\varepsilon}{R} \right)^{p}  \right\} \\
-  &= \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(p r) \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right) \right \rceil .
-\end{align*}
+\bigskip
 
-If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $p^* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calA(\calB_{R}),\varepsilon,R) \ge 2^d$, and the problem is not tractable.
+Lemmas \ref{DHKM:lambdineq} and \ref{DHKM:prodwtsupperbound} imply upper bounds on $\bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} = \lambda_{\bsk_{n+1}}$:
+\begin{align*}
+\lambda_{\bsk_{n+1}} &\le \frac{1}{n^{1/p}} \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw}^p  \right) \qquad \text{for general } \bss, \text{ provided that  $\norm[p]{\bss}$ is finite},\\
+\lambda_{\bsk_{n+1}} & \le \frac{1}{n^{1/p}} \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \  \text{for } \bss = (1, 2^{-r}, 3^{-r}, \ldots ), \text{ provided that } pr > 1.
+\end{align*}
+These upper bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} imply upper bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp} for all $p > 1/r$:
+\begin{equation*}
+    \text{Algorithm \ref{DHKM:BallAlg}:} \quad \COST(\ALG,\calB_R,\varepsilon, R') 
+    \le \left \lceil  \left(\frac{R}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil,
+    \end{equation*}
+    \begin{multline*}
+    \text{Algorithm \ref{DHKM:PilotConeAlg}:} \quad \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
+    \\ \le \max \left( n_1, 
+    \left \lceil  \left(\frac{AR}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil \right).
+    \end{multline*}
+Note that these costs are $\calO(R^p \varepsilon^{-p})$ for all $p > 1/r$. A faster decay rate of the $\lambda_{\bsk}$ due to the faster decay rate of the smoothness coefficients implies smaller information cost.
 }
+
+\FredNote{Fred got to here}
+
+\FredNote{I think that we need a lower bound on $\lambda_{\bsk_{n+1}}$ to obatain lower bounds on the computational complexity. }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tractability}\label{DHKM:SecPilotTract}
@@ -1242,7 +1252,8 @@ Therefore, the upper bound of the computation cost is $n_j^\dagger$, where
 \le  \frac{b\varepsilon n_0^{1/p}}{Ra^2}\exp\left(\frac{1}{p}
 \zeta(pr)\sum_{\ell=1}^\infty 
 w_\ell^p
-\right) \right\}.\]
+\right) \right\}.
+\]
 }
 
 Although Algorithm \ref{DHKM:TrackConeAlg} tracks the decay rate of the $\hf(\bsk_i)$, the information cost bound and complexity bound in the theorem above do not reflect different decay rates of the $\hf(\bsk_i)$. That is a subject for future investigation.  
