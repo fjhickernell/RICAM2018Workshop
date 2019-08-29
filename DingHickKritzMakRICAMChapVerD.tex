@@ -354,9 +354,6 @@ The error of this approximation in terms of the norm on the output space, $\calG
 Here we have chosen $\tau = 2$ so $\rho'=\infty$.  If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer \DHKMchange{for certain classes of inputs in $\calF$ as for example balls, which 
 are among the most prominent examples studied in the literature}.  
 
-%\PeterNote{Should we keep the list of questions in this extensive form?}
-%\YuhanNote{I moved it to introduction}
-
 We return \DHKMchange{to the example of functions on $[-1,1]^d$, using a Chebyshev polynomial basis}, in Section \ref{DHKM:SecPilotTract} to discuss the computational cost and complexity.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
 
 
@@ -375,16 +372,19 @@ By the argument leading to \eqref{DHKM:SOL_A} it follows that
     \norm[\calG]{\SOL(f) - \APP(f,n)} = \norm[\tau]{\bigl(\hf(\bsk_i)\bigr)_{i=n+1}^\infty}.
 \end{equation}
 An upper bound on the approximation error follows from Lemma \ref{DHKM:Key_Lem}:
-\begin{equation} \label{DHKM:Refined_APP_err}
+\begin{gather} \label{DHKM:Refined_APP_err}
     \norm[\calG]{\SOL(f) - \APP(f,n) } \le \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}
-    \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}.
-\end{equation}
+    \bignorm[\rho']{\bslambda^{(n+1)}}, \\
+    \intertext{where the tail of $\bslambda$ is defined by}
+    \label{DHKM:taillambds}
+     \bslambda^{(n)} : = \bigl(  \lambda_{\bsk_i}  \bigr)_{i = n}^{\infty}.
+\end{gather}
 This leads to the following theorem.
 
 
 \begin{theorem} \label{DHKM:APP_optimality_thm} Let $\calB_{R} : = \{ f \in \calF : \norm[\calF]{f} \le R \}$ denote the ball of radius $R$ in the space of input functions.  The error of the approximation defined in \eqref{DHKM:APP_def} is bounded tightly above as 
 \begin{equation} \label{DHKM:APP_errorBd}
-    \sup_{f \in \calB_R} \norm[\calG]{\SOL(f) - \APP(f,n)}  \le R \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}.
+    \sup_{f \in \calB_R} \norm[\calG]{\SOL(f) - \APP(f,n)}  \le R \, \bignorm[\rho']{\bslambda^{(n+1)}}.
 \end{equation}
 Moreover, the worst case error over $\calB_R$ of $\APP'(\cdot,n)$, for any approximation based on $n$ series coefficients of the input function, can be no smaller.
 \end{theorem}
@@ -420,7 +420,7 @@ While approximation $\APP$ is a key piece of the puzzle, our ultimate goal is an
 
     \Ensure Error criterion \eqref{DHKM:err_crit} for $\calC = \calB_{R}$
 
-    \State Choose $n^* =  \min \left \{n \in \N_0 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \le \varepsilon /R \right \}$
+    \State Choose $n^* =  \min \left \{n \in \N_0 : \bignorm[\rho']{\bslambda^{(n+1)}} \le \varepsilon /R \right \}$
 
     \RETURN $\ALG(f,\varepsilon) = \APP(f,n^*)$
 \end{algorithmic}
@@ -429,7 +429,7 @@ We now show that this algorithm is optimal if the input set is a ball.
 \begin{theorem}\label{DHKM:thm_cost_non_adapt}
 The non-adaptive Algorithm \ref{DHKM:BallAlg} has an information cost for the set of input functions $\calC = \calB_R$ that is given by
 \[
-\COST(\ALG, \calB_R, \varepsilon,R') = \min \left \{n \in \N_0 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \le \varepsilon /R \right \}.
+\COST(\ALG, \calB_R, \varepsilon,R') = \min \left \{n \in \N_0 : \bignorm[\rho']{\bslambda^{(n+1)}} \le \varepsilon /R \right \}.
 \]
 This algorithm is essentially optimal for the set of input functions $\calB_R$, namely,
 \begin{multline*}
@@ -516,7 +516,7 @@ where
 \ERRN \\
     : =  
     \left[ A^\rho \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho \right]^{1/\rho} 
-    \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} , 
+    \, \DHKMchange{\bignorm[\rho']{\bslambda^{(n+1)}}} , 
     \\ \forall n \ge n_1.
 \end{multline}
 \end{subequations}
@@ -549,12 +549,12 @@ This error bound decays as $\bignorm[\rho]{\bigl( f(\bsk_i)/\lambda_{\bsk_i} \bi
 Algorithm \ref{DHKM:PilotConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}})$ for $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ defined in \eqref{DHKM:pilot_cone}.  The information cost is
 \begin{multline} \label{DHKM:PilotConeAlg_cost}
     \COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}},\varepsilon,R) \\
-    = \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+    = \min \left \{n \ge n_1 : \DHKMchange{\bignorm[\rho']{\bslambda^{(n+1)}}} \,
     \le \varepsilon/[(A^\rho -1)^{1/\rho}R] \right \}.
 \end{multline}
 There exist positive $\varepsilon_{\max}$ and $R_{\min}$ for which the computational complexity has the lower bound
 \begin{multline} \label{DHKM:PilotConeAlg_comp}
-        \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}),\varepsilon,R) \ge \min \left \{n \ge n_1 : \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+        \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}),\varepsilon,R) \ge \min \left \{n \ge n_1 : \DHKMchange{\bignorm[\rho']{\bslambda^{(n+1)}}} \,
     \le 2\varepsilon/[(1 - 1/A) R] \right \} \\
     \forall \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
 \end{multline}
@@ -568,10 +568,10 @@ The upper bound on the computational cost of this algorithm is obtained by notin
     & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : \ERRN \le \varepsilon \right \} \\
      & \le \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : 
      (A^\rho -1)^{1/\rho} \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1 }} \, 
-     \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}}
+     \DHKMchange{\bignorm[\rho']{\bslambda^{(n+1)}}}
     \le \varepsilon \right \} \\   
      & \le \min \left \{n \ge n_1 : 
-     (A^\rho -1)^{1/\rho} R \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} 
+     (A^\rho -1)^{1/\rho} R \, \DHKMchange{\bignorm[\rho']{\bslambda^{(n+1)}}}
     \le \varepsilon \right \},  
 \end{align*}
 since $\bignorm[\rho]{\bigl( \hf(\bsk)/\lambda_{\bsk} \bigr)_{\bsk \in \calK_1}} \le \bignorm[\rho]{\bigl( \hf(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^{n}} \le  \norm[\calF]{f} \le R$ for all $f \in \calB_R$, $n \ge n_1$.  Moreover, this inequality is tight for some $f \in \DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}} \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
@@ -625,7 +625,7 @@ Using an argument like that in the proof of  Theorem \ref{DHKM:APP_optimality_th
 + \norm[\calG]{\SOL(f_{-}) - \ALG'(f_{+},\varepsilon)}  \right] \\
 & \ge \frac 12 \norm[\calG]{\SOL(f_+ - f_-)} = \norm[\calG]{\SOL(f_2)} 
 =\frac{R(1 - 1/A)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}} \qquad \text{by \eqref{DHKM:SOLf2bd}} \\
-& \ge \frac{R(1 - 1/A)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^\infty},
+& \ge \frac{R(1 - 1/A)}{2} \, \DHKMchange{\bignorm[\rho']{\bslambda^{(n+1)}}} ,
 \end{align*}
 by the ordering of the $\bsk$ in \eqref{DHKM:lambda_order}.  By the choice of $R_{\min}$ and $\varepsilon_{\max}$ above, it follows that $n > n_1$.  This inequality then implies lower complexity bound \eqref{DHKM:PilotConeAlg_comp}. Because $\lim_{R \to \infty} \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}), \varepsilon,R) = \infty$  it follows from Lemma \ref{DHKM:NoNonAdpatLem} that $\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}})$ contains only adaptive algorithms.
 
@@ -721,16 +721,16 @@ Consider the ordered weights,
 $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0,$
 then we have
 \[ 
-\lambda_{\bsk_{n+1}} \le \frac{\norm[p]{\bslambda}}{n^{1/p}} \qquad \forall p >0,
+\lambda_{\bsk_{n+1}} \le \frac{\norm[p]{\bslambda}}{n^{1/p}} \quad \forall p >0, 
+\qquad \sup_{n \in \bbN} \lambda_{\bsk_{n}} n^{\eta/p} \ge \frac{\norm[p]{\bslambda}}{\zeta(\eta)^{1/p}} \quad \forall \eta > 1, \ p>0.
 \]
-provided that $\norm[p]{\bslambda}$ is finite.
 \end{lemma}
 \begin{proof}
 Since the $\lambda_{\bsk_i}$ are non-increasing it follows that 
 \begin{equation*}
     n \lambda_{\bsk_{n+1}}^p \le 
     \lambda_{\bsk_{1}}^p + \lambda_{\bsk_{2}}^p + \cdots 
-    + \lambda_{\bsk_{n}}^p  \le \sum_{\bsk \in \bbK}^\infty \lambda_{\bsk}^p = \norm[p]{\bslambda}^p \qquad \forall p > 0.
+    + \lambda_{\bsk_{n}}^p  \le \sum_{\bsk \in \bbK} \lambda_{\bsk}^p = \norm[p]{\bslambda}^p \qquad \forall p > 0.
 \end{equation*}
 Dividing both sides by $n$ and taking the $p^{\text{th}}$ root completes the proof.
 \end{proof}
@@ -759,7 +759,7 @@ where $\zeta$ is the Riemann zeta function.
 The proof proceeds by straightforward calculation under the assumption that $\norm[p]{\bss}$ is finite:
 \begin{align*}
    \norm[p]{\bslambda}^ p & 
-   = \sum_{\bsk \in \NN_0^d}^\infty \lambda_{d,\bsk}^p  
+   = \sum_{\bsk \in \NN_0^d} \lambda_{\bsk}^p  
    = \prod_{\ell =1}^d\left(1+ w_\ell^p \sum_{k=1}^{\infty}s_{k}^p\right) 
    = \prod_{\ell =1}^d\left(1+ w_\ell^p \norm[p]{\bss}^p \right) 
    \qquad \text{ by \eqref{DHKM:prodwts} }\\
@@ -778,25 +778,36 @@ Lemmas \ref{DHKM:lambdineq} and \ref{DHKM:prodwtsupperbound} imply upper bounds 
 \lambda_{\bsk_{n+1}} & \le \frac{1}{n^{1/p}} \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \  \text{for } \bss = (1, 2^{-r}, 3^{-r}, \ldots ), \text{ provided that } pr > 1.
 \end{align*}
 These upper bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} imply upper bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp} for all $p > 1/r$:
-\begin{equation*}
-    \text{Algorithm \ref{DHKM:BallAlg}:} \quad \COST(\ALG,\calB_R,\varepsilon, R') 
-    \le \left \lceil  \left(\frac{R}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil,
-    \end{equation*}
-    \begin{multline*}
-    \text{Algorithm \ref{DHKM:PilotConeAlg}:} \quad \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
-    \\ \le \max \left( n_1, 
+\begin{align*}
+    \text{Algorithm \ref{DHKM:BallAlg}:} \quad& \COST(\ALG,\calB_R,\varepsilon, R') 
+    \le \left \lceil  \left(\frac{R}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil, \\
+    \text{Algorithm \ref{DHKM:PilotConeAlg}:} \quad& \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
+    \\ & \qquad \qquad \le \max \left( n_1, 
     \left \lceil  \left(\frac{AR}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil \right).
-    \end{multline*}
+    \end{align*}
 Note that these costs are $\calO(R^p \varepsilon^{-p})$ for all $p > 1/r$. A faster decay rate of the $\lambda_{\bsk}$ due to the faster decay rate of the smoothness coefficients, $s_k$, implies asymptotically smaller information cost.
 }
 
 \FredNote{Fred got to here}
 
-\FredNote{I think that we need a lower bound on $\lambda_{\bsk_{n+1}}$ to obatain lower bounds on the computational complexity. }
+\FredNote{I think that we need a lower bound on $\lambda_{\bsk_{n+1}}$ to obtain lower bounds on the computational complexity. }
+
+\PeterNote{Do you mean a general estimate in terms of the other eigenvalues 
+or something specifically for this example?}
+
+\FredNote{Do we want to use $p$ as our exponent or $\eta$ as in the derivations below?}
+
+\PeterNote{As far as I can see, we could unify it, right? I do not mind which letter we use.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tractability}\label{DHKM:SecPilotTract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\FredNote{Here we use $n(\delta,d)$.  On the bottom of p.\ 2 we used $n(f,\varepsilon)$.  Will this cause confusion?  Would it make sense to use $N(\cdot,\cdot)$ for one of of these?}
+
+\PeterNote{I agree it might be confusing, but on the other hand it both is related 
+to $n$. How about taking an index $n_{\mathrm{COMP}}$ for $n(\delta,d)$?} \FredNote{Agreed}
+
 \DHKMchange{
 Besides understanding the dependence of $\COMP(\calA(\calC), \varepsilon,R)$ on $\varepsilon$, we also want to understand how $\COMP(\calA(\calC), \varepsilon,R)$ depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  
 The set of functions for which our algorithms succeed, $\calC_d$, depends on the dimension, too.  Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on the dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
@@ -849,7 +860,7 @@ one would essentially replace $\varepsilon^{-1}$
 by $\log (1 + \varepsilon^{-1})$ in the previous tractability notions. A more detailed study of 
 tractability will be done in a future paper.
 
-Consider the example in Section \ref{DHKM:secexamp}, we have
+Considering the example in Section \ref{DHKM:secexamp}, we have
 \begin{align*}
     \MoveEqLeft{\COMP(\calA(\calB_{R}),\varepsilon,R)} 
   \le \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(p r) \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right) \right \rceil .
@@ -1209,17 +1220,17 @@ R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \rig
 From this last inequality, it follows that $j^\dagger \ge j^*$.
 \end{proof} 
 
-Let's revisit the example in Section \ref{DHKM:secexamp}. For this example,
+Let us revisit the example in Section \ref{DHKM:secexamp}. For this example,
 we choose $n_j = n_02^j,$ thus
 \[\calK_j = \{\bsk_{n_0 2^{j-1}+1}, \ldots, \bsk_{n_02^j}\} \quad \text{for } j \in \N \qquad \text{ and } \calK_1 = \{\bsk_{1}, \ldots, \bsk_{n_0}\}.\]
-For example, we have $\rho = \tau = 2$, $\rho' = \infty$. Therefore
+For the example, we have $\rho = \tau = 2$, $\rho' = \infty$. Therefore
 \[\Lambda_j = \|(\lambda_\bsk)_\bsk \in \calK_j\|_{\rho'} = \lambda_{\bsk_{n_0 2^{j-1}+1}}.\]
 By Lemma \ref{DHKM:lambdineq} and Lemma \ref{DHKM:prodwtsupperbound}, we obtain
 \[\Lambda_j \le \frac{1}{ n_0^{1/p} 2^{(j-1)/p}} \exp\left(\frac{1}{p}
 \zeta(pr)\sum_{\ell=1}^\infty 
 w_\ell^p
 \right),\]
-where $0< 1/r< p$.
+where $0< 1/r< p$. Then,
 \begin{align*}
 \norm[\tau]{ \bigl(b^{j+q}\Lambda_{j+q} \bigr)_{q=1}^\infty}^\tau
  & =  \sum_{q=1}^\infty
@@ -1243,7 +1254,7 @@ w_\ell^p
 \right)}{ n_0^{1/p} } 
 \left(\sum_{q=1}^\infty 
 \frac{b^{(j+q)\tau}}{2^{(j+q-1)\tau/p}}
-\right)^{1/\tau}
+\right)^{1/\tau}.
 \end{align*}
 Therefore, the upper bound of the computation cost is $n_j^\dagger$, where
 \[j^\dagger = \min \left \{j \in \bbN : 
