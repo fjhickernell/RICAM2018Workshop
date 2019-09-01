@@ -26,11 +26,11 @@
 \theoremstyle{dgthm}
 \newtheorem{theorem}{Theorem}
 \theoremstyle{dgthm}
-\newtheorem{lemma}{Lemma}
+\newtheorem{lemma}[theorem]{Lemma}
 \theoremstyle{dgthm}
-\newtheorem{corollary}{Corollary}
+\newtheorem{corollary}[theorem]{Corollary}
 \theoremstyle{dgthm}
-\newtheorem{proposition}{Proposition}
+\newtheorem{proposition}[theorem]{Proposition}
 \theoremstyle{dgdef}
 \newtheorem{remark}{Remark}
 \theoremstyle{definition}
@@ -376,7 +376,7 @@ An upper bound on the approximation error follows from Lemma \ref{DHKM:Key_Lem}:
     \norm[\calG]{\SOL(f) - \APP(f,n) } \le \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}
     \bignorm[\rho']{\bslambda^{(n+1)}}, \\
     \intertext{where the tail of $\bslambda$ is defined by}
-    \label{DHKM:taillambds}
+    \label{DHKM:taillambda}
      \bslambda^{(n)} : = \bigl(  \lambda_{\bsk_i}  \bigr)_{i = n}^{\infty}.
 \end{gather}
 This leads to the following theorem.
@@ -708,21 +708,21 @@ $.
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{The Illustrative Example Revisited}\label{DHKM:revisexamp}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bounds on the Information Cost for $\rho = \tau$, $\rho'=\infty$}\label{DHKM:revisexamp}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \YuhanNote{Create a new subsection and move the content related with the example here}
 \DHKMchange{
-We now interpret the information cost upper bounds of Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} for the example introduced in Section \ref{DHKM:secexamp}, where $\rho = \tau = 2$ and $\rho' = \infty$.  In this case, $\bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} = \lambda_{\bsk_{n+1}}$.  To facilitate this interpretation we establish a couple of commonly used lemmas.
+We now derive upper and lower bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the case  $\rho = \tau$ and $\rho' = \infty$, which includes the example introduced in Section \ref{DHKM:secexamp}.  For $\rho'=\infty$, $\bignorm[\rho']{\bslambda^{(n+1)}} = \lambda_{\bsk_{n+1}}$.  To facilitate these bounds we establish a couple of commonly used lemmas.
 
 \begin{lemma}\label{DHKM:lambdineq}
 Consider the ordered weights,
-$\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0,$
-then we have
+$\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0,$ and recall from \eqref{DHKM:taillambda} that $\bslambda^{(n)} = (\lambda_{\bsk_n}, \lambda_{\bsk_{n+1}}, \ldots )$.  It follows that 
 \[ 
-\lambda_{\bsk_{n+1}} \le \frac{\norm[p]{\bslambda}}{n^{1/p}} \quad \forall p >0, 
-\qquad \sup_{n \in \bbN} \lambda_{\bsk_{n}} n^{\eta/p} \ge \frac{\norm[p]{\bslambda}}{\zeta(\eta)^{1/p}} \quad \forall \eta > 1, \ p>0.
+\lambda_{\bsk_{n+1}} \le \frac{\norm[p]{\bslambda}}{n^{1/p}} \ \ \text{and} \ \ 
+ \sup_{n \ge n_{\min}} \lambda_{\bsk_{n}} n^{1/p} \ge \frac{\bignorm[p\eta]{\bslambda^{(n_{\min})}}}{\zeta(\eta)^{1/(p\eta)}} \quad \forall p>0, \ \eta > 1, \ n_{\min} \in \bbN.
 \]
 \end{lemma}
 \begin{proof}
@@ -732,11 +732,66 @@ Since the $\lambda_{\bsk_i}$ are non-increasing it follows that
     \lambda_{\bsk_{1}}^p + \lambda_{\bsk_{2}}^p + \cdots 
     + \lambda_{\bsk_{n}}^p  \le \sum_{\bsk \in \bbK} \lambda_{\bsk}^p = \norm[p]{\bslambda}^p \qquad \forall p > 0.
 \end{equation*}
-Dividing both sides by $n$ and taking the $p^{\text{th}}$ root completes the proof.
+Dividing both sides by $n$ and taking the $p^{\text{th}}$ root completes the proof of the first inequality.  
+
+To prove the second inequality, we employ H\"older's inequality to show that
+\begin{equation*}
+    \bignorm[p\eta]{\bslambda^{(n_{\min})}}^{p\eta} 
+    = \sum_{n=n_{\min}}^\infty \frac{\lambda_{\bsk_n}^{p\eta} n^\eta }{n^\eta} 
+    \le \sup_{n \ge n_{\min}}\lambda_{\bsk_n}^{p\eta} n^\eta \ \sum_{n=n_{\min}}^\infty \frac{1}{n^\eta} \le \sup_{n \ge n_{\min}}\lambda_{\bsk_n}^{p\eta} n^\eta  \zeta(\eta),
+\end{equation*}
+where $\zeta$ is the Riemann zeta function.  The proof is completed by taking the $p\eta^{\text{th}}$ root and rearranging the terms.
 \end{proof}
 
 \bigskip
 
+These upper and lower bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} imply relate the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} to the decay rate of the elements of $\bslambda$.
+
+\begin{theorem} \label{DHKM:thm:costbdspilot}
+If the elements of $\bslambda$ decay fast enough so that $\norm[p]{\bslambda} < \infty$, then the information cost of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are bounded above by
+\begin{align*}
+    \text{Algorithm \ref{DHKM:BallAlg}:} \quad& \COST(\ALG,\calB_R,\varepsilon, R') 
+    \le \left \lceil  \left(\frac{R \norm[p]{\bslambda}}{\varepsilon}\right)^p     \right \rceil, \qquad \forall \varepsilon, R > 0, \\
+    \text{Algorithm \ref{DHKM:PilotConeAlg}:} \quad& \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
+    \\ & \qquad \qquad \le \max \left( n_1, 
+    \left \lceil  \left(\frac{AR \norm[p]{\bslambda}}{\varepsilon}\right)^p \right \rceil \right).
+    \end{align*}
+Conversely, for fixed $R', R$ with $0 < R' < R$, if either
+\begin{align*}
+    \COST(\ALG,\calB_R,\varepsilon, R') 
+    \le C \varepsilon^{-p} & \quad \forall \varepsilon \in (0,\varepsilon_{\max}] \quad  \text{for Algorithm \ref{DHKM:BallAlg}, or }  \\
+     \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
+    \le C \varepsilon^{-p} & \quad \forall \varepsilon \in (0,\varepsilon_{\max}] \quad \text{for Algorithm \ref{DHKM:PilotConeAlg}},
+    \end{align*}
+then $\norm[p\eta]{\bslambda} < \infty$ for all $\eta > 1$.
+\end{theorem}
+\begin{proof}
+We give the proof for Algorithm \ref{DHKM:PilotConeAlg}, which is similar to the proof for Algorithm \ref{DHKM:BallAlg}.  From \eqref{DHKM:PilotConeAlg_cost} it follows that the information cost for  Algorithm \ref{DHKM:PilotConeAlg} in the case of $\rho'=\infty$ is
+\begin{align*} 
+    \COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}},\varepsilon,R) 
+    & = \min \left \{n \ge n_1 : \lambda_{\bsk_{n+1}}
+    \le \frac{\varepsilon}{AR} \right \} \\
+  & \le  \min \left \{n \ge n_1 : \norm[p]{\bslambda}n^{-1/p}
+    \le \frac{\varepsilon}{AR} \right \} \quad  \text{by Lemma \ref{DHKM:lambdineq}} \\
+  & = \left \lceil  \left(\frac{AR \norm[p]{\bslambda}}{\varepsilon}\right)^p \right \rceil.
+\end{align*}
+Now suppose that $\COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
+    \le C \varepsilon^{-p}$ for all $\varepsilon \in (0,\varepsilon_{\max}]$ and let $n_{\min} = \lfloor C \varepsilon_{\max}^{-p} \rfloor$. 
+    According to Lemma \ref{DHKM:lambdineq}, it follows that for all $\eta > 1$,
+    \begin{align*}
+       \bignorm[p\eta]{\bslambda^{(n_{\min})}}  
+       &\le  \zeta(\eta)^{1/(p\eta)} \sup_{n \ge n_{\min}} \lambda_{\bsk_{n}} n^{1/p} \\
+       &=  \zeta(\eta)^{1/(p\eta)} \sup_{0 < \varepsilon \le \varepsilon_{\max}} \lambda_{\bsk_{\lfloor C \varepsilon^{-p} \rfloor+1}} (\lfloor C \varepsilon^{-p} \rfloor+1)^{1/p} \\
+        & \hspace{3cm} \text{by the definition of } n_{\min} \\
+        & =  \zeta(\eta)^{1/(p\eta)} \sup_{0 < \varepsilon \le \varepsilon_{\max}} \frac{\varepsilon \, (\lfloor C \varepsilon^{-p} \rfloor+1)^{1/p}}{
+        AR} < \infty\\
+        & \hspace{3cm} \text{since } \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
+    \le C \varepsilon^{-p}
+    \end{align*}
+    Since $\bignorm[p\eta]{\bslambda^{(n_{\min})}}$ is finite, it follows that $\bignorm[p\eta]{\bslambda}$ is finite.
+\end{proof}
+
+\bigskip
 
 To be more concrete, we consider the situation where the $\lambda_{\bsk}$ are specified in terms of positive \emph{coordinate weights}, $\bsw = (w_1, \ldots, w_d)$, and positive \emph{smoothness weights}, $\bss = (s_1, s_2, \ldots)$:
 \begin{equation}
@@ -748,36 +803,46 @@ This form of the $\lambda_{\bsk}$ is considered in greater detail in Section \re
 
 \begin{lemma}\label{DHKM:prodwtsupperbound}
 For $\bslambda = \bigl(\lambda_{\bsk} \bigr)_{\bsk \in \bbN_0^d}$ defined in \eqref{DHKM:prodwts}
-we have 
-\begin{align*}
-\norm[p]{\bslambda} &\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw}^p  \right) \qquad \text{for general } \bss, \text{ provided that  $\norm[p]{\bss}$ is finite},\\
- \norm[p]{\bslambda} & \le \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \qquad \text{for } \bss = (1, 2^{-r}, 3^{-r}, \ldots ), \text{ provided that } pr > 1,
-\end{align*}
-where $\zeta$ is the Riemann zeta function.
+we have the following lower and upper bounds on $\norm[p]{\bslambda}$.  For general $\bss$ it follows that 
+\begin{gather*}
+\norm[p]{\bss} \norm[p]{\bsw} \le \norm[p]{\bslambda}\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw}^p  \right) \qquad \text{for general } \bss, \\
+[\zeta(pr)]^{1/p} \norm[p]{\bsw} \le \norm[p]{\bslambda} \le \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \qquad \text{for } \bss = (1, 2^{-r}, \ldots ), \ pr > 1.
+\end{gather*}
 \end{lemma}
+
 \begin{proof}
-The proof proceeds by straightforward calculation under the assumption that $\norm[p]{\bss}$ is finite:
-\begin{align*}
-   \norm[p]{\bslambda}^ p & 
+The proof is constructed first for general $\bss$.  By straightforward calculation,
+\begin{equation} \label{DHKM:lambdaprodwts}
+   \norm[p]{\bslambda}^ p 
    = \sum_{\bsk \in \NN_0^d} \lambda_{\bsk}^p  
    = \prod_{\ell =1}^d\left(1+ w_\ell^p \sum_{k=1}^{\infty}s_{k}^p\right) 
    = \prod_{\ell =1}^d\left(1+ w_\ell^p \norm[p]{\bss}^p \right) 
-   \qquad \text{ by \eqref{DHKM:prodwts} }\\
-    & = \exp\left(\sum_{\ell = 1}^d \log\bigl(1 + w_\ell^{p}\norm[p]{\bss}^p \bigr) \right)\\
+   \quad \text{ by \eqref{DHKM:prodwts} }
+\end{equation}
+A lower bound is obtained by noting from the equation above that 
+\begin{equation*}
+   \norm[p]{\bslambda}^ p 
+   = \prod_{\ell =1}^d\left(1+ w_\ell^p \norm[p]{\bss}^p \right)  
+   \ge  \norm[p]{\bss}^p \sum_{\ell =1}^d w_\ell^p = \norm[p]{\bss}^p \norm[p]{\bsw}^p
+\end{equation*}
+Taking the $p^{\text{th}}$ root completes the proof of the lower bound.  For the upper bound \eqref{DHKM:lambdaprodwts} implies that 
+\begin{align*}
+   \norm[p]{\bslambda}^ p
+   & = \prod_{\ell =1}^d\left(1+ w_\ell^p \norm[p]{\bss}^p \right)
+   = \exp\left(\sum_{\ell = 1}^d \log\bigl(1 + w_\ell^{p}\norm[p]{\bss}^p \bigr) \right)\\
  &  \le \exp\left(\sum_{\ell = 1}^d  w_\ell^{p} \norm[p]{\bss}^p \right) = \exp\left(\norm[p]{\bsw}^p\norm[p]{\bss}^p \right)
 \quad \text{since }\log(1+x) \le x \ \forall x\ge 0.
 \end{align*}
-Taking the $p^{\text{th}}$ root completes the proof for the general case.  For the particular form of $\bss$ introduced in \eqref{DHKM:IllExWts} it follows that $\norm[p]{\bss}^p = \zeta(pr)$ for $pr > 1$.
+Again, taking the $p^{\text{th}}$ root completes the proof for general $\bss$.  For the particular form of $\bss$ introduced in \eqref{DHKM:IllExWts} it follows that $\norm[p]{\bss}^p = \zeta(pr)$ for $pr > 1$.
 \end{proof}
 
 \bigskip
 
-Lemmas \ref{DHKM:lambdineq} and \ref{DHKM:prodwtsupperbound} imply upper bounds on $\bignorm[\rho']{\bigl(  \lambda_{\bsk_i}  \bigr)_{i = n+1}^{\infty}} = \lambda_{\bsk_{n+1}}$:
-\begin{align*}
-\lambda_{\bsk_{n+1}} &\le \frac{1}{n^{1/p}} \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw}^p  \right) \qquad \text{for general } \bss, \text{ provided that  $\norm[p]{\bss}$ is finite},\\
-\lambda_{\bsk_{n+1}} & \le \frac{1}{n^{1/p}} \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \  \text{for } \bss = (1, 2^{-r}, 3^{-r}, \ldots ), \text{ provided that } pr > 1.
-\end{align*}
-These upper bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} imply upper bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp} for all $p > 1/r$:
+Theorem \ref{DHKM:thm:costbdspilot} and Lemma \ref{DHKM:prodwtsupperbound} imply bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp}
+
+
+\begin{corollary} For the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp}, 
+for all $p > 1/r$:
 \begin{align*}
     \text{Algorithm \ref{DHKM:BallAlg}:} \quad& \COST(\ALG,\calB_R,\varepsilon, R') 
     \le \left \lceil  \left(\frac{R}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil, \\
@@ -785,15 +850,11 @@ These upper bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref
     \\ & \qquad \qquad \le \max \left( n_1, 
     \left \lceil  \left(\frac{AR}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil \right).
     \end{align*}
-Note that these costs are $\calO(R^p \varepsilon^{-p})$ for all $p > 1/r$. A faster decay rate of the $\lambda_{\bsk}$ due to the faster decay rate of the smoothness coefficients, $s_k$, implies asymptotically smaller information cost.
+Furthermore, these information costs cannot grow any slower than $\calO(\varepsilon^{-1/r})$ for $\varepsilon \downarrow 0$.
+\end{corollary}
 }
 
 \FredNote{Fred got to here}
-
-\FredNote{I think that we need a lower bound on $\lambda_{\bsk_{n+1}}$ to obtain lower bounds on the computational complexity. }
-
-\PeterNote{Do you mean a general estimate in terms of the other eigenvalues 
-or something specifically for this example?}
 
 \FredNote{Do we want to use $p$ as our exponent or $\eta$ as in the derivations below?}
 
