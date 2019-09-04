@@ -200,7 +200,7 @@ where the idea is that the cone consists of $f\in\calF$ such that
 $$
   \norm[\calF]{f}\le h (\hf(\bsk_1),\ldots,\hf (\bsk_{n_1}))
 $$
-for a suitably chosen homogeneous function $h:\bbR\to [0,\infty)$. This means that the norm of $f$ can be bounded well in terms of 
+for a suitably chosen homogeneous function $h:\bbR^{n_1}\to [0,\infty)$. This means that the norm of $f$ can be bounded well in terms of 
 a \emph{pilot sample} of size $n_1\in\bbN$. See \eqref{DHKM:pilot_cone} for the precise definition. In Section \ref{DHKM:SecAdapAlgTrackDecay}, we will modify the definition of cones such that we can keep track of the decay rate of the series coefficients of the input function (see \eqref{DHKM:TrackConeDef}), 
 and in Section \ref{DHKM:smoothimportance_sec} we allow a situation 
 where we infer coordinate and smoothness importance from some initial data, thus making the definition of the cone more practical (see  
@@ -724,6 +724,7 @@ $\lambda_{\bsk_{1}} \ge \lambda_{\bsk_{2}} \ge \cdots > 0,$ and recall from \eqr
 \lambda_{\bsk_{n+1}} \le \frac{\norm[p]{\bslambda}}{n^{1/p}} \ \ \text{and} \ \ 
  \sup_{n \ge n_{\min}} \lambda_{\bsk_{n}} n^{1/p} \ge \frac{\bignorm[p\eta]{\bslambda^{(n_{\min})}}}{\zeta(\eta)^{1/(p\eta)}} \quad \forall p>0, \ \eta > 1, \ n_{\min} \in \bbN.
 \]
+If $\norm[p]{\bslambda} = \infty$ or $\sup_{n \ge n_{\min}} \lambda_{\bsk_{n}} n^{1/p} = \infty$, we consider these inequalities to be trivially true.
 \end{lemma}
 \begin{proof}
 Since the $\lambda_{\bsk_i}$ are non-increasing it follows that 
@@ -745,16 +746,16 @@ where $\zeta$ is the Riemann zeta function.  The proof is completed by taking th
 
 \bigskip
 
-These upper and lower bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} imply relate the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} to the decay rate of the elements of $\bslambda$.
+These upper and lower bounds together with Theorems \ref{DHKM:thm_cost_non_adapt} and \ref{DHKM:PilotCostThm} can be used to relate the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} to the decay rate of the elements of $\bslambda$.
 
 \begin{theorem} \label{DHKM:thm:costbdspilot}
-If the elements of $\bslambda$ decay fast enough so that $\norm[p]{\bslambda} < \infty$, then the information cost of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are bounded above by
+If the elements of $\bslambda$ decay fast enough so that $\norm[p]{\bslambda} < \infty$ and $\rho'=\infty$, then the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are bounded above by
 \begin{align*}
     \text{Algorithm \ref{DHKM:BallAlg}:} \quad& \COST(\ALG,\calB_R,\varepsilon, R') 
-    \le \left \lceil  \left(\frac{R \norm[p]{\bslambda}}{\varepsilon}\right)^p     \right \rceil, \qquad \forall \varepsilon, R > 0, \\
+    \le \left \lceil  \left(\frac{R \norm[p]{\bslambda}}{\varepsilon}\right)^p     \right \rceil, \qquad \forall \varepsilon, \ 0 < R' < R, \\
     \text{Algorithm \ref{DHKM:PilotConeAlg}:} \quad& \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
     \\ & \qquad \qquad \le \max \left( n_1, 
-    \left \lceil  \left(\frac{AR \norm[p]{\bslambda}}{\varepsilon}\right)^p \right \rceil \right).
+    \left \lceil  \left(\frac{[(A^\rho -1)^{1/\rho}R] \norm[p]{\bslambda}}{\varepsilon}\right)^p \right \rceil \right).
     \end{align*}
 Conversely, for fixed $R', R$ with $0 < R' < R$, if either
 \begin{align*}
@@ -763,30 +764,32 @@ Conversely, for fixed $R', R$ with $0 < R' < R$, if either
      \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
     \le C \varepsilon^{-p} & \quad \forall \varepsilon \in (0,\varepsilon_{\max}] \quad \text{for Algorithm \ref{DHKM:PilotConeAlg}},
     \end{align*}
-then $\norm[p\eta]{\bslambda} < \infty$ for all $\eta > 1$.
+then $\norm[p\eta]{\bslambda} < \infty$ for all $\eta > 1$.  Since Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are essentially optimal, the above inequalities provide upper and lower asymptotic bounds on  $\COMP(\calA(\calB_R),\varepsilon,R')$ and $\COMP(\calA(\calC_{\bslambda,n_1,A}),\varepsilon,R)$.
 \end{theorem}
 \begin{proof}
-We give the proof for Algorithm \ref{DHKM:PilotConeAlg}, which is similar to the proof for Algorithm \ref{DHKM:BallAlg}.  From \eqref{DHKM:PilotConeAlg_cost} it follows that the information cost for  Algorithm \ref{DHKM:PilotConeAlg} in the case of $\rho'=\infty$ is
+We give the proof for Algorithm \ref{DHKM:PilotConeAlg}, which is similar to the proof for Algorithm \ref{DHKM:BallAlg}.  Recall that for $\rho'=\infty$, $\bignorm[\rho']{\bslambda^{(n+1)}} = \lambda_{\bsk_{n+1}}$. From \eqref{DHKM:PilotConeAlg_cost} it follows that the information cost for  Algorithm \ref{DHKM:PilotConeAlg} is
 \begin{align*} 
-    \COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}},\varepsilon,R) 
+    \COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}},\varepsilon,R)
     & = \min \left \{n \ge n_1 : \lambda_{\bsk_{n+1}}
-    \le \frac{\varepsilon}{AR} \right \} \\
+    \le \frac{\varepsilon}{[(A^\rho -1)^{1/\rho}R]} \right \} \\
   & \le  \min \left \{n \ge n_1 : \norm[p]{\bslambda}n^{-1/p}
-    \le \frac{\varepsilon}{AR} \right \} \quad  \text{by Lemma \ref{DHKM:lambdineq}} \\
-  & = \left \lceil  \left(\frac{AR \norm[p]{\bslambda}}{\varepsilon}\right)^p \right \rceil.
+    \le \frac{\varepsilon}{[(A^\rho -1)^{1/\rho}R]} \right \} \\
+    & \qquad \qquad \text{by Lemma \ref{DHKM:lambdineq} since } \lambda_{\bsk_{n+1}} \le \norm[p]{\bslambda}n^{-1/p}\\
+  & = \left \lceil  \left(\frac{[(A^\rho -1)^{1/\rho}R] \norm[p]{\bslambda}}{\varepsilon}\right)^p \right \rceil.
 \end{align*}
 Now suppose that $\COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
-    \le C \varepsilon^{-p}$ for all $\varepsilon \in (0,\varepsilon_{\max}]$ and let $n_{\min} = \lfloor C \varepsilon_{\max}^{-p} \rfloor$. 
+    \le C \varepsilon^{-p}$ for all $\varepsilon \in (0,\varepsilon_{\max}]$.  Since the information cost is an integer, this means that $\COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
+    \le \lfloor C \varepsilon^{-p} \rfloor$  and let $n_{\min} = \lfloor C \varepsilon_{\max}^{-p} \rfloor +1$. 
     According to Lemma \ref{DHKM:lambdineq}, it follows that for all $\eta > 1$,
     \begin{align*}
        \bignorm[p\eta]{\bslambda^{(n_{\min})}}  
        &\le  \zeta(\eta)^{1/(p\eta)} \sup_{n \ge n_{\min}} \lambda_{\bsk_{n}} n^{1/p} \\
        &=  \zeta(\eta)^{1/(p\eta)} \sup_{0 < \varepsilon \le \varepsilon_{\max}} \lambda_{\bsk_{\lfloor C \varepsilon^{-p} \rfloor+1}} (\lfloor C \varepsilon^{-p} \rfloor+1)^{1/p} \\
         & \hspace{3cm} \text{by the definition of } n_{\min} \\
-        & =  \zeta(\eta)^{1/(p\eta)} \sup_{0 < \varepsilon \le \varepsilon_{\max}} \frac{\varepsilon \, (\lfloor C \varepsilon^{-p} \rfloor+1)^{1/p}}{
+        & \le  \zeta(\eta)^{1/(p\eta)} \sup_{0 < \varepsilon \le \varepsilon_{\max}} \frac{\varepsilon \, (\lfloor C \varepsilon^{-p} \rfloor+1)^{1/p}}{
         AR} < \infty\\
         & \hspace{3cm} \text{since } \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
-    \le C \varepsilon^{-p}
+    \le \lfloor C \varepsilon^{-p} \rfloor.
     \end{align*}
     Since $\bignorm[p\eta]{\bslambda^{(n_{\min})}}$ is finite, it follows that $\bignorm[p\eta]{\bslambda}$ is finite.
 \end{proof}
@@ -803,7 +806,7 @@ This form of the $\lambda_{\bsk}$ is considered in greater detail in Section \re
 
 \begin{lemma}\label{DHKM:prodwtsupperbound}
 For $\bslambda = \bigl(\lambda_{\bsk} \bigr)_{\bsk \in \bbN_0^d}$ defined in \eqref{DHKM:prodwts}
-we have the following lower and upper bounds on $\norm[p]{\bslambda}$.  For general $\bss$ it follows that 
+we have the following lower and upper bounds on $\norm[p]{\bslambda}$.  It holds that
 \begin{gather*}
 \norm[p]{\bss} \norm[p]{\bsw} \le \norm[p]{\bslambda}\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw}^p  \right) \qquad \text{for general } \bss, \\
 [\zeta(pr)]^{1/p} \norm[p]{\bsw} \le \norm[p]{\bslambda} \le \exp\left(\frac {\zeta(pr)}p \norm[p]{\bsw}^p  \right) \qquad \text{for } \bss = (1, 2^{-r}, \ldots ), \ pr > 1.
@@ -817,13 +820,13 @@ The proof is constructed first for general $\bss$.  By straightforward calculati
    = \sum_{\bsk \in \NN_0^d} \lambda_{\bsk}^p  
    = \prod_{\ell =1}^d\left(1+ w_\ell^p \sum_{k=1}^{\infty}s_{k}^p\right) 
    = \prod_{\ell =1}^d\left(1+ w_\ell^p \norm[p]{\bss}^p \right) 
-   \quad \text{ by \eqref{DHKM:prodwts} }
+   \quad \text{ by \eqref{DHKM:prodwts} .}
 \end{equation}
 A lower bound is obtained by noting from the equation above that 
 \begin{equation*}
    \norm[p]{\bslambda}^ p 
    = \prod_{\ell =1}^d\left(1+ w_\ell^p \norm[p]{\bss}^p \right)  
-   \ge  \norm[p]{\bss}^p \sum_{\ell =1}^d w_\ell^p = \norm[p]{\bss}^p \norm[p]{\bsw}^p
+   \ge  \norm[p]{\bss}^p \sum_{\ell =1}^d w_\ell^p = \norm[p]{\bss}^p \norm[p]{\bsw}^p.
 \end{equation*}
 Taking the $p^{\text{th}}$ root completes the proof of the lower bound.  For the upper bound \eqref{DHKM:lambdaprodwts} implies that 
 \begin{align*}
@@ -838,36 +841,39 @@ Again, taking the $p^{\text{th}}$ root completes the proof for general $\bss$.  
 
 \bigskip
 
-Theorem \ref{DHKM:thm:costbdspilot} and Lemma \ref{DHKM:prodwtsupperbound} imply bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp}
+Theorem \ref{DHKM:thm:costbdspilot} and Lemma \ref{DHKM:prodwtsupperbound} imply bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp}.
 
 
-\begin{corollary} For the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp}, 
-for all $p > 1/r$:
+\begin{corollary}\label{DHKM:cor:illex} 
+For the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp}, for all $p > 1/r$:
 \begin{align*}
     \text{Algorithm \ref{DHKM:BallAlg}:} \quad& \COST(\ALG,\calB_R,\varepsilon, R') 
     \le \left \lceil  \left(\frac{R}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil, \\
     \text{Algorithm \ref{DHKM:PilotConeAlg}:} \quad& \COST(\ALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
     \\ & \qquad \qquad \le \max \left( n_1, 
-    \left \lceil  \left(\frac{AR}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil \right).
+    \left \lceil  \left(\frac{(A^\rho-1)^{1/\rho}R}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil \right).
     \end{align*}
-Furthermore, these information costs cannot grow any slower than $\calO(\varepsilon^{-1/r})$ for $\varepsilon \downarrow 0$.
+Furthermore, these information costs cannot grow any slower than $\calO(\varepsilon^{-1/r})$ for $\varepsilon \downarrow 0$. Since Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are essentially optimal, the above inequalities provide upper and lower asymptotic bounds on  $\COMP(\calA(\calB_R),\varepsilon,R')$ and $\COMP(\calA(\calC_{\bslambda,n_1,A}),\varepsilon,R)$ for the illustrative example in Section \ref{DHKM:secexamp}.
 \end{corollary}
 }
 
-\FredNote{Fred got to here}
-
-\FredNote{Do we want to use $p$ as our exponent or $\eta$ as in the derivations below?}
-
-\PeterNote{As far as I can see, we could unify it, right? I do not mind which letter we use.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tractability}\label{DHKM:SecPilotTract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\FredNote{Here we use $n(\delta,d)$.  On the bottom of p.\ 2 we used $n(f,\varepsilon)$.  Will this cause confusion?  Would it make sense to use $N(\cdot,\cdot)$ for one of of these?}
+\FredNote{As far as simplifications go, 
 
-\PeterNote{I agree it might be confusing, but on the other hand it both is related 
-to $n$. How about taking an index $n_{\mathrm{COMP}}$ for $n(\delta,d)$?} \FredNote{Agreed}
+1) If we like the $\bslambda^{(n)}$ notation and even want to write $\bslambda^{(n)}_d$ to emphasize the $d$ dependence, then we can simplify some of the equations below.}
+
+\PeterNote{I am not sure. I have the impression that with the additional restriction 
+that many sums do not start with index 1, but with indices depending on $d$ and other parameters, it might make notation overly complicated... .
+I mostly left it as it is. But if you prefer, we can still change it!}
+
+\FredNote{I commented out where I thought we could introduce the notation.  Let me know what you think.}
+
+\PeterNote{I agree. Let us use your notation, it makes it more consistent.}
+
 
 \DHKMchange{
 Besides understanding the dependence of $\COMP(\calA(\calC), \varepsilon,R)$ on $\varepsilon$, we also want to understand how $\COMP(\calA(\calC), \varepsilon,R)$ depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  
@@ -884,20 +890,19 @@ dependence is natural for cones $\calC$ and might be different if $\calC$ is not
 
 \begin{itemize}   
 \item We say that the adaptive approximation problem is strongly polynomially tractable
-if and only if there are non-negative $C$, $p$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
+if and only if there are non-negative $C$, $\widetilde{p}$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
 $$   
-\COMP(\calA(\calC_d), \varepsilon,R)\le C\,R^p\,\varepsilon^{-p} \qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
+\COMP(\calA(\calC_d), \varepsilon,R)\le C\,R^{\widetilde{p}}\,\varepsilon^{-\widetilde{p}} \qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
 $$   
-The infimum of $p$ satisfying the bound above is denoted by $p^*$   
-and is called the exponent of strong polynomial tractability.    
+The infimum of $\widetilde{p}$ satisfying the bound above is denoted by $\widetilde{p}_*$  and is called the exponent of strong polynomial tractability.    
 \newline \qquad   
 
 \item    
 We say that the problem is polynomially tractable
-if and only if there are non-negative $C,p$, $q$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
+if and only if there are non-negative $C,\widetilde{p}$, $q$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
 $$   
-\COMP(\calA(\calC_d), \varepsilon,R)\le C\,d^{\,q}\,R^p\,   
-\varepsilon^{-p}\qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).  
+\COMP(\calA(\calC_d), \varepsilon,R)\le C\,d^{\,q}\,R^{\widetilde{p}}\,   
+\varepsilon^{-{\widetilde{p}}}\qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).  
 $$   
 \vskip 0.5pc     
 
@@ -910,7 +915,6 @@ $$
 {d+R\,\varepsilon^{-1}}\,=\,0.   
 $$    
 \end{itemize}   
-
 Necessary and sufficient conditions on these tractability notions will be studied 
 for different types of algorithms in this section and Section \ref{DHKM:SecDecayTract}. 
 
@@ -921,30 +925,34 @@ one would essentially replace $\varepsilon^{-1}$
 by $\log (1 + \varepsilon^{-1})$ in the previous tractability notions. A more detailed study of 
 tractability will be done in a future paper.
 
-Considering the example in Section \ref{DHKM:secexamp}, we have
+Returning again to the example in Section \ref{DHKM:secexamp}, we have, by Corollary \ref{DHKM:cor:illex}
 \begin{align*}
     \MoveEqLeft{\COMP(\calA(\calB_{R}),\varepsilon,R)} 
-  \le \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(p r) \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right) \right \rceil .
+  \le \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(p r) \norm[p]{\bsw}^p  \right) \right \rceil .
 \end{align*}
-
-If $p^\dagger$ is the infimum of the $p$ for which $\sum_{\ell = 1}^{\infty} w_\ell^{p}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $p^* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calA(\calB_{R}),\varepsilon,R) \ge 2^d$, and the problem is not tractable.\\
+If $p^\dagger$ is the infimum of the $p$ for which $\norm[p]{\bsw}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $\widetilde{p}_* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calA(\calB_{R}),\varepsilon,R) \ge 2^d$, and the problem is not tractable.\\
 
 }
 
 Recall that we assume that 
 $\lambda_{d,\bsk_1}\ge \lambda_{d,\bsk_2}\ge \cdots >0$. Let 
+% \[
+% n_{\COMP}(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bigl(  \lambda_{d,\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+%     \le \delta \right \} \qquad \forall \delta > 0.
+% \]
 \[
-n(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bigl(  \lambda_{d,\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
-    \le \delta \right \} \qquad \forall \delta > 0.
+n_{\COMP}(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bslambda^{(n+1)}_d} \,
+    \le \delta \right \} \qquad \forall \delta > 0,
 \]
+where as in \eqref{DHKM:taillambda} $\bslambda_d^{(n)} := (\lambda_{d,\bsk_n}, \lambda_{d,\bsk_{n+1}}, \ldots )$
 From 
 Equations \eqref{DHKM:PilotConeAlg_cost} and \eqref{DHKM:PilotConeAlg_comp}, we obtain that 
 \begin{multline*}
-     \COMP(\calA(\calC_d),\omega_{\textup{lo}} \varepsilon,R) \le n(\varepsilon/R,d) \le 
+     \COMP(\calA(\calC_d),\omega_{\textup{lo}} \varepsilon,R) \le n_{\COMP}(\varepsilon/R,d) \le 
         \COMP(\calA(\calC_d),\omega_{\textup{hi}} \varepsilon,R)  \\
         \forall \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty),
 \end{multline*}
-where the positive constants $\omega_{\textup{lo}}$ and $\omega_{\textup{hi}}$  depend on $A$, but do not depend on $d$, $\varepsilon$, or $R$.  From the equation above, it is clear that tractability depends on the behavior of $n(\varepsilon/R,d)$ as $R/\varepsilon$ and $d$ tend to infinity. We would like to study under which conditions we obtain the various tractability notions defined above.
+where the positive constants $\omega_{\textup{lo}}$ and $\omega_{\textup{hi}}$  depend on $A$, but do not depend on $d$, $\varepsilon$, or $R$.  From the equation above, it is clear that tractability depends on the behavior of $n_{\COMP}(\varepsilon/R,d)$ as $R/\varepsilon$ and $d$ tend to infinity. We would like to study under which conditions we obtain the various tractability notions defined above.
 
 To this end, we distinguish two cases, depending on whether $\rho'$ is infinite or not. This 
 distinction is useful because it allows us to relate the computational complexity of the algorithms 
@@ -961,7 +969,7 @@ For both of these settings there exist tractability results that we will make us
 
 If $\rho'=\infty$, we have, due to the monotonicity of the $\lambda_{d,\bsk_i}$, 
 \[
-n(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,
+n_{\COMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,
     \le \varepsilon/R \right \}.
 \]
 We then have the following theorem.
@@ -970,15 +978,21 @@ We then have the following theorem.
 Using the same notation as above, the following statements hold for the case $\rho'=\infty$.
  \begin{itemize}
   \item[1.] 
-  We have strong polynomial tractability if and only if there exist $\eta>0$ and $i_0\in\NN$ such that
+  We have strong polynomial tractability if and only if there exist $p>0$ and $i_0\in\NN$ such that
+%  \begin{equation}\label{DHKM:eq:condspt}
+%     \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^p < \infty.
+%  \end{equation}
  \begin{equation}\label{DHKM:eq:condspt}
-    \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^\eta < \infty.
+    \sup_{d\in\NN} \, \bignorm[p]{\bslambda_d^{(i_0)}} < \infty.
  \end{equation}
- Furthermore, the exponent of strong polynomial tractability is then equal to the infimum of those $\eta>0$ for which \eqref{DHKM:eq:condspt} holds. 
+ Furthermore, the exponent of strong polynomial tractability is then equal to the infimum of those $p>0$ for which \eqref{DHKM:eq:condspt} holds. 
  \item[2.] 
-  We have polynomial tractability if and only if there exist $\eta_1, \eta_2 \ge 0$ and $\eta_3, K>0$ such that
+  We have polynomial tractability if and only if there exist $p_1, p_2 \ge 0$ and $p_3, K>0$ such that
+%  \[
+%     \sup_{d\in\NN} d^{-p_1}\, \sum_{i=\lceil K d^{p_2} \rceil}^\infty \lambda_{d,\bsk_i}^{p_3} < \infty.
+%  \]
  \[
-    \sup_{d\in\NN} d^{-\eta_1}\, \sum_{i=\lceil K d^{\eta_2} \rceil}^\infty \lambda_{d,\bsk_i}^{\eta_3} < \infty.
+    \sup_{d\in\NN} d^{-p_1}\, \bignorm[p_3]{\bslambda_d^{(\lceil K d^{p_2} \rceil)}} < \infty.
  \]
  \item[3.] 
  We have weak tractability if and only if 
@@ -990,24 +1004,34 @@ Using the same notation as above, the following statements hold for the case $\r
 
 \begin{proof}
 Letting $\widetilde{\varepsilon}:=\sqrt{\varepsilon/R}$, we see that 
-$n(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \widetilde{\varepsilon}^{\,2} \right \}$. The latter expression is well studied in the context of tractability of linear problems in the worst-case setting defined on unit balls of certain spaces, and if and only if conditions on the $\lambda_{d,\bsk_i}$ for various tractability notions are known. These conditions can be found in \cite[Chapter 5]{NovWoz08a} for (strong) polynomial tractability and  \cite{WerWoz17} for weak tractability.
+$n_{\COMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \widetilde{\varepsilon}^{\,2} \right \}$. The latter expression is well studied in the context of tractability of linear problems in the worst-case setting defined on unit balls of certain spaces, and if and only if conditions on the $\lambda_{d,\bsk_i}$ for various tractability notions are known. These conditions can be found in \cite[Chapter 5]{NovWoz08a} for (strong) polynomial tractability and  \cite{WerWoz17} for weak tractability.
 
 Since, in this chapter, we consider $\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \varepsilon/R \right \}$, and in \cite{NovWoz08a} and \cite{WerWoz17} $\varepsilon /R$ is replaced by the square of the error tolerance,
-there are slight differences between the results here and those in the aforementioned references; to be more precise, the exponent of strong polynomial tractability is $\eta$ here, whereas it is $2\eta$ in \cite{NovWoz08a}, and $1/\lambda_{d,\bsk_i}$ in \eqref{DHKM:eq:condwt} corresponds to $1/\sqrt{\lambda_{d,\bsk_i}}$ in \cite{WerWoz17}. 
+there are slight differences between the results here and those in the aforementioned references; to be more precise, the exponent of strong polynomial tractability here is, formally speaking, half of the exponent in in \cite{NovWoz08a}, and $1/\lambda_{d,\bsk_i}$ in \eqref{DHKM:eq:condwt} corresponds to $1/\sqrt{\lambda_{d,\bsk_i}}$ in \cite{WerWoz17}. 
 \end{proof}
 
 \paragraph*{CASE 2: $\rho'<\infty$:} 
 
 In this case, letting $\widetilde{\varepsilon}:=(\varepsilon/R)^{\rho'/2}$ and 
 $\widetilde{\lambda}_{d,i}:=\lambda_{d,\bsk_i}^{\rho'}$, we have 
+% \begin{align}
+%     \nonumber 
+%     n_{\COMP}(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
+% \sum_{i=n+1}^\infty \lambda_{d,\bsk_i}^{\rho'}\,
+%     \le (\varepsilon/R)^{\rho'} \right \} \\
+%     \label{DHKM:eqaveragetract}
+%     & =\min \left \{n\ge 0\colon 
+% \sum_{i=n+1}^\infty \widetilde{\lambda}_{d,i}\,
+%     \le \widetilde{\varepsilon}^{\,2} \right \}.
+% \end{align}
 \begin{align}
     \nonumber 
-    n(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
-\sum_{i=n+1}^\infty \lambda_{d,\bsk_i}^{\rho'}\,
+    n_{\COMP}(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
+\bignorm[\rho']{\bslambda_d^{(n+1)}}\,
     \le (\varepsilon/R)^{\rho'} \right \} \\
     \label{DHKM:eqaveragetract}
     & =\min \left \{n\ge 0\colon 
-\sum_{i=n+1}^\infty \widetilde{\lambda}_{d,i}\,
+\bignorm[1]{\widetilde{\bslambda}_d^{(n+1)}}\,
     \le \widetilde{\varepsilon}^{\,2} \right \}.
 \end{align}
 However, the latter expression corresponds exactly to the 
@@ -1019,20 +1043,26 @@ This leads us to the following theorem.
 Using the same notation as above, the following statements hold for the case $\rho'<\infty$.
  \begin{itemize}
   \item[1.] 
-  We have strong polynomial tractability if and only if there exist $\eta\in (0,1)$ and $i_0\in\NN$ such that
+  We have strong polynomial tractability if and only if there exist $p\in (0,1)$ and $i_0\in\NN$ such that
+%  \begin{equation}\label{DHKM:eq:condspt1}
+%     \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^{\rho'\,p} < \infty.
+%  \end{equation}
  \begin{equation}\label{DHKM:eq:condspt1}
-    \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^{\rho'\,\eta} < \infty.
+    \sup_{d\in\NN} \bignorm[\rho, p]{\bslambda_d^{(i_0)}} < \infty.
  \end{equation}
  Furthermore, the exponent of strong polynomial tractability is then 
  \[
- \inf\left\{\rho'\eta/(1-\eta)\colon \mbox{$\eta$ satisfies \eqref{DHKM:eq:condspt1}}\right\}.
+ \inf\left\{\rho'p/(1-p)\colon \mbox{$p$ satisfies \eqref{DHKM:eq:condspt1}}\right\}.
  \]
  \item[2.] 
-  We have polynomial tractability if and only if there exist $\eta_1, \eta_2 \ge 0$ and $\eta_3\in (0,1), K>0$ such that
- \[
-    \sup_{d\in\NN} d^{-\eta_1}\, \sum_{i=\lceil K d^{\eta_2} \rceil}^\infty \lambda_{d,\bsk_i}^{\rho'\,\eta_3} < \infty.
+  We have polynomial tractability if and only if there exist $p_1, p_2 \ge 0$ and $p_3\in (0,1), K>0$ such that
+%  \[
+%     \sup_{d\in\NN} d^{-p_1}\, \sum_{i=\lceil K d^{p_2} \rceil}^\infty \lambda_{d,\bsk_i}^{\rho'\,p_3} < \infty.
+%  \]
+  \[
+    \sup_{d\in\NN} d^{-p_1}\, \bignorm[\rho' p_3]{\bslambda_d^{(\lceil K d^{p_2} \rceil)}} < \infty.
  \]
- \item[3.] Let $t_{d,i}:=\sum_{k=i}^\infty \lambda_{d,\bsk_i}$.
+ \item[3.] Let $t_{d,i}:=\sum_{\ell=i}^\infty \lambda_{d,\bsk_{\ell}}$. \FredNote{Here we have a problem since $i$ is both a summation index and limit.} \PeterNote{I think it should be ok now (?).}
  We have weak tractability if and only if 
  \[
    \lim_{i\to\infty} t_{d,i}\, (\log i)^2=0\quad\mbox{for all $d$},
@@ -1054,49 +1084,61 @@ Using the same notation as above, the following statements hold for the case $\r
 \end{remark}
 
 \DHKMchange{
-To be more concrete, we consider the situation 
-\[
-\lambda_{d,\bsk}  := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d w_\ell s_{k_\ell}, \qquad \bsk \in \NN_0^d, \ d \in \NN,
-\] one more time.
+To be more concrete, we return to the situation where the $\lambda_{d,\bsk}$ are given 
+as in \eqref{DHKM:prodwts}  one more time. We note that
+% Below, we write $\bslambda_d$ for the 
+% sequence of the $\lambda_{d,\bsk}$
+% Considering Condition \eqref{DHKM:eq:condspt} in Theorem \ref{DHKM:thmtract1}, note that
+% \[
+% \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^p = \sup_{d\in\NN} \norm[p]{\bslambda_d^{(i_0)}}^p.
+% \]
+% Since we assumed that the $\lambda_{d,\bsk}$ are ordered, 
+$\bignorm[p]{\bslambda_d^{(i_0)}}^p<\infty$ holds if and only if  $\bignorm[p]{\bslambda_d}^p<\infty$.
+We denote the $d$-dependence of the vector of coordinate weights by writing $\bsw_d:=(w_1, \ldots, w_d)$ and $\bsw_\infty = (w_1, w_2, \ldots)$
 By Lemma \ref{DHKM:prodwtsupperbound}, we have
-}
 \[
-\sum_{i=1}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} \le \exp\left(\sum_{k=1}^\infty s_k^\eta \sum_{\ell = 1}^{d} w_\ell^{\eta} \right)\le \exp\left(\sum_{k =1 }^{\infty} s_k^\eta \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right). 
+\norm[p]{\bss} \norm[p]{\bsw_d} \le \norm[p]{\bslambda_d}\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw_d}^p  \right),
 \]
-Moreover, it also follows that for any fixed positive integer $i_0$, the sum of the $\lambda_{d,\bsk_i}^\eta$ is bounded below as
-\begin{align*}
-    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge w_1^\eta \sum_{\DHKMchange{i=i_0}}^{\infty}s_{\DHKMchange{k_i}}^{\eta} \qquad \parbox{8cm}{considering only $\bsk_i$ of the form $(k, 0, 0, \ldots, 0)$, \\
-    and ordering $\bss$ so that $\DHKMchange{s_{k_1} \ge s_{k_2} \ge \cdots}$,} \\
-    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge  s_{1}^{\eta} \sum_{i=i_0}^{\infty} w_{\ell_i}^\eta
+and this estimate holds for any $d\in\NN$.
+%\[
+%\sum_{i=1}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} \le \exp\left(\sum_{k=1}^\infty s_k^\eta %\sum_{\ell = 1}^{d} w_\ell^{\eta} \right)\le \exp\left(\sum_{k =1 }^{\infty} s_k^\eta \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right). 
+%\]
+%Moreover, it also follows that for any fixed positive integer $i_0$, the sum of the $\lambda_{d,\bsk_i}^\eta$ is bounded below as
+%\begin{align*}
+%    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge w_1^\eta \sum_{\DHKMchange{i=i_0}}^{\infty}s_{\DHKMchange{k_i}}^{\eta} \qquad \parbox{8cm}{considering only $\bsk_i$ of the form $(k, 0, 0, \ldots, 0)$, \\
+%    and ordering $\bss$ so that $\DHKMchange{s_{k_1} \ge s_{k_2} \ge \cdots}$,} \\
+%    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge  s_{1}^{\eta} \sum_{i=i_0}^{\infty} w_{\ell_i}^\eta
     %\qquad %\text{for } d \ge i_0 
     %\\ &
-    \qquad \parbox{8cm}{considering only $\bsk_i$ of the form\\  $(0, \ldots, 0,1,0 , \ldots, 0)$,
-    where the non-zero\\ component is at the $\ell$-th   position with 
-    $i_0\le \ell \le d$,\\ and ordering $\bsw$  so that $w_{\ell_1} \ge w_{\ell_2} \ge \cdots$.}
-\end{align*}
+%    \qquad \parbox{8cm}{considering only $\bsk_i$ of the form\\  $(0, \ldots, 0,1,0 , \ldots, 0)$,
+%    where the non-zero\\ component is at the $\ell$-th   position with 
+%    $i_0\le \ell \le d$,\\ and ordering $\bsw$  so that $w_{\ell_1} \ge w_{\ell_2} \ge \cdots$.}
+%\end{align*}
 Thus, we have necessary and sufficient conditions for strong tractability.
 \begin{corollary} \label{DHKM:sptexample_cor}
-For the $\lambda_{d,\bsk}$ of the form \eqref{DHKM:prodwts} we have strong polynomial tractability if and only if there exists $\eta>0$ such that
+For the $\lambda_{d,\bsk}$ of the form \eqref{DHKM:prodwts} we have strong polynomial tractability if and only if there exists $p>0$ such that
  \begin{equation*}
 %\label{DHKM:sptexample}
-    \sum_{k=1}^\infty s_{k}^\eta < \infty \text{ and } 
-    \sum_{\ell = 1}^{\infty} w_\ell^{\eta} < \infty.
+    \norm[p]{\bss} < \infty \text{ and } 
+    \norm[p]{\bsw_\infty} < \infty.
 \end{equation*}
-\DHKMchange{In particular, considering example in Section \ref{DHKM:secexamp}, where $s_{k} = k^{-r}$, we have strong polynomial tractability if and only if there exists $\eta> 0 $ such that
+In particular, considering example in Section \ref{DHKM:secexamp}, where $s_{k} = k^{-r}$, we have strong polynomial tractability if and only if there exists $p> 0 $ such that
 \begin{equation*}
 %\label{DHKM:sptexample}
-   r \eta > 1 \text{ and } 
-    \sum_{\ell = 1}^{\infty} w_\ell^{\eta} < \infty.
-\end{equation*}}
+   r p > 1 \text{ and } 
+    \norm[p]{\bsw_\infty} < \infty.
+\end{equation*}
 \end{corollary}
 
 \begin{remark}
 Note that in the setting of this example, the term 
-$\sum_{i=1}^{\infty}\lambda_{d, \bsk_{i}}^{\eta}$ will usually depend exponentially on $d$ unless the 
-coordinate weights decay to zero fast enough with increasing $\ell$. Hence, we can only hope for tractability under the presence of decaying $w_\ell$. For further details on weighted approximation
+$\bignorm[p]{\bslambda_d}^p$
+%$\sum_{i=1}^{\infty}\lambda_{d, \bsk_{i}}^{\eta}$ 
+will usually depend exponentially on $d$ unless the 
+coordinate weights, $w_\ell$, decay to zero fast enough with increasing $\ell$. Hence, we can only hope for tractability under the presence of decaying $w_\ell$. For further details on weighted approximation
 problems and tractability, we refer to \cite{NovWoz08a}.
 \end{remark}
-
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
