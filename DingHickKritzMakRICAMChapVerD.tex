@@ -429,11 +429,11 @@ We now show that this algorithm is optimal if the input set is a ball.
 \begin{theorem}\label{DHKM:thm_cost_non_adapt}
 The non-adaptive Algorithm \ref{DHKM:BallAlg} has an information cost for the set of input functions $\calC = \calB_R$ that is given by
 \[
-\COST(\ALG, \calB_R, \varepsilon,R') = \min \left \{n \in \N_0 : \bignorm[\rho']{\bslambda^{(n+1)}} \le \varepsilon /R \right \}.
+\COST(\ALG, \calB_R, \varepsilon,R') = \min \left \{n \in \N_0 : \bignorm[\rho']{\bslambda^{(n+1)}} \le \varepsilon /R \right \}, \qquad R’ \in (0, R].
 \]
 This algorithm is essentially optimal for the set of input functions $\calB_R$, namely,
 \begin{multline*}
-\COST(\ALG, \calB_R, \varepsilon,R') \le \COMP(\calA(\calB_R),\omega \varepsilon ,R') \\ \forall \, \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty),
+\COST(\ALG, \calB_R, \varepsilon,R') \le \COMP(\calA(\calB_R),\omega \varepsilon ,R') \\ \forall \, \varepsilon \in (0, \varepsilon_{\max}], \ R’ \in  [ R_{\min} , R], \ R \in [R_{\min}, \infty), 
 \end{multline*}
 where $\varepsilon_{\max}$ and $R_{\min}$ are arbitrary and fixed, and $\omega = R_{\min}/R$.
 \end{theorem}
@@ -712,8 +712,6 @@ $.
 \subsection{Bounds on the Information Cost for $\rho = \tau$, $\rho'=\infty$}\label{DHKM:revisexamp}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-\YuhanNote{Create a new subsection and move the content related with the example here}
 \DHKMchange{
 We now derive upper and lower bounds on the information costs of Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} for the case  $\rho = \tau$ and $\rho' = \infty$, which includes the example introduced in Section \ref{DHKM:secexamp}.  For $\rho'=\infty$, $\bignorm[\rho']{\bslambda^{(n+1)}} = \lambda_{\bsk_{n+1}}$.  To facilitate these bounds we establish a couple of commonly used lemmas.
 
@@ -858,21 +856,10 @@ Furthermore, these information costs cannot grow any slower than $\calO(\varepsi
 }
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tractability}\label{DHKM:SecPilotTract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\FredNote{As far as simplifications go, 
-
-1) If we like the $\bslambda^{(n)}$ notation and even want to write $\bslambda^{(n)}_d$ to emphasize the $d$ dependence, then we can simplify some of the equations below.}
-
-\PeterNote{I am not sure. I have the impression that with the additional restriction 
-that many sums do not start with index 1, but with indices depending on $d$ and other parameters, it might make notation overly complicated... .
-I mostly left it as it is. But if you prefer, we can still change it!}
-
-\FredNote{I commented out where I thought we could introduce the notation.  Let me know what you think.}
-
-\PeterNote{I agree. Let us use your notation, it makes it more consistent.}
 
 
 \DHKMchange{
@@ -974,23 +961,17 @@ n_{\COMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,
 \]
 We then have the following theorem.
 
-\begin{theorem} \label{DHKM:thmtract1}
+\DHKMchange{\begin{theorem} \label{DHKM:thmtract1}
 Using the same notation as above, the following statements hold for the case $\rho'=\infty$.
  \begin{itemize}
   \item[1.] 
   We have strong polynomial tractability if and only if there exist $p>0$ and $i_0\in\NN$ such that
-%  \begin{equation}\label{DHKM:eq:condspt}
-%     \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^p < \infty.
-%  \end{equation}
  \begin{equation}\label{DHKM:eq:condspt}
     \sup_{d\in\NN} \, \bignorm[p]{\bslambda_d^{(i_0)}} < \infty.
  \end{equation}
  Furthermore, the exponent of strong polynomial tractability is then equal to the infimum of those $p>0$ for which \eqref{DHKM:eq:condspt} holds. 
  \item[2.] 
   We have polynomial tractability if and only if there exist $p_1, p_2 \ge 0$ and $p_3, K>0$ such that
-%  \[
-%     \sup_{d\in\NN} d^{-p_1}\, \sum_{i=\lceil K d^{p_2} \rceil}^\infty \lambda_{d,\bsk_i}^{p_3} < \infty.
-%  \]
  \[
     \sup_{d\in\NN} d^{-p_1}\, \bignorm[p_3]{\bslambda_d^{(\lceil K d^{p_2} \rceil)}} < \infty.
  \]
@@ -1001,9 +982,10 @@ Using the same notation as above, the following statements hold for the case $\r
  \end{equation}
 \end{itemize}
 \end{theorem}
+}
 
 \begin{proof}
-Letting $\widetilde{\varepsilon}:=\sqrt{\varepsilon/R}$, we see that 
+If $\widetilde{\varepsilon}:=\sqrt{\varepsilon/R}$, then
 $n_{\COMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \widetilde{\varepsilon}^{\,2} \right \}$. The latter expression is well studied in the context of tractability of linear problems in the worst-case setting defined on unit balls of certain spaces, and if and only if conditions on the $\lambda_{d,\bsk_i}$ for various tractability notions are known. These conditions can be found in \cite[Chapter 5]{NovWoz08a} for (strong) polynomial tractability and  \cite{WerWoz17} for weak tractability.
 
 Since, in this chapter, we consider $\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \varepsilon/R \right \}$, and in \cite{NovWoz08a} and \cite{WerWoz17} $\varepsilon /R$ is replaced by the square of the error tolerance,
@@ -1012,18 +994,8 @@ there are slight differences between the results here and those in the aforement
 
 \paragraph*{CASE 2: $\rho'<\infty$:} 
 
-In this case, letting $\widetilde{\varepsilon}:=(\varepsilon/R)^{\rho'/2}$ and 
+\DHKMchange{In this case, letting $\widetilde{\varepsilon}:=(\varepsilon/R)^{\rho'/2}$ and 
 $\widetilde{\lambda}_{d,i}:=\lambda_{d,\bsk_i}^{\rho'}$, we have 
-% \begin{align}
-%     \nonumber 
-%     n_{\COMP}(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
-% \sum_{i=n+1}^\infty \lambda_{d,\bsk_i}^{\rho'}\,
-%     \le (\varepsilon/R)^{\rho'} \right \} \\
-%     \label{DHKM:eqaveragetract}
-%     & =\min \left \{n\ge 0\colon 
-% \sum_{i=n+1}^\infty \widetilde{\lambda}_{d,i}\,
-%     \le \widetilde{\varepsilon}^{\,2} \right \}.
-% \end{align}
 \begin{align}
     \nonumber 
     n_{\COMP}(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
@@ -1044,9 +1016,6 @@ Using the same notation as above, the following statements hold for the case $\r
  \begin{itemize}
   \item[1.] 
   We have strong polynomial tractability if and only if there exist $p\in (0,1)$ and $i_0\in\NN$ such that
-%  \begin{equation}\label{DHKM:eq:condspt1}
-%     \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^{\rho'\,p} < \infty.
-%  \end{equation}
  \begin{equation}\label{DHKM:eq:condspt1}
     \sup_{d\in\NN} \bignorm[\rho, p]{\bslambda_d^{(i_0)}} < \infty.
  \end{equation}
@@ -1056,25 +1025,23 @@ Using the same notation as above, the following statements hold for the case $\r
  \]
  \item[2.] 
   We have polynomial tractability if and only if there exist $p_1, p_2 \ge 0$ and $p_3\in (0,1), K>0$ such that
-%  \[
-%     \sup_{d\in\NN} d^{-p_1}\, \sum_{i=\lceil K d^{p_2} \rceil}^\infty \lambda_{d,\bsk_i}^{\rho'\,p_3} < \infty.
-%  \]
   \[
     \sup_{d\in\NN} d^{-p_1}\, \bignorm[\rho' p_3]{\bslambda_d^{(\lceil K d^{p_2} \rceil)}} < \infty.
  \]
- \item[3.] Let $t_{d,i}:=\sum_{\ell=i}^\infty \lambda_{d,\bsk_{\ell}}$. \FredNote{Here we have a problem since $i$ is both a summation index and limit.} \PeterNote{I think it should be ok now (?).}
+ \item[3.] 
  We have weak tractability if and only if 
  \[
-   \lim_{i\to\infty} t_{d,i}\, (\log i)^2=0\quad\mbox{for all $d$},
+   \lim_{n\to\infty} (\log n)^2  \, \bignorm[1]{\bslambda_d^{(n)}} =0\quad\mbox{for all $d$},
  \]
  and there exists a function $f:[0,1/2)\to \{1,2,3,\ldots\}$ such that
 \[
   \sup_{\beta\in (0,1/2]}\, \beta^{-2} \,
-  \sup_{d\ge f(\beta)}\,\, \sup_{i\ge \lceil \exp (d\sqrt{b}) \rceil +1}\, \, \lim_{i\to\infty} t_{d,i}\, (\log i)^2
+  \sup_{d\ge f(\beta)}\,\, \sup_{n \ge \lceil \exp (d\sqrt{b}) \rceil +1}\, \, (\log n)^2  \, \bignorm[1]{\bslambda_d^{(n)}} 
   < \infty.
 \]
  \end{itemize}
 \end{theorem}
+}
 \begin{proof}
   The proof of the theorem is similar to that of Theorem \ref{DHKM:thmtract1}, using \eqref{DHKM:eqaveragetract}.
 \end{proof}
@@ -1086,13 +1053,6 @@ Using the same notation as above, the following statements hold for the case $\r
 \DHKMchange{
 To be more concrete, we return to the situation where the $\lambda_{d,\bsk}$ are given 
 as in \eqref{DHKM:prodwts}  one more time. We note that
-% Below, we write $\bslambda_d$ for the 
-% sequence of the $\lambda_{d,\bsk}$
-% Considering Condition \eqref{DHKM:eq:condspt} in Theorem \ref{DHKM:thmtract1}, note that
-% \[
-% \sup_{d\in\NN} \sum_{i=i_0}^\infty \lambda_{d,\bsk_i}^p = \sup_{d\in\NN} \norm[p]{\bslambda_d^{(i_0)}}^p.
-% \]
-% Since we assumed that the $\lambda_{d,\bsk}$ are ordered, 
 $\bignorm[p]{\bslambda_d^{(i_0)}}^p<\infty$ holds if and only if  $\bignorm[p]{\bslambda_d}^p<\infty$.
 We denote the $d$-dependence of the vector of coordinate weights by writing $\bsw_d:=(w_1, \ldots, w_d)$ and $\bsw_\infty = (w_1, w_2, \ldots)$
 By Lemma \ref{DHKM:prodwtsupperbound}, we have
@@ -1100,20 +1060,6 @@ By Lemma \ref{DHKM:prodwtsupperbound}, we have
 \norm[p]{\bss} \norm[p]{\bsw_d} \le \norm[p]{\bslambda_d}\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw_d}^p  \right),
 \]
 and this estimate holds for any $d\in\NN$.
-%\[
-%\sum_{i=1}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} \le \exp\left(\sum_{k=1}^\infty s_k^\eta %\sum_{\ell = 1}^{d} w_\ell^{\eta} \right)\le \exp\left(\sum_{k =1 }^{\infty} s_k^\eta \sum_{\ell = 1}^{\infty} w_\ell^{\eta} \right). 
-%\]
-%Moreover, it also follows that for any fixed positive integer $i_0$, the sum of the $\lambda_{d,\bsk_i}^\eta$ is bounded below as
-%\begin{align*}
-%    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge w_1^\eta \sum_{\DHKMchange{i=i_0}}^{\infty}s_{\DHKMchange{k_i}}^{\eta} \qquad \parbox{8cm}{considering only $\bsk_i$ of the form $(k, 0, 0, \ldots, 0)$, \\
-%    and ordering $\bss$ so that $\DHKMchange{s_{k_1} \ge s_{k_2} \ge \cdots}$,} \\
-%    \sup_{d \in \N} \, \sum_{i=i_0}^{\infty}\lambda_{d, \bsk_{i}}^{\eta} & \ge  s_{1}^{\eta} \sum_{i=i_0}^{\infty} w_{\ell_i}^\eta
-    %\qquad %\text{for } d \ge i_0 
-    %\\ &
-%    \qquad \parbox{8cm}{considering only $\bsk_i$ of the form\\  $(0, \ldots, 0,1,0 , \ldots, 0)$,
-%    where the non-zero\\ component is at the $\ell$-th   position with 
-%    $i_0\le \ell \le d$,\\ and ordering $\bsw$  so that $w_{\ell_1} \ge w_{\ell_2} \ge \cdots$.}
-%\end{align*}
 Thus, we have necessary and sufficient conditions for strong tractability.
 \begin{corollary} \label{DHKM:sptexample_cor}
 For the $\lambda_{d,\bsk}$ of the form \eqref{DHKM:prodwts} we have strong polynomial tractability if and only if there exists $p>0$ such that
@@ -1154,7 +1100,7 @@ From error bound \eqref{DHKM:APP_Err_Coef} it follows that the faster the $\hf(\
 
 There is an implicit assumption in this section that function data are cheap and we can afford a large sample size.  A large sample size is required to do meaningful tracking of the decay of the series coefficients.  The previous section and the next section are more suited to the case when function data are expensive and the final sample size must be modest.
 
-Let $(n_j)_{j\ge 0}$ be a strictly increasing sequence of non-negative integers.  This sequence may increase geometrically or algebraically. Define the sets of wavenumbers analogously to \eqref{DHKM:KOnedef},
+Let $\DHKMchange{\bsn = (n_j)_{j\ge 0}}$ be a strictly increasing sequence of non-negative integers.  This sequence may increase geometrically or algebraically. Define the sets of wavenumbers analogously to \eqref{DHKM:KOnedef},
 \begin{equation*}
    n_{-1}=0, \qquad \calK_j := \{\bsk_{n_{j-1}+1}, \ldots, \bsk_{n_j}\} \quad \text{for } j \in \N_0.
 \end{equation*}
@@ -1166,13 +1112,13 @@ Thus, $\norm[\calF]{f} = \norm[\rho]{\bigl(\sigma_j(f) \bigr)_{j \in \N_0}}$.
 
 \DHKMchange{As stated above, we would like to keep track of the rate of decay of the $\hf(\bsk_i)$. Hence, for this section, we define the cone of input functions by}
 \begin{equation} \label{DHKM:TrackConeDef}
-  \DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} : =\left\{f\in\calF \colon \sigma_{j+r} (f)\le ab^r \sigma_j (f)\ \forall j,r\in\NN\right\}.
+  \DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} : =\left\{f\in\calF \colon \sigma_{j+s} (f)\le ab^s \sigma_j (f)\ \forall j,s\in\NN\right\}.
 \end{equation}
-Here, $a$ and $b$ are positive reals with $b< 1 < a$. The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in  \DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $. 
+Here, $a$ and $b$ are positive reals with $b< 1 < a$. The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in  \DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $. 
 \DHKMchange{We remark that knowing $\sigma_1 (f)$ would already be sufficient to identify 
 a sample size that guarantees an error of at most $\varepsilon$. However, knowing $\sigma_j (f)$ for further values of $j$ will allow us to stop earlier.}
 
-Because $ab^r$ may be greater than one, we do not require the series coefficients of the solution, $\SOL(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.  The series coefficients for wavenumbers $\bsk \in \calK_0$ do not affect the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ and may behave erratically.
+Because $ab^s$ may be greater than one, we do not require the series coefficients of the solution, $\SOL(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.  The series coefficients for wavenumbers $\bsk \in \calK_0$ do not affect the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ and may behave erratically.
 Lemma \ref{DHKM:Key_Lem} implies that 
 \begin{equation} \label{DHKM:LambdaDef}
     \norm[\tau]{\bigl(\hf(\bsk) \bigr)_{\bsk \in \calK_j}} \le \sigma_j(f) \Lambda_j, \qquad \text{where } \Lambda_j : = \norm[\rho']{\bigl(\lambda_{\bsk} \bigr)_{\bsk \in \calK_j}}.
@@ -1182,17 +1128,17 @@ From \eqref{DHKM:SOLNorm} and \eqref{DHKM:SOLNormFinite} it follows that the nor
     \norm[\calF \to \calG]{\SOL} = \bignorm[\rho']{\bigl(\Lambda_j \bigr)_{j \in \N_0}} < \infty.
 \end{equation}
 
-If $f$ belongs to the $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ defined in \eqref{DHKM:TrackConeDef} and $n_0 = 0$, then 
+If $f$ belongs to the $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ defined in \eqref{DHKM:TrackConeDef} and $n_0 = 0$, then 
 \begin{align*}
     \norm[\calF]{f} & = \norm[\rho]{\Biggl(\,\norm[\rho]{\biggl(\frac{\hf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}}\,\Biggr)_{j \in \N}} = \bignorm[\rho]{\bigl(\sigma_j(f) \bigr)_{j \in \N}} \\
     & \le \bignorm[\rho]{\bigl(\sigma_1(f), ab \sigma_1(f), ab^2 \sigma_1(f), \ldots \bigr)} \\
     & = \left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}  \norm[\rho]{\biggl(\frac{\hf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_1}}.
 \end{align*}
-Comparing this inequality to the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}} $ in the previous section, it can be seen that $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $  defined in \eqref{DHKM:TrackConeDef} is a subset of  $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ defined in \eqref{DHKM:pilot_cone} if we choose 
-$A=\left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}$ in \eqref{DHKM:pilot_cone}.
+Comparing this inequality to the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}} $ in the previous section, it can be seen that $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $  defined in \eqref{DHKM:TrackConeDef} is a subset of  $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ defined in \eqref{DHKM:pilot_cone} if we choose 
+$A=\left[1 + a^\rho b^\rho/(1 - b^\rho) \right]^{1/\rho}$ in \eqref{DHKM:pilot_cone}.
 
 
-From the expression for the error in \eqref{DHKM:APP_Err_Coef} and the definition of the cone in  \eqref{DHKM:TrackConeDef}, we can now derive a data-driven error bound for all $f \in \DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ and $j \in \bbN$: 
+From the expression for the error in \eqref{DHKM:APP_Err_Coef} and the definition of the cone in  \eqref{DHKM:TrackConeDef}, we can now derive a data-driven error bound for all $f \in \DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ and $j \in \bbN$: 
 \begin{align}
 \nonumber
 \MoveEqLeft{\norm[\calG]{\SOL(f)-\APP(f,n_j)}} \\
@@ -1203,16 +1149,16 @@ From the expression for the error in \eqref{DHKM:APP_Err_Coef} and the definitio
 & \le \norm[\tau]{ \bigl(\sigma_l(f) \Lambda_l \bigr)_{l=j+1}^\infty} \qquad \text{by \eqref{DHKM:LambdaDef}} \\
 \nonumber 
 &
-= \norm[\tau]{ \bigl(\sigma_{j+r}(f) \Lambda_{j+r} \bigr)_{r=1}^\infty}
+= \norm[\tau]{ \bigl(\sigma_{j+s}(f) \Lambda_{j+s} \bigr)_{s=1}^\infty}
 \\
-& \le a \sigma_j(f) \norm[\tau]{ \bigl(b^r\Lambda_{j+r} \bigr)_{r=1}^\infty} =:\ERRNj
+& \le a \sigma_j(f) \norm[\tau]{ \bigl(b^s\Lambda_{j+s} \bigr)_{s=1}^\infty} =:\ERRNj
  \qquad \text{by \eqref{DHKM:TrackConeDef}.}
  \label{DHKM:algoineq}
 \end{align}
 
 This upper bound depends only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ and $\Lambda_j \to 0$.  Moreover, the error bound for $\APP(f,n_j)$ depends on $\sigma_j(f)$, whose rate of decay need not be postulated in advance.
 
-These assumptions accommodate both the cases where the approximation converges algebraically and exponentially.  To illustrate the algebraic case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \DHKMchange{\Theta(i^{-r_\Delta})}$ for some positive $r_\Delta > 1/\rho$.  For this algebraic case one would normally define $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} $ in terms of an exponentially increasing sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 2^j$, which implies that 
+These assumptions accommodate both the cases where the approximation converges algebraically and exponentially.  To illustrate the algebraic case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \DHKMchange{\Theta(i^{-r_\Delta})}$ for some positive $r_\Delta > 1/\rho$.  For this algebraic case one would normally define $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ in terms of an exponentially increasing sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 2^j$, which implies that 
 \begin{align*}
     \sigma_j(f) &= \left[ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} \biggabs{\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
     = \DHKMchange{\Theta}\left( \left [ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} i^{-\rho r_\Delta} \right]^{1/\rho} \right) \\
@@ -1222,7 +1168,7 @@ Reasonable functions would satisfy
 \begin{equation*}
     C_{\lo} 2^{-j(r_\Delta-1/\rho)} \le \sigma_j(f) \le C_{\up} 2^{-j(r_\Delta-1/\rho)} 
 \end{equation*}
-for some constants $C_{\lo}$ and $C_{\up}$.  Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge  2^{-(r_\Delta-1/\rho)}$ causes the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ to include such functions.  Note that only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound. 
+for some constants $C_{\lo}$ and $C_{\up}$.  Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge  2^{-(r_\Delta-1/\rho)}$ causes the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ to include such functions.  Note that only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound. 
 
 To illustrate the exponential case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \DHKMchange{\Theta}(\E^{-r_\Delta i})$.  For this exponential case one would normally define $\calC$ in terms of an arithmetic sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 + j s$, where $s$ is a positive integer.  This implies that 
 \begin{align*}
@@ -1232,13 +1178,13 @@ To illustrate the exponential case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} =
 \end{align*}
 Analogous to the algebraic case, reasonable functions would satisfy 
     $C_{\lo} \E^{-j r_{\Delta} s} \le \sigma_j(f) \le C_{\up} \E^{-j r_{\Delta} s}$
-for some constants $C_{\lo}$ and $C_{\up}$.  Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge \E^{- r_{\Delta} s}$ causes the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ to include such functions.  Again, only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound.
+for some constants $C_{\lo}$ and $C_{\up}$.  Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge \E^{- r_{\Delta} s}$ causes the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ to include such functions.  Again, only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Adaptive Algorithm and Its Computational Cost} \label{DHKM:SecAdapAlgTrackDecay}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The data-driven error bound in \eqref{DHKM:algoineq} forms the basis for an adaptive Algorithm \ref{DHKM:TrackConeAlg}, which solves our problem for input functions in the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The following theorem establishes its viability and computational cost. In deriving upper bounds on the computational cost and lower bounds on the complexity, we may sacrifice tightness for simplicity.
+The data-driven error bound in \eqref{DHKM:algoineq} forms the basis for an adaptive Algorithm \ref{DHKM:TrackConeAlg}, which solves our problem for input functions in the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The following theorem establishes its viability and computational cost. In deriving upper bounds on the computational cost and lower bounds on the complexity, we may sacrifice tightness for simplicity.
 
 \begin{algorithm}
 	\caption{Adaptive ALG for a Cone of Input Functions Tracking the Series Coefficient Decay Rate \label{DHKM:TrackConeAlg}}
@@ -1262,12 +1208,13 @@ The data-driven error bound in \eqref{DHKM:algoineq} forms the basis for an adap
 \end{algorithmic}
 \end{algorithm}
 
+\iffalse 
 \begin{theorem}\label{DHKM:TractConeCompCost}
-Algorithm \ref{DHKM:TrackConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}})$ for $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The information cost is $\COST(\ALG,f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly as
+Algorithm \ref{DHKM:TrackConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}})$ for $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The information cost is $\COST(\ALG,f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly as
 \begin{equation} \label{DHKM:EqTractConejstar}
 j^* = \min\left \{ j \in \bbN : \ERRNj \le \varepsilon  \right\}.
 \end{equation}
-Moreover, $\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}},\varepsilon,R) \le n_{j^\dagger}$, where $j^\dagger$ is defined as follows:
+Moreover, $\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}},\varepsilon,R) \le n_{j^\dagger}$, where $j^\dagger$ is defined as follows:
 \begin{equation} \label{DHKM:TractConejdagger}
 j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{j+r}\Lambda_{j+r} \bigr)_{r=1}^\infty}
 \le  \frac{b\varepsilon}{Ra^2} \left( \frac{1 - b^{j\rho}}{1 - b^\rho} \right)^{1/\rho} \right\}.
@@ -1277,7 +1224,7 @@ j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{j+r}\Lambda_{j+r} 
 \begin{proof}
 The value of $j^*$ in \eqref{DHKM:EqTractConejstar} follows directly from the error criterion. The success of the algorithm follows from the error bound in \eqref{DHKM:algoineq}.
 
-For the remainder of the proof consider $R$ and $\varepsilon$ to be fixed.  For any $f \in  \DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} \cap \calB_R$ and for any $j^\dagger$ defined  as in \eqref{DHKM:TractConejdagger}, it follows that
+For the remainder of the proof consider $R$ and $\varepsilon$ to be fixed.  For any $f \in  \DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} \cap \calB_R$ and for any $j^\dagger$ defined  as in \eqref{DHKM:TractConejdagger}, it follows that
 \begin{align*}
 R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \bbK}}
  \ge \norm[\rho]{\left(\sigma_j(f)\right)_{j=1}^{j^\dagger}}  
@@ -1291,18 +1238,19 @@ R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \rig
 \end{align*}
 From this last inequality, it follows that $j^\dagger \ge j^*$.
 \end{proof} 
+\fi
 
-\YuhanNote{Create a new version of Theorem 6, as $ \frac{1 - b^{j\rho}}{1 - b^\rho} \ge 1 \forall j$. And based on that, derive the explicit bound of the example. }
+\YuhanNote{Create a new version of Theorem \ref{DHKM:TractConeCompCost}, as $ \frac{1 - b^{j\rho}}{1 - b^\rho} \ge 1 \forall j$. And based on that, derive the explicit bound of the example. }
 \DHKMchange{
 
 \begin{theorem}\label{DHKM:TractConeCompCost}
-Algorithm \ref{DHKM:TrackConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}})$ for $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The information cost is $\COST(\ALG,f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly as
+Algorithm \ref{DHKM:TrackConeAlg} yields an answer satisfying absolute error criterion \eqref{DHKM:err_crit}, i.e., $\ALG \in \calA(\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}})$ for $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The information cost is $\COST(\ALG,f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly as
 \begin{equation} \label{DHKM:EqTractConejstar}
 j^* = \min\left \{ j \in \bbN : \ERRNj \le \varepsilon  \right\}.
 \end{equation}
-Moreover, $\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}},\varepsilon,R) \le n_{j^\dagger}$, where $j^\dagger$ is defined as follows:
+Moreover, $\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}},\varepsilon,R) \le n_{j^\dagger}$, where $j^\dagger$ is defined as follows:
 \begin{equation} \label{DHKM:TractConejdagger}
-j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{j+r}\Lambda_{j+r} \bigr)_{r=1}^\infty}
+j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{s}\Lambda_{j+s} \bigr)_{s=1}^\infty}
 \le  \frac{b\varepsilon}{Ra^2}\right\}.
 \end{equation}
 \end{theorem}
@@ -1310,68 +1258,74 @@ j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{j+r}\Lambda_{j+r} 
 \begin{proof}
 The value of $j^*$ in \eqref{DHKM:EqTractConejstar} follows directly from the error criterion. The success of the algorithm follows from the error bound in \eqref{DHKM:algoineq}.
 
-For the remainder of the proof consider $R$ and $\varepsilon$ to be fixed.  For any $f \in  \DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} \cap \calB_R$ and for any $j^\dagger$ defined  as in \eqref{DHKM:TractConejdagger}, it follows that
+For the remainder of the proof consider $R$ and $\varepsilon$ to be fixed.  For any $f \in  \DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} \cap \calB_R$ and for any $j^\dagger$ defined  as in \eqref{DHKM:TractConejdagger}, it follows that
 \begin{align*}
 R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \bbK}}
  \ge \norm[\rho]{\left(\sigma_j(f)\right)_{j=1}^{j^\dagger}}  
  \qquad \text{by \eqref{DHKM:SigmaDef} } \\
 & \ge \sigma_1(f) \ge a^{-1}b^{1-j^\dagger}\sigma_{j^\dagger}(f) \quad \text{by  \eqref{DHKM:TrackConeDef}}\\
-& \ge \sigma_{j^\dagger}(f)\,\frac{Ra}{\varepsilon} \norm[\tau]{ \bigl(b^r\Lambda_{j^\dagger+r} \bigr)_{r=1}^\infty}
+& \ge \sigma_{j^\dagger}(f)\,\frac{Ra}{\varepsilon} \norm[\tau]{ \bigl(b^s\Lambda_{j^\dagger+s} \bigr)_{r=1}^\infty}
 \qquad \text{by the definition of } j^\dagger \text{ in \eqref{DHKM:TractConejdagger}} \\
 & = \frac{R}{\varepsilon} \ERRNjd\, .
 \end{align*}
 From this last inequality, it follows that $j^\dagger \ge j^*$.
 \end{proof} 
 
-Let us revisit the example in Section \ref{DHKM:secexamp}. For this example,
-we choose $n_j = n_02^j,$ thus
-\[\calK_j = \{\bsk_{n_0 2^{j-1}+1}, \ldots, \bsk_{n_02^j}\} \quad \text{for } j \in \N \qquad \text{ and } \calK_1 = \{\bsk_{1}, \ldots, \bsk_{n_0}\}.\]
-For the example, we have $\rho = \tau = 2$, $\rho' = \infty$. Therefore
-\[\Lambda_j = \|(\lambda_\bsk)_\bsk \in \calK_j\|_{\rho'} = \lambda_{\bsk_{n_0 2^{j-1}+1}}.\]
-By Lemma \ref{DHKM:lambdineq} and Lemma \ref{DHKM:prodwtsupperbound}, we obtain
-\[\Lambda_j \le \frac{1}{ n_0^{1/p} 2^{(j-1)/p}} \exp\left(\frac{1}{p}
-\zeta(pr)\sum_{\ell=1}^\infty 
-w_\ell^p
-\right),\]
-where $0< 1/r< p$. Then,
-\begin{align*}
-\norm[\tau]{ \bigl(b^{j+q}\Lambda_{j+q} \bigr)_{q=1}^\infty}^\tau
- & =  \sum_{q=1}^\infty
-( b^{j+q}\Lambda_{j+q})^\tau \\
-& \le \sum_{q=1}^\infty b^{(j+q)\tau} 
- \frac{1}{ n_0^{\tau/p} 2^{(j+q-1)\tau/p}} \exp\left(\frac{\tau}{p}
-\zeta(pr)\sum_{\ell=1}^\infty 
-w_\ell^p
-\right)\\
-& = 
-\frac{\exp\left(\frac{\tau}{p}
-\zeta(pr)\sum_{\ell=1}^\infty 
-w_\ell^p
-\right)}{ n_0^{\tau/p} } \sum_{q=1}^\infty 
-\frac{b^{(j+q)\tau}}{2^{(j+q-1)\tau/p}}\\
-\Leftrightarrow 
-\norm[\tau]{ \bigl(b^{j+q}\Lambda_{j+q} \bigr)_{q=1}^\infty}
- & \le  \frac{\exp\left(\frac{1}{p}
-\zeta(pr)\sum_{\ell=1}^\infty 
-w_\ell^p
-\right)}{ n_0^{1/p} } 
-\left(\sum_{q=1}^\infty 
-\frac{b^{(j+q)\tau}}{2^{(j+q-1)\tau/p}}
-\right)^{1/\tau}.
-\end{align*}
-Therefore, the upper bound of the computation cost is $n_j^\dagger$, where
-\[j^\dagger = \min \left \{j \in \bbN : 
-\left(\sum_{q=1}^\infty 
-\frac{b^{(j+q)\tau}}{2^{(j+q-1)\tau/p}}
-\right)^{1/\tau}
-\le  \frac{b\varepsilon n_0^{1/p}}{Ra^2}\exp\left(\frac{1}{p}
-\zeta(pr)\sum_{\ell=1}^\infty 
-w_\ell^p
-\right) \right\}.
+Although Algorithm \ref{DHKM:TrackConeAlg} tracks the decay rate of the $\hf(\bsk_i)$, the information cost bound and complexity bound in the theorem above do not reflect different decay rates of the $\hf(\bsk_i)$. That is a subject for future investigation.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bounds on the Information Cost for $\rho = \tau$, $\rho' = \infty$}\label{DHKM:SecDecayRhoEqTau}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We again turn to the special case considered in Section \ref{DHKM:revisexamp}, where $\rho = \tau$ and $\rho' = \infty$.  Furthermore, we consider a geometric progression of the $n_j$, namely, $\bsn = \bigl (n_02^j \bigr)_{j \in \bbN_0}$, so that
+\[
+\calK_0 = \{\bsk_{1}, \ldots, \bsk_{n_0}\}, \qquad \calK_j = \{\bsk_{n_0 2^{j-1}+1}, \ldots, \bsk_{n_02^j}\} \quad \text{for } j \in \N.
 \]
+Our goal, as in Section \ref{DHKM:revisexamp}, is to derive upper and lower bounds on the information cost of Algorithm \ref{DHKM:TrackConeAlg}.
+
+From Lemma \ref{DHKM:lambdineq} it follows that 
+\begin{equation*}
+    \Lambda_j = \norm[\infty]{\bigl(\lambda_{\bsk} \bigr)_{\bsk \in \calK_j}} = \lambda_{\bsk_{n_02^{j-1}+1}}\le \frac{\norm[p]{\bslambda}}{n_0^{1/p} 2^{(j-1)/p}} \qquad \forall j \in \bbN.
+\end{equation*}
+The key term in the upper bound on the information cost in \eqref{DHKM:TractConejdagger} is
+\begin{align*}
+\norm[\rho]{ \bigl(b^{s}\Lambda_{j+s} \bigr)_{s=1}^\infty}^\rho
+ & =  \sum_{s=1}^\infty
+( b^{j+s}\Lambda_{j+s})^\rho \\
+& \le \sum_{s=1}^\infty  
+ \frac{b^{s\rho} \norm[p]{\bslambda}^\rho }{ n_0^{\rho/p} 2^{(j+s-1)\rho/p}} 
+=  
+ \frac{b^{\rho} \norm[p]{\bslambda}^\rho }{ n_0^{\rho/p} 2^{j\rho/p} (1 - b^{\rho}/2^{\rho/p})}, \\
+\norm[\rho]{ \bigl(b^{s}\Lambda_{j+s} \bigr)_{s=1}^\infty}
+ & \le  
+ \frac{b \norm[p]{\bslambda} }{ n_0^{1/p} 2^{j/p} (1 - b^{\rho}/2^{\rho/p})^{1/\rho}}.
+\end{align*}
+From \eqref{DHKM:TractConejdagger} in Theorem \ref{DHKM:TractConeCompCost} it follows that the cost of Algorithm \ref{DHKM:TrackConeAlg} has an upper bound of $\COST(\ALG,\calC_{\bslambda,a,b},\varepsilon,R) \le n_j = n_0 2^j$ for any $j$ satisfying 
+\begin{align*}
+    \frac{b \norm[p]{\bslambda} }{ n_0^{1/p} 2^{j/p} (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} &\le \frac{b\varepsilon}{R a^2}, \\
+   \left(\frac{ R a^{2} \norm[p]{\bslambda} }{\varepsilon (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} \right)^p & \le n_0 2^{j},
+\end{align*}
+This argument leads to the following upper bound on the information cost, which is similar to Theorem \ref{DHKM:thm:costbdspilot}.  Applying Lemma \ref{DHKM:prodwtsupperbound} yields a result analogous to Corollary \ref{DHKM:cor:illex}.
+
+\begin{theorem}
+\label{DHKM:thm:TrackConeExUpBd}
+If the elements of $\bslambda$ decay fast enough so that $\norm[p]{\bslambda} < \infty$ and $\rho'=\infty$, then the information cost of Algorithm \ref{DHKM:TrackConeAlg} is bounded above by
+\begin{multline*}
+\COST(\ALG,\calC_{\bslambda,\bsn,a,b},\varepsilon, R) \\
+    \le 
+    \min \left \{n_0 2^j , \ j \in \N_0 : 
+    n_0 2^j \ge \left(\frac{ R a^{2} \norm[p]{\bslambda} }{\varepsilon (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} \right)^p
+    \right\}.
+    \end{multline*}
+For the function spaces defined in the illustrative example in Section \ref{DHKM:secexamp}, for all $p > 1/r$:
+\begin{multline*}
+ \COST(\ALG,\calC_{\bslambda,\bsn,a,b},\varepsilon, R) \\
+   \le \min \left \{n_0 2^j , \ j \in \N_0 : 
+    n_0 2^j \ge \left(\frac{ R a^{2}\exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)  }{\varepsilon (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} \right)^p \right \}.
+    \end{multline*}
+Thus, the information cost in this case is nearly $\calO(\bigl(R/\varepsilon\bigr)^{1/r})$, with a larger $r$ yielding a lower asymptotic information cost.
+\end{theorem}
 }
 
-Although Algorithm \ref{DHKM:TrackConeAlg} tracks the decay rate of the $\hf(\bsk_i)$, the information cost bound and complexity bound in the theorem above do not reflect different decay rates of the $\hf(\bsk_i)$. That is a subject for future investigation.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1392,13 +1346,13 @@ For the illustrative choices of $(n_j)_{j \in \N_0}$ and $\bigl(\bsk_i \bigr)_{i
 \end{equation}
 Again, for the illustrative choices of $(n_j)_{j \in \N_0}$ and $\bigl(\bsk_i \bigr)_{i \in \N}$ preceding Section \ref{DHKM:SecAdapAlgTrackDecay} this assumption holds.
 
-The following theorem establishes a lower bound on the complexity of our problem for input functions in $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$. The theorem after that shows that the cost of our algorithm as given in Theorem \ref{DHKM:TractConeCompCost} is essentially no worse than this lower bound.
+The following theorem establishes a lower bound on the complexity of our problem for input functions in $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$. The theorem after that shows that the cost of our algorithm as given in Theorem \ref{DHKM:TractConeCompCost} is essentially no worse than this lower bound.
 
 \begin{theorem} \label{DHKM:TractConeLowBdComp}
 A lower bound on the complexity of the linear problem is
 \begin{align*}
  %\label{compbdA}
-&\COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}),\varepsilon,R) > n_{j^\ddagger}, 
+&\COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}),\varepsilon,R) > n_{j^\ddagger}, 
 \intertext{where}
 %\label{compbdB}
 j^\ddagger & = \max \left \{ j \in \bbN :  b^{j+1} \Lambda_{j+1}    > 
@@ -1410,9 +1364,9 @@ j^\ddagger & = \max \left \{ j \in \bbN :  b^{j+1} \Lambda_{j+1}    >
 \begin{proof}
 
 As in the proof of Theorem \ref{DHKM:PilotCostThm} we consider fixed and arbitrary R and $\varepsilon$.
-We proceed by carefully constructing the test input functions, $f_1$ and $f_{\pm} = f_1 \pm f_2$, lying in $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}\cap \calB_{R}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $\COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}),\varepsilon,R)$. The proof is provided for $\rho' < \infty$.  The proof for $\rho' = \infty$ is similar.
+We proceed by carefully constructing the test input functions, $f_1$ and $f_{\pm} = f_1 \pm f_2$, lying in $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}\cap \calB_{R}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $\COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}),\varepsilon,R)$. The proof is provided for $\rho' < \infty$.  The proof for $\rho' = \infty$ is similar.
 
-The first test function $f_1 \in \DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ is defined in terms of its series coefficients---inspired by Lemma \ref{DHKM:Key_Lem}---as
+The first test function $f_1 \in \DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ is defined in terms of its series coefficients---inspired by Lemma \ref{DHKM:Key_Lem}---as
 \begin{align}
 \nonumber
 f_1 &= f_{10} + f_{11} +  \cdots, \qquad
@@ -1426,7 +1380,7 @@ f_1 &= f_{10} + f_{11} +  \cdots, \qquad
 \nonumber
 c_1 &:=  \frac{R(a+1)(1 - b^\rho)^{1/\rho}}{2a}.
 \end{align}
-It can be verified that the test function lies both in $\calB_{R}$ and in $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$:
+It can be verified that the test function lies both in $\calB_{R}$ and in $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$:
 \begin{align}
 \nonumber
 \sigma_j(f_1) & = \norm[\rho]{\biggl(\frac{\hf_{1j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_l}} 
@@ -1440,7 +1394,7 @@ It can be verified that the test function lies both in $\calB_{R}$ and in $\DHKM
 b^{r} \sigma_j(f_1) \le a b^r \sigma_j(f_1), \qquad j,r \in \N_0.
 \end{align}
 
-Now let $\ALG'$ be an arbitrary algorithm in $\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}})$, and suppose that $\ALG'(f_1,\varepsilon)$ samples $f_1(\bsk)$ for $\bsk \in \calJ$.  Let $\tcalK_j = \calK_j \setminus \calJ$ for all non-negative integers $j$. Construct the function $f_2$, having zero coefficients for $\bsk \in \calJ$, but otherwise looking like $f_1$:
+Now let $\ALG'$ be an arbitrary algorithm in $\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}})$, and suppose that $\ALG'(f_1,\varepsilon)$ samples $f_1(\bsk)$ for $\bsk \in \calJ$.  Let $\tcalK_j = \calK_j \setminus \calJ$ for all non-negative integers $j$. Construct the function $f_2$, having zero coefficients for $\bsk \in \calJ$, but otherwise looking like $f_1$:
 \begin{align}
 \nonumber
 f_2 &= f_{20} + f_{21} +  \cdots, \qquad \hf_{2j}(\bsk) := \begin{cases}
@@ -1472,7 +1426,7 @@ c_2 b^{j} \tLambda_j, \qquad j \in \N_0, \\
 \end{align}
 
 Furthermore, define $f_{\pm} = f_1 \pm f_2$.
-It can be verified that $f_{\pm}$ also lie both in $\calB_{R}$ and in $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$:
+It can be verified that $f_{\pm}$ also lie both in $\calB_{R}$ and in $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$:
 \begin{align}
 \nonumber
 \norm[\calF]{f_\pm} &\le \norm[\calF]{f_1} + \norm[\calF]{f_2} \le \frac{c_1 + c_2}{(1 - b^\rho)^{1/\rho}} = R,
@@ -1533,7 +1487,7 @@ Since $l^\star \le j^{\star}+1$ it follows that $ b^{l^\star} \ge b^{j^\star+1}$
     \varepsilon 
 \ge  \frac{R(a-1)(1 - b^\rho)^{1/\rho}}{2a\alpha} \left[1 + \left(\frac 1 {S_2} -1 \right) S_1^\rho \right]^{-1/\rho} b^{j^\star+1} \Lambda_{j^\star+1}.
 \end{equation*}
-If any algorithm satisfies the error tolerance $\varepsilon$ for all input functions in $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}} \cap \calB_R$ and has information cost no greater than $n_{j^\star}$, then $j^\star$ must satisfy the above inequality.  By contrast, if the above inequality is violated for any $j^\star$, then the information cost of the successful algorithm must be greater than $n_{j^\star}$.  This completes the proof.
+If any algorithm satisfies the error tolerance $\varepsilon$ for all input functions in $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} \cap \calB_R$ and has information cost no greater than $n_{j^\star}$, then $j^\star$ must satisfy the above inequality.  By contrast, if the above inequality is violated for any $j^\star$, then the information cost of the successful algorithm must be greater than $n_{j^\star}$.  This completes the proof.
 \end{proof}
 
 \begin{theorem}
@@ -1576,10 +1530,12 @@ If $j^{\dagger}(\varepsilon) \ge j^{\ddagger}(\omega \varepsilon)$, then \eqref{
 \]
 But, this contradicts the above inequality.  Thus, $j^\dagger(\varepsilon) < j^\ddagger(\omega \varepsilon)$, and so
 \[
-\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}},\varepsilon,R) \le n_{j^\dagger(\varepsilon)} < n_{j^\ddagger(\omega \varepsilon)} < \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}),\omega \varepsilon,R).
+\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}},\varepsilon,R) \le n_{j^\dagger(\varepsilon)} < n_{j^\ddagger(\omega \varepsilon)} < \COMP(\calA(\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}),\omega \varepsilon,R).
 \]
 Thus,  Algorithm \ref{DHKM:TrackConeAlg} is essentially optimal.
 \end{proof}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1597,7 +1553,7 @@ The respective conditions presented in Theorem \ref{DHKM:thmtract1} for the case
 in Theorem \ref{DHKM:thmtract2} for the case where $\rho'<\infty$ are sufficient for strong polynomial, polynomial, and weak tractability of the approximation problem defined on cones as in \eqref{DHKM:TrackConeDef}.
 \end{theorem}
 \begin{proof}
-As pointed out above, $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ defined in \eqref{DHKM:TrackConeDef} is a subset of  $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ defined in \eqref{DHKM:pilot_cone}, by choosing $A=\left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}$ in \eqref{DHKM:pilot_cone}. This means that the approximation problem on  $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ defined in \eqref{DHKM:TrackConeDef} is essentially (i.e., up to constants depending on $A,a,b$ and $\rho$) no harder than the same problem on $\DHKMchange{\calC_{\boldsymbol{\lambda},a,b}}$ defined in \eqref{DHKM:pilot_cone}. This, however, implies that all sufficient conditions in Theorem \ref{DHKM:thmtract1} are also sufficient in the case considered in Theorem \ref{DHKM:thmtract3}.
+As pointed out above, $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:TrackConeDef} is a subset of  $\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}}$ defined in \eqref{DHKM:pilot_cone}, by choosing $A=\left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}$ in \eqref{DHKM:pilot_cone}. This means that the approximation problem on  $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:TrackConeDef} is essentially (i.e., up to constants depending on $A,a,b$ and $\rho$) no harder than the same problem on $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:pilot_cone}. This, however, implies that all sufficient conditions in Theorem \ref{DHKM:thmtract1} are also sufficient in the case considered in Theorem \ref{DHKM:thmtract3}.
 \end{proof}
 
 Theorem \ref{DHKM:thmtract3} yields sufficient conditions for the tractability notions considered 
