@@ -1,5 +1,13 @@
 \documentclass[USenglish]{article}
 
+% Some common notation, to help us be consistent
+% \bsk = wavenumber
+% \ell = coordinate index
+% w_\ell = coordinate weight
+% s_k = smoothness weight
+% r = decay rate of wavenumbers
+% \bslambda = weights used to define 
+
 \usepackage[utf8]{inputenc}%(only for the pdftex engine)
 %\RequirePackage[no-math]{fontspec}[2017/03/31]%(only for the luatex or the xetex engine)
 \usepackage[small]{dgruyter}
@@ -142,7 +150,7 @@
 
 In many situations, adaptive algorithms can be rigorously shown to perform \emph{essentially no better} than non-adaptive algorithms.  Yet, in practice adaptive algorithms are appreciated because they relieve the user from stipulating the computational effort required to achieve the desired accuracy.  The key to resolving this seeming contradiction is to construct a theory based on assumptions that favor adaptive algorithms. We do that here.
 
-Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex} \DHKMchange{or \emph{non-symmetric}}. \DHKMchange{Here we focus on the former situation and} construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones. \DHKMchange{By a cone, we mean a set of functions where constant multiples of every function in the set also lie in the set. The precise definitions of the cones that we study are given below.}
+Adaptive algorithms infer the necessary computational effort based on the function data sampled.  Adaptive algorithms may perform better than non-adaptive algorithms if the set of input functions is \emph{non-convex} \DHKMchange{or \emph{non-symmetric}}. \DHKMchange{Here we focus on the former situation and} construct adaptive algorithms for general multivariate linear problems where the input functions lie in non-convex cones, $\calC$. \DHKMchange{By a cone, we mean a set of functions where constant multiples of every function in the set also lie in the set. The precise definitions of the cones that we study are given below.}
 
 Our algorithms use a finite number of series coefficients of the input function to construct an approximate solution that satisfies an absolute error tolerance.  We show our algorithms to be essentially optimal.  We derive conditions under which the problem is tractable, i.e., the information cost of constructing the approximate solution does not increase exponentially with the dimension of the input function domain.  In the remainder of this section we outline the general idea of this chapter. 
 
@@ -161,10 +169,10 @@ where  $\varepsilon$ denotes the error tolerance. Such an algorithm will  contai
     \item understand the dependence of this cost on the number of input variables, $d$, as well as the error tolerance, $\varepsilon$.
 \end{itemize}
 
-We assume in this chapter that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk}$, and we allow algorithms $\ALG (f,\varepsilon)$ to use $n=n(f,\varepsilon)$ coefficients $\hf (\bsk)$ of this representation. That is, 
+We assume in this chapter that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk}$, and we allow algorithms $\ALG (f,\varepsilon)$ to use $n(f,\varepsilon)$ coefficients $\hf (\bsk)$ of this representation. That is, 
 we study algorithms that have an output of the form 
 \begin{equation*} 
-  \ALG(f,\varepsilon) = \sum_{i=1}^{n(f,\varepsilon)}\hf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n \in \N,
+  \ALG(f,\varepsilon) = \sum_{i=1}^{n(f,\varepsilon)}\hf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n(f,\varepsilon) \in \N,
 \end{equation*}
 where an oracle provides $\hf(\bsk_1),\ldots,\hf (\bsk_{n(f,\varepsilon)})$ 
 with $n(f,\varepsilon)$ being chosen based on a stopping rule. 
@@ -195,7 +203,9 @@ If the complexity of the problem is $\calO(\varepsilon^{-p})$, the cost of an es
 We will show that our adaptive algorithms presented in Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}  are essentially optimal.
 
 We demonstrate below that non-adaptive algorithms are optimal when the set of inputs is chosen to be $\calC = \calB_R$. However, typically one cannot bound the norm of the input function a priori, so non-adaptive algorithms may be impractical. 
-This will lead to \emph{adaptive} algorithms $\ALG$ satisfying error criterion \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}, not a ball. We study different variants of cones in different sections of this chapter. The first definition of a cone is given in \eqref{DHKM:pilot_cone}, 
+This will lead to \emph{adaptive} algorithms $\ALG$ satisfying error criterion \eqref{DHKM:err_crit}.  For such algorithms, the set of allowable input functions, $\calC$, will be a \emph{cone}, not a ball. We study different variants of cones in different sections of this chapter. 
+
+The first definition of a cone is given in \eqref{DHKM:pilot_cone}, 
 where the idea is that the cone consists of $f\in\calF$ such that 
 $$
   \norm[\calF]{f}\le h (\hf(\bsk_1),\ldots,\hf (\bsk_{n_1}))
@@ -208,8 +218,7 @@ where we infer coordinate and smoothness importance from some initial data, thus
 
 Note that algorithms satisfying error criterion \eqref{DHKM:err_crit} cannot exist for $\calC = \calF$. Any algorithm must require a finite sample size, even if it is huge.  Then, there must exist some $f \in \calF$ that looks exactly like the zero function to the algorithm but for which $\norm[\calG]{\SOL(f)}$ is arbitrarily large.  Thus, algorithms satisfying the error criterion  exist only for some strict subset of $\calF$, such as a ball or a cone.  Identifying that subset is both an art and a science.
 
-
-The rest of this chapter is structured as follows. In the next section, we formulate our problem more formally, and we point out some results for non-adaptive algorithms with inputs from balls. Furthermore, we illustrate our theory by 
+The rest of this chapter is structured as follows. In the next section, we formulate our problem more formally, including the price definition of the input space, $\calF$, in terms of a weights, $\bslambda$, which reflect the assumed smoothness of the input functions.  We point out some results for non-adaptive algorithms with inputs from balls. Furthermore, we illustrate our theory by 
 a particular example, and mention some definitions regarding \emph{tractability}. 
 
 
@@ -354,7 +363,7 @@ The error of this approximation in terms of the norm on the output space, $\calG
 Here we have chosen $\tau = 2$ so $\rho'=\infty$.  If one has a fixed data budget, $n$, then $\APP(f,n)$ is the best answer \DHKMchange{for certain classes of inputs in $\calF$ as for example balls, which 
 are among the most prominent examples studied in the literature}.  
 
-We return \DHKMchange{to the example of functions on $[-1,1]^d$, using a Chebyshev polynomial basis}, in Section \ref{DHKM:SecPilotTract} to discuss the computational cost and complexity.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
+We return \DHKMchange{to the example of functions on $[-1,1]^d$, using a Chebyshev polynomial basis}, in Section \ref{DHKM:SecPilotTract} to discuss the information cost and computational complexity.  We perform some numerical experiments for this example in Section \ref{DHKM:numexamp_sec}.
 
 
 
@@ -562,7 +571,7 @@ Algorithm \ref{DHKM:PilotConeAlg} is essentially optimal.  Moreover, $\calA(\DHK
 \end{theorem}
 
 \begin{proof} 
-The upper bound on the computational cost of this algorithm is obtained by noting that 
+The upper bound on the information cost of this algorithm is obtained by noting that 
 \begin{align*}
     \MoveEqLeft[1]{\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},n_1,A}},\varepsilon,R)} \\
     & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : \ERRN \le \varepsilon \right \} \\
@@ -1118,7 +1127,7 @@ Here, $a$ and $b$ are positive reals with $b< 1 < a$. The constant $a$ is an inf
 \DHKMchange{We remark that knowing $\sigma_1 (f)$ would already be sufficient to identify 
 a sample size that guarantees an error of at most $\varepsilon$. However, knowing $\sigma_j (f)$ for further values of $j$ will allow us to stop earlier.}
 
-Because $ab^s$ may be greater than one, we do not require the series coefficients of the solution, $\SOL(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.  The series coefficients for wavenumbers $\bsk \in \calK_0$ do not affect the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ and may behave erratically.
+Because $ab^s$ may be greater than one, we do not require the series coefficients of the solution, $\SOL(f)$, to decay monotonically. However, we expect their partial sums to decay \emph{steadily}.  The series coefficients for wavenumbers $\bsk \in \calK_0$ do not affect the definition of $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ and may behave erratically.
 Lemma \ref{DHKM:Key_Lem} implies that 
 \begin{equation} \label{DHKM:LambdaDef}
     \norm[\tau]{\bigl(\hf(\bsk) \bigr)_{\bsk \in \calK_j}} \le \sigma_j(f) \Lambda_j, \qquad \text{where } \Lambda_j : = \norm[\rho']{\bigl(\lambda_{\bsk} \bigr)_{\bsk \in \calK_j}}.
@@ -1181,10 +1190,10 @@ Analogous to the algebraic case, reasonable functions would satisfy
 for some constants $C_{\lo}$ and $C_{\up}$.  Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge \E^{- r_{\Delta} s}$ causes the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ to include such functions.  Again, only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{The Adaptive Algorithm and Its Computational Cost} \label{DHKM:SecAdapAlgTrackDecay}
+\subsection{The Adaptive Algorithm and Its Information Cost} \label{DHKM:SecAdapAlgTrackDecay}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The data-driven error bound in \eqref{DHKM:algoineq} forms the basis for an adaptive Algorithm \ref{DHKM:TrackConeAlg}, which solves our problem for input functions in the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The following theorem establishes its viability and computational cost. In deriving upper bounds on the computational cost and lower bounds on the complexity, we may sacrifice tightness for simplicity.
+The data-driven error bound in \eqref{DHKM:algoineq} forms the basis for an adaptive Algorithm \ref{DHKM:TrackConeAlg}, which solves our problem for input functions in the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ defined in \eqref{DHKM:TrackConeDef}.  The following theorem establishes its viability and information cost. In deriving upper bounds on the information cost and lower bounds on the complexity, we may sacrifice tightness for simplicity.
 
 \begin{algorithm}
 	\caption{Adaptive ALG for a Cone of Input Functions Tracking the Series Coefficient Decay Rate \label{DHKM:TrackConeAlg}}
@@ -1240,7 +1249,6 @@ From this last inequality, it follows that $j^\dagger \ge j^*$.
 \end{proof} 
 \fi
 
-\YuhanNote{Create a new version of Theorem \ref{DHKM:TractConeCompCost}, as $ \frac{1 - b^{j\rho}}{1 - b^\rho} \ge 1 \forall j$. And based on that, derive the explicit bound of the example. }
 \DHKMchange{
 
 \begin{theorem}\label{DHKM:TractConeCompCost}
