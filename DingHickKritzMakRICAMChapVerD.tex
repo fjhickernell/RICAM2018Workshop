@@ -1545,8 +1545,8 @@ here. A general result for necessary conditions seems to be more difficult to ob
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}, the weights $\bslambda = (\lambda_{\bsk_1}, \lambda_{\bsk_2}, \ldots )$, which appear in the definition of the cone of inputs, $\calC_{\bslambda,n_1,A}$ and $\calC_{\bslambda,\bsn,a,b}$, are taken as given and fixed.  One may assume the form suggested in \eqref{DHKM:prodwts}, which defines $\bslambda$ in terms of coordinate weights, $\bsw$, and smoothness weights, $\bss$.  However, practically speaking it may be difficult to know a priori suitable values for these weights.
-This section explores a situation where the initial data collected for the input function data can be used to learn $\bsw$ and $\bss$, inferring which input variables in $f$ may be more important and the smoothness of the function.  
+In Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}, the weights \DHKMchange{$\bslambda = (\lambda_{\bsk_1}, \lambda_{\bsk_2}, \ldots )$}, which appear in the definition of the cone of inputs, \DHKMchange{$\calC_{\bslambda,n_1,A}$ and $\calC_{\bslambda,\bsn,a,b}$, are taken as given and fixed.  One may assume the form suggested in \eqref{DHKM:prodwts}, which defines $\bslambda$ in terms of coordinate weights, $\bsw$, and smoothness weights, $\bss$.  However, practically speaking it may be difficult to know a priori suitable values for these weights.
+This section explores a situation where the initial data collected for the input function data can be used to learn $\bsw$ and $\bss$, inferring which input variables in $f$ may be more important and the smoothness of the function.  We focus on inferring the $\bslambda$ defining the cone $\calC_{\bslambda,n_1,A}$ in Section \ref{DHKM:pilot_sec}.}  
 
 The motivation for this section is situations where the relative importance of the $d$ input variables of the function is not known from physical considerations. We also envision situations where the cost of function data is large, e.g., the result of an expensive computer simulation.  Thus, we are not concerned with the cost of the algorithm beyond the information cost, which we hope to limit to $\calO(d)$.
 
@@ -1557,7 +1557,7 @@ u_\bsk = \prod_{\ell = 1}^d \tu_{k_\ell}, \quad
 \lambda_{\bsk} = \Gamma_{\|\bsk\|_0} \prod_{\substack{\ell=1\\ k_\ell>0}}^d w_\ell s_{k_\ell}, \quad \Gamma_0 = s_1 = 1, \quad \bsk \in \mathbb{N}_0^d,
 \label{DHKM:posdeq}
 \end{equation}
-where $\bsw = (w_\ell)_{l=1}^d$ is the vector of coordinate weights, $\bss = (s_k)_{k=1}^\infty$ is the vector of smoothness weights,  $\boldsymbol{\Gamma} = (\Gamma_m)_{m=1}^d$ is the vector of \emph{order weights}, and $\norm[0]{\bsk}$ denotes the number of nonzero elements of $\bsk$. The intuition behind these weights is as follows: 
+where $\bsw = (w_\ell)_{l=1}^d$ is the vector of coordinate weights, $\bss = (s_k)_{k=1}^\infty$ is the vector of smoothness weights,  $\boldsymbol{\Gamma} = (\Gamma_m)_{m=1}^d$ is the vector of \emph{order weights}, and $\norm[0]{\bsk}$ denotes the number of nonzero elements of $\bsk$. \DHKMchange{This is a generalization of the form for $\bslambda$ given by \eqref{DHKM:prodwts}.} The intuition behind these weights is as follows: 
 \begin{itemize}
     \item Coordinate weights quantify the importance for the $d$ input variables in $f$.
     \item Smoothness weights quantify the importance of the $\tu_k$.  E.g., if the $\tu_k$ are polynomials of degree $k$ as in Section \ref{DHKM:secexamp}, then the faster the $s_k$ decay, the smoother $f$ is.  
@@ -1572,7 +1572,7 @@ This parametrization is motivated by several guiding principles from the experim
 \item \emph{Effect smoothness} assumes that lower-degree effects are more important than higher-degree effects. For example, when the $(\tu_k)_{k \in \mathbb{N}_0}$ are polynomials, this means that linear effects are more important than quadratic effects, which are in turn more significant than cubic effects, and so on. Effect smoothness can be imposed by assuming $\bss$ to be a decreasing sequence. 
 \end{itemize} 
 \vspace{-3ex}
-\DHKMchange{These principles will guide the inference of weights $\bslambda$ (and its corresponding cone of inputs $\calC_{\bslambda,A}$) from initial data.}
+\DHKMchange{These principles will guide the inference of weights $\bslambda$ (and its corresponding cone of inputs $\calC_{\bslambda,n_1,A}$ from initial data.}
 
 \hspace{\parindent} The $\lambda_{\bsk}$ defined in \eqref{DHKM:posdeq} are called product, order and smoothness dependent (POSD) weights.  From a quasi-Monte Carlo (QMC) perspective, the POSD weights in \eqref{DHKM:posdeq} generalize upon the product-and-order dependent (POD) weights in \cite{KuoEtal12a}, which were introduced for analyzing QMC methods in partial differential equations with random coefficients. The latter POD weights can be recovered by ignoring the smoothness weights. 
 
@@ -1589,15 +1589,15 @@ Intuitively, the SPOD weights quantify the importance of each \textit{subspace} 
 \subsection{Inferring POSD Weights from an Initial Sample}
 
 %Let $\calC_{\bslambda}$ denote the cone of inputs defined in \eqref{DHKM:pilot_cone} by POSD weights $\bslambda = \bigl( \lambda_{\bsk} \bigr)_{\bsk \in \N_0^d}$.
-As mentioned above, our goal here is to infer $\bslambda$ from input function data.  We start with an initial set of wavenumbers:
+As mentioned above, our goal here is to infer $\bslambda$ from input function data.  We start with an initial set of \DHKMchange{$d k_{\max} + 1$} wavenumbers:
 \begin{equation} \label{DHKM:barKdef}
     \bcalK= \{ (0, \ldots, 0, k, 0, \ldots, 0): k = 0, \ldots, k_{\max}\},
 \end{equation}
-\DHKMchange{where the only non-zero entry $k$ may be at any position in the vector}. The approximation to $f$ based on sampling the series coefficients for these wavenumbers is
+\DHKMchange{where the possible non-zero entry $k$ may be at any one position in the vector}. The approximation to $f$ based on sampling the series coefficients for these wavenumbers is
 \begin{equation*}
     \fapp = \sum_{\bsk \in \bar{\calK}} \hf(\bsk) u_{\bsk}.
 \end{equation*}
-\DHKMchange{To choose the cone $\calC_{\bslambda,A}$ which best fits $f$, we select the POSD weights $\bslambda$ to make the norm of $f_{\text{app}}$ small. These weights can be written as:}
+\DHKMchange{To choose the cone $\calC_{\bslambda,n_1,A}$ which best fits $f$, we select the POSD weights $\bslambda$ to make the norm of $f_{\text{app}}$ small. These weights can be written as:}
 \begin{multline}
 \bar{\bslambda} = \bslambda(\bar{\bsw}, \bar{\bss}, \bsGamma), \\
 \text{where } (\bar{\bsw}, \bar{\bss} ) = \min \left\{ \argmin_{(\bsw,\bss) \in \calW \times \calS} \left\|\left( \frac{\hf(\bsk)}{\lambda_{\bsk}(\bsw,\bss,\bsGamma)} \right)_{\bsk \in \bar{\calK}}\right\|_{\rho} \right \}.
@@ -1613,9 +1613,9 @@ The optimization in \eqref{DHKM:eq:inf} is nontrivial to solve numerically. In p
 
 Algorithm \ref{DHKM:InfPilotConeAlg} combines the construction of data-inferred POSD weights, $\bar{\bslambda}$, with Algorithm \ref{DHKM:PilotConeAlg} of Section \ref{DHKM:pilot_sec}. This algorithm succeeds for input functions in the cone 
 \begin{equation} \label{DHKM:pilot_cone2}
-     \DHKMchange{\bar{\calC}_{A}} := \left \{ f \in \calF : f \in \DHKMchange{\calC_{\bar{\bslambda},A}} \text{ for } \bar{\bslambda} \text{ defined in \eqref{DHKM:eq:inf}} \right\}.
+     \DHKMchange{\bar{\calC}_{n_1,A}} := \left \{ f \in \calF : f \in \DHKMchange{\calC_{\bar{\bslambda},n_1,A}} \text{ for } \bar{\bslambda} \text{ defined in \eqref{DHKM:eq:inf}} \right\}.
 \end{equation}
-The reason that \DHKMchange{$\bar{\calC}_A$} is a cone is that the data-inferred $\bar{\bslambda}$ for the input function $f$ is exactly the same as for the input function $cf$, where $c$ is any constant.
+The reason that \DHKMchange{$\bar{\calC}_{n_1,A}$} is a cone is that the data-inferred $\bar{\bslambda}$ for the input function $f$ is exactly the same as for the input function $cf$, where $c$ is any constant.
 
 \begin{algorithm}
 	\caption{Adaptive $\ALG$ Based on Data-Inferred POSD Weights \label{DHKM:InfPilotConeAlg}} 
@@ -1627,7 +1627,7 @@ The reason that \DHKMchange{$\bar{\calC}_A$} is a cone is that the data-inferred
 \Ensure Error criterion \eqref{DHKM:err_crit} for the cone defined in \eqref{DHKM:pilot_cone2}
 \State  Define the initial set of wavenumbers $\bcalK$ defined in \eqref{DHKM:barKdef}
 \State Evaluate initial sample $\bigl\{\hf(\bsk)\bigr\}_{\bsk \in \bcalK}$
-\State Compute data-driven POSD weight $\bar{\bslambda}$\DHKMchange{, by iteratively optimizing over $\bsw \in \calW$ and $\bss \in \calS$ in \eqref{DHKM:eq:inf} until convergence}
+\State Compute data-driven POSD weight $\bar{\bslambda}$\DHKMchange{, by iteratively optimizing over $(\bsw, \bss) \in \calW \times \calS$ in \eqref{DHKM:eq:inf} until convergence}
 \State Using these weights, $\bar{\bslambda}$, perform Algorithm \ref{DHKM:PilotConeAlg} to obtain $\ALG(f,\varepsilon)$
 \RETURN $\ALG(f,\varepsilon)$
 \end{algorithmic}
