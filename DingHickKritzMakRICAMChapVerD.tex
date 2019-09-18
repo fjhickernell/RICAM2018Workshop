@@ -194,7 +194,7 @@ Furthermore, we define the \emph{computational complexity} of a problem as the i
 \begin{equation*}
     \COMP(\calA(\calC), \varepsilon,R) := \min_{\ALG \in \calA(\calC)} \COST(\ALG, \calC, \varepsilon,R) .
 \end{equation*}
-These definitions follow the information-based complexity literature \cite{TraWer98, TraWasWoz88}.
+These definitions follow the information-based complexity literature \citep{TraWer98, TraWasWoz88}.
 We define an algorithm to be \emph{essentially optimal} if there exist some fixed positive $\omega$, $\varepsilon_{\max}$, and $R_{\min}$ for which
 \begin{multline} \label{DHKM:EssentialOpt}
     \COST(\ALG, \calC, \varepsilon,R) \le \COMP(\calA(\calC), \omega \varepsilon,R) \\ \forall \, \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
@@ -238,7 +238,7 @@ Section \ref{DHKM:smoothimportance_sec} considers the case where the most suitab
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Problem formulation}
+\subsection{Problem Formulation}
 
 Now, we define our problem more formally.  The solution operator $\SOL$ maps the input function to an output, $\SOL:\calF \to \calG$.  The Banach spaces of inputs and outputs are defined by series expansions:
 \begin{gather*}
@@ -678,7 +678,7 @@ Let us prove $
 If $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$, then by the definition of $\calC_{\boldsymbol{\lambda}, n_1, A}$ we have
 \begin{equation*}
     \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i = 1} ^{ n_1}}
-     \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\hf(\bsk)\omega_{\bsk_i}}{\lambda_{\bsk_i}} \right)_{i =1} ^{n_1}}
+     \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\hf(\bsk_i)\omega_{\bsk_i}}{\lambda_{\bsk_i}} \right)_{i =1} ^{n_1}}
      \le A \omega_{n_1}^{-1} \norm[\calF']{f}.
 \end{equation*}
 Thus, if $A\omega_{n_1}^{-1} \le A''$, i.e. $A \le \omega_{n_1} A'' $, then
@@ -699,7 +699,7 @@ suppose $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$. Then we 
 \end{align*}
 Assuming $\omega_{n_1+1}A' < 1$ and rearranging the above terms, we obtain
 \begin{align*}
-\norm[\calF']{f}^\rho & \le \frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \\
+\norm[\calF']{f}^\rho & \le \frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho, \\
 	\norm[\calF]{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
 \end{align*}
 Hence, if $\omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \le A$, it follows that $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$ and so
@@ -870,10 +870,9 @@ Furthermore, these information costs cannot grow any slower than $\calO(\varepsi
 \subsection{Tractability}\label{DHKM:SecPilotTract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\FredNote{Do we drop the other subscripts on $\calC$, and just use $d$?}
 \DHKMchange{
 Besides understanding the dependence of $\COMP(\calA(\calC), \varepsilon,R)$ on $\varepsilon$, we also want to understand how $\COMP(\calA(\calC), \varepsilon,R)$ depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  
-The set of functions for which our algorithms succeed, $\calC_d$, depends on the dimension, too.  Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on the dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
+The set of functions for which our algorithms succeed, depends on the dimension, too. Thus, for the sake of brevity, we write $\calC_d$ instead of $\calC_{\bslambda,n_1,A}$ in this section. Also, $\SOL$, $\APP$, $\COST$, and $\COMP$ depend implicitly on the dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
 
 \bigskip
 
@@ -1008,7 +1007,7 @@ $\widetilde{\lambda}_{d,i}:=\lambda_{d,\bsk_i}^{\rho'}$, we have
 \begin{align}
     \nonumber 
     n_{\COMP}(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
-\bignorm[\rho']{\bslambda_d^{(n+1)}}\,
+\bignorm[\rho']{\bslambda_d^{(n+1)}}^{\rho'}\,
     \le (\varepsilon/R)^{\rho'} \right \} \\
     \label{DHKM:eqaveragetract}
     & =\min \left \{n\ge 0\colon 
@@ -1063,7 +1062,7 @@ Using the same notation as above, the following statements hold for the case $\r
 To be more concrete, we return to the situation where the $\lambda_{d,\bsk}$ are given 
 as in \eqref{DHKM:prodwts}  one more time. We note that
 $\bignorm[p]{\bslambda_d^{(i_0)}}^p<\infty$ holds if and only if  $\bignorm[p]{\bslambda_d}^p<\infty$.
-We denote the $d$-dependence of the vector of coordinate weights by writing $\bsw_d:=(w_1, \ldots, w_d)$ and $\bsw_\infty = (w_1, w_2, \ldots)$
+We denote the $d$-dependence of the vector of coordinate weights by writing $\bsw_d:=(w_1, \ldots, w_d)$ and $\bsw_\infty = (w_1, w_2, \ldots)$.
 By Lemma \ref{DHKM:prodwtsupperbound}, we have
 \[
 \norm[p]{\bss} \norm[p]{\bsw_d} \le \norm[p]{\bslambda_d}\le \exp\left(\frac 1p \norm[p]{\bss}^p \norm[p]{\bsw_d}^p  \right),
@@ -1280,7 +1279,7 @@ The key term in the upper bound on the information cost in \eqref{DHKM:TractCone
 From \eqref{DHKM:TractConejdagger} in Theorem \ref{DHKM:TrackConeCompCost} it follows that the cost of Algorithm \ref{DHKM:TrackConeAlg} has an upper bound of $\COST(\ALG,\calC_{\bslambda,a,b},\varepsilon,R) \le n_j = n_0 2^j$ for any $j$ satisfying 
 \begin{align*}
     \frac{b \norm[p]{\bslambda} }{ n_0^{1/p} 2^{j/p} (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} &\le \frac{b\varepsilon}{R a^2}, \\
-   \left(\frac{ R a^{2} \norm[p]{\bslambda} }{\varepsilon (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} \right)^p & \le n_0 2^{j},
+   \left(\frac{ R a^{2} \norm[p]{\bslambda} }{\varepsilon (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} \right)^p & \le n_0 2^{j}.
 \end{align*}
 This argument leads to the following upper bound on the information cost, which is similar to Theorem \ref{DHKM:thm:costbdspilot}.  Applying Lemma \ref{DHKM:prodwtsupperbound} yields a result analogous to Corollary \ref{DHKM:cor:illex}.
 
@@ -1361,7 +1360,7 @@ c_1 &:=  \frac{R(a+1)(1 - b^\rho)^{1/\rho}}{2a}.
 It can be verified that the test function lies both in $\calB_{R}$ and in $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$:
 \begin{align}
 \nonumber
-\sigma_j(f_1) & = \norm[\rho]{\biggl(\frac{\hf_{1j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_l}} 
+\sigma_j(f_1) & = \norm[\rho]{\biggl(\frac{\hf_{1j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}} 
 = c_1 b^j, \qquad j \in \N_0,\\
 \nonumber
 \norm[\calF]{f_1} &= \norm[\rho]{\bigl( \sigma_j(f) \bigr)_{j \in \N_0} } 
@@ -1548,7 +1547,7 @@ here. A general result for necessary conditions seems to be more difficult to ob
 In Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}, the weights \DHKMchange{$\bslambda = (\lambda_{\bsk_1}, \lambda_{\bsk_2}, \ldots )$}, which appear in the definition of the cone of inputs, \DHKMchange{$\calC_{\bslambda,n_1,A}$ and $\calC_{\bslambda,\bsn,a,b}$, are taken as given and fixed.  One may assume the form suggested in \eqref{DHKM:prodwts}, which defines $\bslambda$ in terms of coordinate weights, $\bsw$, and smoothness weights, $\bss$.  However, practically speaking it may be difficult to know a priori suitable values for these weights.
 This section explores a situation where the initial data collected for the input function data can be used to learn $\bsw$ and $\bss$, inferring which input variables in $f$ may be more important and the smoothness of the function.  We focus on inferring the $\bslambda$ defining the cone $\calC_{\bslambda,n_1,A}$ in Section \ref{DHKM:pilot_sec}.}  
 
-The motivation for this section is situations where the relative importance of the $d$ input variables of the function is not known from physical considerations. We also envision situations where the cost of function data is large, e.g., the result of an expensive computer simulation.  Thus, we are not concerned with the cost of the algorithm beyond the information cost, which we hope to limit to $\calO(d)$.
+This section is motivated by situations where the relative importance of the $d$ input variables of the function is not known from physical considerations. We also envision situations where the cost of function data is large, e.g., the result of an expensive computer simulation.  Thus, we are not concerned with the cost of the algorithm beyond the information cost, which we hope to limit to $\calO(d)$.
 
 \subsection{Product, Order and Smoothness Dependent (POSD) Weights}
 The $u_{\bsk}$ and the $\lambda_{\bsk}$ in this section are defined as 
@@ -1557,11 +1556,11 @@ u_\bsk = \prod_{\ell = 1}^d \tu_{k_\ell}, \quad
 \lambda_{\bsk} = \Gamma_{\|\bsk\|_0} \prod_{\substack{\ell=1\\ k_\ell>0}}^d w_\ell s_{k_\ell}, \quad \Gamma_0 = s_1 = 1, \quad \bsk \in \mathbb{N}_0^d,
 \label{DHKM:posdeq}
 \end{equation}
-where $\bsw = (w_\ell)_{l=1}^d$ is the vector of coordinate weights, $\bss = (s_k)_{k=1}^\infty$ is the vector of smoothness weights,  $\boldsymbol{\Gamma} = (\Gamma_m)_{m=1}^d$ is the vector of \emph{order weights}, and $\norm[0]{\bsk}$ denotes the number of nonzero elements of $\bsk$. \DHKMchange{This is a generalization of the form for $\bslambda$ given by \eqref{DHKM:prodwts}.} The intuition behind these weights is as follows: 
+where $\bsw = (w_\ell)_{\ell=1}^d$ is the vector of coordinate weights, $\bss = (s_k)_{k=1}^\infty$ is the vector of smoothness weights,  $\boldsymbol{\Gamma} = (\Gamma_m)_{m=1}^d$ is the vector of \emph{order weights}, and $\norm[0]{\bsk}$ denotes the number of nonzero elements of $\bsk$. \DHKMchange{This is a generalization of the form for $\bslambda$ given by \eqref{DHKM:prodwts}.} The intuition behind these weights is as follows: 
 \begin{itemize}
     \item Coordinate weights quantify the importance for the $d$ input variables in $f$.
     \item Smoothness weights quantify the importance of the $\tu_k$.  E.g., if the $\tu_k$ are polynomials of degree $k$ as in Section \ref{DHKM:secexamp}, then the faster the $s_k$ decay, the smoother $f$ is.  
-    \item Order weights quantify the importance of effects with different orders; $\bsk$ having one nonzero element corresponds to a first-order or main effect, $\bsk$ having two nonzero elements corresponds to a second-order (interaction) effect.   (e.g., first-order, second-order).
+    \item Order weights quantify the importance of effects with different orders; $\bsk$ having one nonzero element corresponds to a first-order or main effect, $\bsk$ having two nonzero elements corresponds to a second-order (interaction) effect (e.g., first-order, second-order).
 \end{itemize} \ \vspace{-4ex}
 
 This parametrization is motivated by several guiding principles from the experimental design literature \citep{WuHam2009}, which are briefly described below.  In statistical parlance, the terms $\hf(\bsk) u_{\bsk}$ are effects.
@@ -1572,13 +1571,13 @@ This parametrization is motivated by several guiding principles from the experim
 \item \emph{Effect smoothness} assumes that lower-degree effects are more important than higher-degree effects. For example, when the $(\tu_k)_{k \in \mathbb{N}_0}$ are polynomials, this means that linear effects are more important than quadratic effects, which are in turn more significant than cubic effects, and so on. Effect smoothness can be imposed by assuming $\bss$ to be a decreasing sequence. 
 \end{itemize} 
 \vspace{-3ex}
-\DHKMchange{These principles will guide the inference of weights $\bslambda$ (and its corresponding cone of inputs $\calC_{\bslambda,n_1,A}$ from initial data.}
+\DHKMchange{These principles will guide the inference of weights $\bslambda$ (and its corresponding cone of inputs $\calC_{\bslambda,n_1,A}$) from initial data.}
 
 \hspace{\parindent} The $\lambda_{\bsk}$ defined in \eqref{DHKM:posdeq} are called product, order and smoothness dependent (POSD) weights.  From a quasi-Monte Carlo (QMC) perspective, the POSD weights in \eqref{DHKM:posdeq} generalize upon the product-and-order dependent (POD) weights in \cite{KuoEtal12a}, which were introduced for analyzing QMC methods in partial differential equations with random coefficients. The latter POD weights can be recovered by ignoring the smoothness weights. 
 
 Our POSD weights differ from the smoothness-driven product-and-order dependent (SPOD) weights in \cite{Dea2014}, which were recently used to analyze higher-order QMC methods for stochastic partial differential equations. These SPOD weights take the form:
 \begin{equation*}
-\gamma_{\fraku} = \sum_{\bsk \in \{1, \ldots, \alpha\}^{|\fraku|}} \|\bsk\|_1 ! \prod_{\ell \in \fraku} \left( 2^{\delta(k_\ell,\alpha)} w_\ell^{k_\ell} \right), \quad \|\bsk\|_1 = \sum_{l=1}^d k_\ell, \quad \fraku \subseteq \{1, \ldots, d\},
+\gamma_{\fraku} = \sum_{\bsk \in \{1, \ldots, \alpha\}^{|\fraku|}} \|\bsk\|_1 ! \prod_{\ell \in \fraku} \left( 2^{\delta(k_\ell,\alpha)} w_\ell^{k_\ell} \right), \quad \|\bsk\|_1 = \sum_{\ell=1}^d k_\ell, \quad \fraku \subseteq \{1, \ldots, d\},
 %\label{eq:spod}
 \end{equation*}
 where $\delta (k_\ell,\alpha)$ is 1 if $k_\ell=\alpha$ and 0 otherwise. 
@@ -1642,7 +1641,7 @@ The simulation set-up is as follows. The Fourier coefficients for input function
 \hat{f}(\bsk) = Z_{\bsk} \,  {\Gamma}_{\|\bsk\|_0}^{\rm tr} \prod_{\substack{\ell=1\\ k_\ell>0}}^d {w_\ell^{\rm tr}} {s}_{k_\ell}^{\rm tr}, \quad Z_{\bsk} \overset{i.i.d.}{\sim} \text{Unif}[-1, 1], \quad \bsk \in \mathbb{N}_0^d.
 %\label{eq:foursim}
 \end{equation*}
-Here, $(w_\ell^{\rm tr})_{\ell=1}^d = (1/L^2(\ell))_{l=1}^d$, $({\Gamma_k^{\rm tr}})_{k=1}^\infty \equiv 1$ and $(s_j^{\rm tr})_{j=1}^{k_{\rm max}} = (1/j^4)_{j=1}^4$ are the true coordinate, order, and smoothness weights, and $Z_{\bsk}$ randomly sets the magnitude and sign of each coefficient. Moreover, $\bigl(L(\ell)\bigr)_{\ell=1}^d$ is a random permutation of $1, \ldots, d$ to ensure that the order of input variables does not necessarily reflect their order of importance. We also set $\boldsymbol{\Gamma} = \boldsymbol{\Gamma}^{\rm tr}$ in Algorithm \ref{DHKM:InfPilotConeAlg} and use an inflation factor of $A = 1.1$.
+Here, $(w_\ell^{\rm tr})_{\ell=1}^d = (1/L^2(\ell))_{\ell=1}^d$, $({\Gamma_m^{\rm tr}})_{m=1}^\infty \equiv 1$ and $(s_k^{\rm tr})_{k=1}^{k_{\rm max}} = (1/k^4)_{k=1}^4$ are the true coordinate, order, and smoothness weights, and $Z_{\bsk}$ randomly sets the magnitude and sign of each coefficient. Moreover, $\bigl(L(\ell)\bigr)_{\ell=1}^d$ is a random permutation of $1, \ldots, d$ to ensure that the order of input variables does not necessarily reflect their order of importance. We also set $\boldsymbol{\Gamma} = \boldsymbol{\Gamma}^{\rm tr}$ in Algorithm \ref{DHKM:InfPilotConeAlg} and use an inflation factor of $A = 1.1$.
 
 Figures \ref{fig:four} (a) and (b) display the total required sample size from Algorithm \ref{DHKM:InfPilotConeAlg}, as a function of the error to tolerance ratio, $\|f - \ALG(f,\varepsilon)\|_\infty/\varepsilon$, in $d=4$ and $d=7$ dimensions, respectively. Each data point corresponds to a different error tolerance $\varepsilon$. A ratio $\|f - \ALG(f,\varepsilon)\|_\infty/\varepsilon$ close to, but not exceeding, one is desired, since this shows that our adaptive algorithm is successful. For $d=4$, $\|f - \ALG(f,\varepsilon)\|_\infty/\varepsilon$ fluctuates around 0.4 for all choices of $\varepsilon$; for $d=7$, this ratio begins at $\approx 0.1$ for $\varepsilon = 0.1$, then decreases to $\approx 0.014$ for $\varepsilon = 0.001$. This shows that our adaptive approximation algorithm works reasonably well.  It appears slightly more effective in lower dimensions  than in higher dimensions. A likely reason is that the underlying POSD structure can be more easily learned from a small pilot sample in lower dimensions than in higher dimensions.
 
