@@ -106,8 +106,7 @@
   \author[3]{Peter Kritzer} 
   \author[4]{Simon Mak}
   \runningauthor{Y. Ding, F. J. Hickernell, P. Kritzer, and S. Mak}
-  \affil[1]{Department of Mathematics, 
-  Misericorida University, 301 Lake Street, Dallas, PA 18704 USA}
+  \affil[1]{Department of Applied Mathematics, Illinois Institute of Technology, RE 220, 10 W.\ 32${}\text{nd}$ Street, Chicago, IL 60616 USA}
   \affil[2]{Department of Applied Mathematics, Illinois Institute of Technology, RE 220, 10 W.\ 32${}\text{nd}$ Street, Chicago, IL 60616 USA}
   \affil[3]{Johann Radon Institute for Computational and Applied Mathematics (RICAM), 
   Austrian Academy of Sciences, Altenbergerstr. 69, 4040 Linz, Austria}
@@ -1166,7 +1165,7 @@ From the expression for the error in \eqref{DHKM:APP_Err_Coef} and the definitio
 
 This upper bound depends only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ and $\Lambda_j \to 0$.  Moreover, the error bound for $\APP(f,n_j)$ depends on $\sigma_j(f)$, whose rate of decay need not be postulated in advance.
 
-These assumptions accommodate both the cases where the approximation converges algebraically and exponentially.  To illustrate the algebraic case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \DHKMchange{\Theta(i^{-r_\Delta})}$ for some positive $r_\Delta > 1/\rho$.  For this algebraic case one would normally define $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ in terms of an exponentially increasing sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 2^j$, which implies that 
+These assumptions accommodate both the cases where the approximation converges algebraically and exponentially.  To illustrate the algebraic case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \DHKMchange{\Theta(i^{-r_\Delta})}$ for some positive $r_\Delta > 1/\rho$.  \DHKMchange{Here $r_\Delta$ reflects the smoothness of the input function.}  For this algebraic case one would normally define $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}} $ in terms of an exponentially increasing sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 2^j$, which implies that 
 \begin{align*}
     \sigma_j(f) &= \left[ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} \biggabs{\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
     = \DHKMchange{\Theta}\left( \left [ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} i^{-\rho r_\Delta} \right]^{1/\rho} \right) \\
@@ -1176,7 +1175,7 @@ Reasonable functions would satisfy
 \begin{equation*}
     C_{\lo} 2^{-j(r_\Delta-1/\rho)} \le \sigma_j(f) \le C_{\up} 2^{-j(r_\Delta-1/\rho)} 
 \end{equation*}
-for some constants $C_{\lo}$ and $C_{\up}$.  Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge  2^{-(r_\Delta-1/\rho)}$ causes the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ to include such functions.  Note that only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound. 
+for some constants $C_{\lo}$ and $C_{\up}$.  \DHKMchange{By reasonable we mean that the values of $\sigma_j(f)$ would not drop precipitously and then rise again as $j$ increases.} Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge  2^{-(r_\Delta-1/\rho)}$ causes the cone $\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}}$ to include such functions.  Note that only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound. 
 
 To illustrate the exponential case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \DHKMchange{\Theta}(\E^{-r_\Delta i})$.  For this exponential case one would normally define $\calC$ in terms of an arithmetic sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 + j q$, where $q$ is a positive integer.  This implies that 
 \begin{align*}
@@ -1227,7 +1226,7 @@ j^* = \min\left \{ j \in \bbN : \ERRNj \le \varepsilon  \right\}.
 \end{equation}
 Moreover, $\COST(\ALG,\DHKMchange{\calC_{\boldsymbol{\lambda},\bsn,a,b}},\varepsilon,R) \le n_{j^\dagger}$, where $j^\dagger$ is defined as follows:
 \begin{equation} \label{DHKM:TractConejdagger}
-j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{s}\Lambda_{j+l} \bigr)_{l=1}^\infty}
+j^\dagger = \min \left \{j \in \bbN :   \norm[\tau]{ \bigl(b^{l}\Lambda_{j+l} \bigr)_{l=1}^\infty}
 \le  \frac{b\varepsilon}{Ra^2}\right\}.
 \end{equation}
 \end{theorem}
@@ -1276,7 +1275,7 @@ The key term in the upper bound on the information cost in \eqref{DHKM:TractCone
  & \le  
  \frac{b \norm[p]{\bslambda} }{ n_0^{1/p} 2^{j/p} (1 - b^{\rho}/2^{\rho/p})^{1/\rho}}.
 \end{align*}
-From \eqref{DHKM:TractConejdagger} in Theorem \ref{DHKM:TrackConeCompCost} it follows that the cost of Algorithm \ref{DHKM:TrackConeAlg} has an upper bound of $\COST(\ALG,\calC_{\bslambda,a,b},\varepsilon,R) \le n_j = n_0 2^j$ for any $j$ satisfying 
+From \eqref{DHKM:TractConejdagger} in Theorem \ref{DHKM:TrackConeCompCost} it follows that the cost of Algorithm \ref{DHKM:TrackConeAlg} has an upper bound of $\COST(\ALG,\calC_{\bslambda,a,b},\varepsilon,R) \le n_j = n_0 2^j$ \SimonNote{Should this be $\COST(\ALG,\calC_{\bslambda,\bsn,a,b},\varepsilon,R)$?} for any $j$ satisfying 
 \begin{align*}
     \frac{b \norm[p]{\bslambda} }{ n_0^{1/p} 2^{j/p} (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} &\le \frac{b\varepsilon}{R a^2}, \\
    \left(\frac{ R a^{2} \norm[p]{\bslambda} }{\varepsilon (1 - b^{\rho}/2^{\rho/p})^{1/\rho}} \right)^p & \le n_0 2^{j}.
