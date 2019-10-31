@@ -50,15 +50,15 @@
 \DeclareMathOperator{\DHKMALG}{ALG}
 \DeclareMathOperator{\DHKMERR}{ERR}
 \DeclareMathOperator{\DHKMcard}{card}
-\newcommand{\DHKMdataN}{\bigl(\hf(\bsk_i)\bigr)_{i=1}^n}
-\newcommand{\DHKMdataNj}{\bigl(\hf(\bsk_i)\bigr)_{i=1}^{n_j}}
-\newcommand{\DHKMdataNjd}{\bigl(\hf(\bsk_i)\bigr)_{i=1}^{n_{j^\dagger}}}
+\newcommand{\DHKMdataN}{\bigl(\DHKMhf(\bsk_i)\bigr)_{i=1}^n}
+\newcommand{\DHKMdataNj}{\bigl(\DHKMhf(\bsk_i)\bigr)_{i=1}^{n_j}}
+\newcommand{\DHKMdataNjd}{\bigl(\DHKMhf(\bsk_i)\bigr)_{i=1}^{n_{j^\dagger}}}
 \newcommand{\DHKMERRN}{\DHKMERR\bigl(\DHKMdataN,n\bigr)}
 \newcommand{\DHKMERRNj}{\DHKMERR\bigl(\DHKMdataNj,n_j\bigr)}
 \newcommand{\DHKMERRNjd}{\DHKMERR\bigl(\DHKMdataNjd,n_{j^\dagger}\bigr)}
 \DeclareMathOperator{\DHKMCOST}{COST}
-\DeclareMathOperator{\COMP}{COMP}
-\newcommand{\hf}{\widehat{f}}
+\DeclareMathOperator{\DHKMCOMP}{COMP}
+\newcommand{\DHKMhf}{\widehat{f}}
 \newcommand{\hg}{\widehat{g}}
 \newcommand{\tu}{\Tilde{u}}
 \newcommand{\tv}{\Tilde{v}}
@@ -168,12 +168,12 @@ where  $\varepsilon$ denotes the error tolerance. Such an algorithm will  contai
     \item understand the dependence of this cost on the number of input variables, $d$, as well as the error tolerance, $\varepsilon$.
 \end{itemize}
 
-We assume in this chapter that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk}$, and we allow algorithms $\DHKMALG (f,\varepsilon)$ to use $n(f,\varepsilon)$ coefficients $\hf (\bsk)$ of this representation. That is, 
+We assume in this chapter that the functions $f\in\calF$ can be represented in terms of a basis representation as $f = \sum_{\bsk \in \mathbb{K}} \DHKMhf(\bsk) u_{\bsk}$, and we allow algorithms $\DHKMALG (f,\varepsilon)$ to use $n(f,\varepsilon)$ coefficients $\DHKMhf (\bsk)$ of this representation. That is, 
 we study algorithms that have an output of the form 
 \begin{equation*} %\label{DHKM:algform}
-  \DHKMALG(f,\varepsilon) = \sum_{i=1}^{n(f,\varepsilon)}\hf(\bsk_i) v_{\bsk_i} \qquad \forall f \in \calF, \ n(f,\varepsilon) \in \N,
+  \DHKMALG(f,\varepsilon) = \sum_{i=1}^{n(f,\varepsilon)}\DHKMhf(\bsk_i) v_{\bsk_i} \qquad \forall f \in \calF, \ n(f,\varepsilon) \in \N,
 \end{equation*}
-where an oracle provides $\hf(\bsk_1),\ldots,\hf (\bsk_{n(f,\varepsilon)})$ 
+where an oracle provides $\DHKMhf(\bsk_1),\ldots,\DHKMhf (\bsk_{n(f,\varepsilon)})$ 
 with $n(f,\varepsilon)$ being chosen based on a stopping rule. 
 We assume that it is possible to sample the series coefficients of the input function.  This is a more restrictive assumption than being able to sample any linear functional, but it is different than only being able to sample function values.  An important future problem is to extend the theory in this chapter to the case where the only function data available are function values.
 
@@ -191,12 +191,12 @@ Note that while the cost depends on $\norm[\calF]{f}$, $\DHKMALG(f,\varepsilon)$
 A crucial concept is the set of all possible algorithms that may be constructed using series coefficients and that \emph{satisfy error criterion \eqref{DHKM:err_crit}}. We denote this set by $\calA(\calC)$. 
 Furthermore, we define the \emph{computational complexity} of a problem as the information cost of the best algorithm:
 \begin{equation*}
-    \COMP(\calC, \varepsilon,R) := \min_{\DHKMALG \in \calA(\calC)} \DHKMCOST(\DHKMALG, \calC, \varepsilon,R) .
+    \DHKMCOMP(\calC, \varepsilon,R) := \min_{\DHKMALG \in \calA(\calC)} \DHKMCOST(\DHKMALG, \calC, \varepsilon,R) .
 \end{equation*}
 These definitions follow the information-based complexity literature \citep{TraWer98, TraWasWoz88}.
 We define an algorithm to be \emph{essentially optimal} if there exist some fixed positive $\omega$, $\varepsilon_{\max}$, and $R_{\min}$ for which
 \begin{multline} \label{DHKM:EssentialOpt}
-    \DHKMCOST(\DHKMALG, \calC, \varepsilon,R) \le \COMP(\calC, \omega \varepsilon,R) \\ \forall \, \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
+    \DHKMCOST(\DHKMALG, \calC, \varepsilon,R) \le \DHKMCOMP(\calC, \omega \varepsilon,R) \\ \forall \, \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
 \end{multline}
 If the complexity of the problem is $\calO(\varepsilon^{-p})$, the cost of an essentially optimal algorithm is also $\calO(\varepsilon^{-p})$. If the complexity of the problem is asymptotically $c \log(1 + \varepsilon^{-1})$, then  the cost of an essentially optimal algorithm is also asymptotically $c \log(1 + \varepsilon^{-1})$. 
 We will show that our adaptive algorithms presented in Sections \ref{DHKM:pilot_sec} and \ref{DHKM:tracking_sec}  are essentially optimal.
@@ -207,7 +207,7 @@ This will lead to \emph{adaptive} algorithms $\DHKMALG$ satisfying error criteri
 The first definition of a cone is given in \eqref{DHKM:pilot_cone}, 
 where the idea is that the cone consists of $f\in\calF$ such that 
 $$
-  \norm[\calF]{f}\le h (\hf(\bsk_1),\ldots,\hf (\bsk_{n_1}))
+  \norm[\calF]{f}\le h (\DHKMhf(\bsk_1),\ldots,\DHKMhf (\bsk_{n_1}))
 $$
 for a suitably chosen homogeneous function $h:\bbR^{n_1}\to [0,\infty)$. This means that the norm of $f$ can be bounded well in terms of 
 a \emph{pilot sample} of size $n_1\in\bbN$. See \eqref{DHKM:pilot_cone} for the precise definition. In Section \ref{DHKM:SecAdapAlgTrackDecay}, we will modify the definition of cones such that we can keep track of the decay rate of the series coefficients of the input function (see \eqref{DHKM:TrackConeDef}), 
@@ -241,7 +241,7 @@ Section \ref{DHKM:smoothimportance_sec} considers the case where the most suitab
 
 Now, we define our problem more formally.  The solution operator $\DHKMSOL$ maps the input function to an output, $\DHKMSOL:\calF \to \calG$.  The Banach spaces of inputs and outputs are defined by series expansions:
 \begin{gather*}
-    \calF := \left \{f = \sum_{\bsk \in \mathbb{K}} \hf(\bsk) u_{\bsk} : \norm[\calF]{f} : = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}} < \infty \right\}, \quad\mbox{with}\quad 1 \le \rho \le \infty, 
+    \calF := \left \{f = \sum_{\bsk \in \mathbb{K}} \DHKMhf(\bsk) u_{\bsk} : \norm[\calF]{f} : = \norm[\rho]{\left( \frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \mathbb{K}}} < \infty \right\}, \quad\mbox{with}\quad 1 \le \rho \le \infty, 
 \end{gather*}
 and
 \begin{gather*}
@@ -253,7 +253,7 @@ Here, $\{u_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the input Banach space
     \DHKMSOL(u_{\bsk}) = v_{\bsk} \qquad \forall \bsk \in \mathbb{K}.
 \end{equation}
 
-The $\lambda_{\bsk}$ represent the importance of the series coefficients of the input function.  The larger $\lambda_{\bsk}$ is, the more important $\hf(\bsk)$ is.  The $\lambda_{\bsk}$ are assumed to have a known order:
+The $\lambda_{\bsk}$ represent the importance of the series coefficients of the input function.  The larger $\lambda_{\bsk}$ is, the more important $\DHKMhf(\bsk)$ is.  The $\lambda_{\bsk}$ are assumed to have a known order:
 \begin{equation} \label{DHKM:lambda_order}
     \lambda_{\bsk_1} \ge \lambda_{\bsk_2} \ge \cdots >0,
 \end{equation}
@@ -268,14 +268,14 @@ Let $\calK$ be some proper or improper subset of the index set $\bbK$. Moreover,
 \begin{equation*}
     \frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau, \qquad \text{i.e., } \rho' := \frac{\rho \tau}{\rho - \tau},
 \end{equation*}
-so $\tau \le \rho' \le \infty$.  Let $\Lambda :=  \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}$ be the norm of a subset of the weights.  Then the following are true for $f = \sum_{\bsk \in \calK} \hf(\bsk) u_{\bsk}$:
+so $\tau \le \rho' \le \infty$.  Let $\Lambda :=  \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}$ be the norm of a subset of the weights.  Then the following are true for $f = \sum_{\bsk \in \calK} \DHKMhf(\bsk) u_{\bsk}$:
 \begin{equation}
 \label{DHKM:SOL_ineq}
-    \norm[\calG]{\DHKMSOL(f)} = \norm[\tau]{\bigl(\hf(\bsk) \bigr)_{\bsk \in \calK}} \le \norm[\calF]{f} \, \Lambda,
+    \norm[\calG]{\DHKMSOL(f)} = \norm[\tau]{\bigl(\DHKMhf(\bsk) \bigr)_{\bsk \in \calK}} \le \norm[\calF]{f} \, \Lambda,
     \end{equation}
     \begin{multline}
     \label{DHKM:SOL_tight_ineq}
-    \bigabs{\hf(\bsk)} = \begin{cases}
+    \bigabs{\DHKMhf(\bsk)} = \begin{cases}
     \displaystyle 
     \frac{R \lambda_{\bsk}^{\rho'/\rho + 1}}{\Lambda^{\rho'/\rho}}, & \forall \bsk \in \calK, \quad  \text{if}\ \rho'<\infty, \\
     R \Lambda \delta_{\bsk,\bsk^*}, & \forall \bsk \in \calK, \ \bsk^* \in \calK \text{ satisfies } \lambda_{\bsk^*} = \Lambda, \quad\text{if}\ \rho' = \infty,
@@ -291,11 +291,11 @@ The proof of inequality \eqref{DHKM:SOL_ineq} proceeds by applying H\"older's in
 \begin{align}
     \label{DHKM:SOL_A}
     \norm[\calG]{\DHKMSOL(f)}  
-    & = \biggnorm[\calG]{\sum_{\bsk \in \calK} \hf(\bsk) v_{\bsk}} = \norm[\tau]{\bigl(  \hf(\bsk)  \bigr)_{\bsk \in \calK}}  = \left [\sum_{\bsk \in \calK}  \left\lvert\frac{\hf(\bsk)}{\lambda_{\bsk}} \right\rvert^{\tau} \lambda_{\bsk}^{\tau} \right]^{1/\tau} \\
+    & = \biggnorm[\calG]{\sum_{\bsk \in \calK} \DHKMhf(\bsk) v_{\bsk}} = \norm[\tau]{\bigl(  \DHKMhf(\bsk)  \bigr)_{\bsk \in \calK}}  = \left [\sum_{\bsk \in \calK}  \left\lvert\frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \right\rvert^{\tau} \lambda_{\bsk}^{\tau} \right]^{1/\tau} \\
     \nonumber
-    & \le \biggnorm[\rho]{\biggl(  \frac{\hf(\bsk)}{\lambda_{\bsk}}  \biggr)_{\bsk \in \calK}} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}} = \norm[\calF]{f} \, \Lambda \qquad \text{since }\frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau.
+    & \le \biggnorm[\rho]{\biggl(  \frac{\DHKMhf(\bsk)}{\lambda_{\bsk}}  \biggr)_{\bsk \in \calK}} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}} = \norm[\calF]{f} \, \Lambda \qquad \text{since }\frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau.
 \end{align}
-Substituting the formula for $\bigabs{\hf(\bsk)}$ in \eqref{DHKM:SOL_tight_ineq} into equation \eqref{DHKM:SOL_A} and applying the relationship between $\rho$, $\rho'$, and $\tau$ yields
+Substituting the formula for $\bigabs{\DHKMhf(\bsk)}$ in \eqref{DHKM:SOL_tight_ineq} into equation \eqref{DHKM:SOL_A} and applying the relationship between $\rho$, $\rho'$, and $\tau$ yields
 \begin{equation*}
        \norm[\calG]{\DHKMSOL(f)}  
     =  \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}^{\rho'/\rho + 1}  \bigr)_{\bsk \in \calK}}} {\Lambda^{\rho'/\rho}} 
@@ -305,7 +305,7 @@ Substituting the formula for $\bigabs{\hf(\bsk)}$ in \eqref{DHKM:SOL_tight_ineq}
 Moreover,
 \begin{equation*}
     \norm[\calF]{f}  
-    = \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK}}
+    = \norm[\rho]{\left( \frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK}}
     = \frac{R \bignorm[\rho]{\bigl(  \lambda_{\bsk}^{\rho'/\rho}  \bigr)_{\bsk \in \calK}}}{\Lambda^{\rho'/\rho}} 
     = \frac{R \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}}^{\rho'/\rho}}
     {\Lambda^{\rho'/\rho}} = R.
@@ -340,7 +340,7 @@ Consider the case of approximating functions defined over $[-1,1]^d$, using a Ch
 For this example, let $\calF$ denote a Hilbert space of input functions where we choose $\bbK=\bbN_0^d$ and $\rho=2$,
 \begin{equation}
 \label{DHKM:IllExWts}
-    \norm[\calF]{f} := \norm[2]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}}\right)_{\bsk \in \N_0^d}}, \qquad \text{where } \lambda_\bsk := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d \frac{w_\ell}{k^r_\ell}, \quad r > 0.
+    \norm[\calF]{f} := \norm[2]{\left(\frac{\DHKMhf(\bsk)}{\lambda_{\bsk}}\right)_{\bsk \in \N_0^d}}, \qquad \text{where } \lambda_\bsk := \prod_{\substack{\ell =1\\ k_\ell > 0}}^d \frac{w_\ell}{k^r_\ell}, \quad r > 0.
 \end{equation}
 The $w_\ell$ are non-negative \emph{coordinate weights}, which embody the assumption that $f$ may depend more strongly on coordinates with larger $w_\ell$ than those with smaller $w_\ell$.  The definition of the $\calF$-norm implies that an input function must have series coefficients that decay quickly enough as the degree of the polynomial increases.  Larger $r$ implies smoother input functions.
 
@@ -350,11 +350,11 @@ Define the norm of the Hilbert space of outputs as
 \end{equation*}
 Due to the ordering of the weights in \eqref{DHKM:lambda_order}, it is natural to approximate the solution using the first $n$ series coefficients as follows:
 \begin{equation*} %\label{DHKM:Ex_APP_def}
-   \DHKMAPP(f,n) := \sum_{i=1}^n \hf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n \in \N.
+   \DHKMAPP(f,n) := \sum_{i=1}^n \DHKMhf(\bsk_i) u_{\bsk_i} \qquad \forall f \in \calF, \ n \in \N.
 \end{equation*}
 The error of this approximation in terms of the norm on the output space, $\calG$, can be expressed as
 \begin{equation*}
-    \norm[\calG]{\DHKMSOL(f) - \DHKMAPP(f,n)} = \norm[2]{\bigl(\hf(\bsk_i) \bigr)_{i=n+1}^{\infty}}.
+    \norm[\calG]{\DHKMSOL(f) - \DHKMAPP(f,n)} = \norm[2]{\bigl(\DHKMhf(\bsk_i) \bigr)_{i=n+1}^{\infty}}.
 \end{equation*}
 Here we have chosen $\tau = 2$ so $\rho'=\infty$.  If one has a fixed data budget, $n$, then $\DHKMAPP(f,n)$ is the best answer for certain classes of inputs in $\calF$ as for example balls, which are among the most prominent examples studied in the literature.  
 
@@ -369,15 +369,15 @@ We return to the example of functions on $[-1,1]^d$, using a Chebyshev polynomia
 
 The optimal approximation  based on $n$ series coefficients of the input function is defined in terms of the series coefficients of the input function corresponding to the largest $\lambda_{\bsk}$ as follows:
 \begin{equation} \label{DHKM:APP_def}
-    \DHKMAPP : \calF \times \N_0 \to \calG, \quad  \DHKMAPP(f,0) = 0, \ \ \DHKMAPP(f,n) := \sum_{i=1}^n \hf(\bsk_i) v_{\bsk_i} \ \forall n \in \N.
+    \DHKMAPP : \calF \times \N_0 \to \calG, \quad  \DHKMAPP(f,0) = 0, \ \ \DHKMAPP(f,n) := \sum_{i=1}^n \DHKMhf(\bsk_i) v_{\bsk_i} \ \forall n \in \N.
 \end{equation}
 By the argument leading to \eqref{DHKM:SOL_A} it follows that 
 \begin{equation} \label{DHKM:APP_Err_Coef}
-    \norm[\calG]{\DHKMSOL(f) - \DHKMAPP(f,n)} = \norm[\tau]{\bigl(\hf(\bsk_i)\bigr)_{i=n+1}^\infty}.
+    \norm[\calG]{\DHKMSOL(f) - \DHKMAPP(f,n)} = \norm[\tau]{\bigl(\DHKMhf(\bsk_i)\bigr)_{i=n+1}^\infty}.
 \end{equation}
 An upper bound on the approximation error follows from Lemma \ref{DHKM:Key_Lem}:
 \begin{gather} \label{DHKM:Refined_APP_err}
-    \norm[\calG]{\DHKMSOL(f) - \DHKMAPP(f,n) } \le \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}
+    \norm[\calG]{\DHKMSOL(f) - \DHKMAPP(f,n) } \le \norm[\rho]{\left(\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}
     \bignorm[\rho']{\bslambda^{(n+1)}}, \\
     \intertext{where the tail of $\bslambda$ is defined by}
     \label{DHKM:taillambda}
@@ -399,7 +399,7 @@ The proof of \eqref{DHKM:APP_errorBd} follows immediately from \eqref{DHKM:Refin
 Let $\DHKMAPP'(0,n)$ depend on the series coefficients indexed by $\calJ  = \{\bsk'_1, \ldots, \bsk'_n\}$.  Use Lemma \ref{DHKM:Key_Lem} with $\calK = \bbK \setminus \calJ$ to choose $f$ to mimic the zero function, have norm $R$, and have as large a solution as possible by \eqref{DHKM:SOL_tight_ineq}, i.e.,
 \begin{gather}
 \nonumber
-    \hf(\bsk'_1) = \cdots = \hf(\bsk'_n) = 0, \qquad \norm[\calF]{f} = R, \\ 
+    \DHKMhf(\bsk'_1) = \cdots = \DHKMhf(\bsk'_n) = 0, \qquad \norm[\calF]{f} = R, \\ 
     \norm[\calG]{\DHKMSOL(f)} =  R \norm[\rho']{\left( \lambda_{\bsk} \right)_{\bsk \notin \calJ}}.  \label{DHKM:FoolFun}
 \end{gather}
 Then $\DHKMAPP'(\pm f,n) = \DHKMAPP'(0,n)$ because $f$ mimics the zero function, and
@@ -437,7 +437,7 @@ The non-adaptive Algorithm \ref{DHKM:BallAlg} has an information cost for the se
 \]
 This algorithm is essentially optimal for the set of input functions $\calB_R$, namely,
 \begin{multline*}
-\DHKMCOST(\DHKMALG, \calB_R, \varepsilon,R') \le \COMP(\calB_R,\omega \varepsilon ,R') \\ \forall \, \varepsilon \in (0, \varepsilon_{\max}], \ R’ \in  [ R_{\min} , R], \ R \in [R_{\min}, \infty), 
+\DHKMCOST(\DHKMALG, \calB_R, \varepsilon,R') \le \DHKMCOMP(\calB_R,\omega \varepsilon ,R') \\ \forall \, \varepsilon \in (0, \varepsilon_{\max}], \ R’ \in  [ R_{\min} , R], \ R \in [R_{\min}, \infty), 
 \end{multline*}
 where $\varepsilon_{\max}$ and $R_{\min}$ are arbitrary and fixed, and $\omega = R_{\min}/R$.
 \end{theorem}
@@ -452,12 +452,12 @@ Construct an input function $f \in \calB_{R'}$ as in the proof of Theorem \ref{D
 = n^*(\varepsilon R'/R,R') \\
 & \le n^*(\omega \varepsilon, R') \qquad \text{since } R'/R \ge \omega
 \\
-& \le \COMP(\calB_{R'},\omega \varepsilon, R') \le  \COMP(\calB_{R},\omega \varepsilon, R').
+& \le \DHKMCOMP(\calB_{R'},\omega \varepsilon, R') \le  \DHKMCOMP(\calB_{R},\omega \varepsilon, R').
 \end{align*}
 Thus, Algorithm \ref{DHKM:BallAlg} is essentially optimal.
 \end{proof} \
 
-For Algorithm \ref{DHKM:BallAlg}, the information cost, $\DHKMCOST(\DHKMALG,\calB_R,\varepsilon, R)$, depends on the decay rate of the tail norm of the $\lambda_{\bsk_i}$.  This decay may be algebraic or exponential and also determines the problem complexity, $\COMP(\calB_R,\varepsilon, R)$, as a function of the error tolerance, $\varepsilon$.  
+For Algorithm \ref{DHKM:BallAlg}, the information cost, $\DHKMCOST(\DHKMALG,\calB_R,\varepsilon, R)$, depends on the decay rate of the tail norm of the $\lambda_{\bsk_i}$.  This decay may be algebraic or exponential and also determines the problem complexity, $\DHKMCOMP(\calB_R,\varepsilon, R)$, as a function of the error tolerance, $\varepsilon$.  
 
 
 This theorem illustrates how an essentially optimal algorithm for solving a problem for a ball of input functions, $\calC = \calB_R$, can be non-adaptive.  However, as alluded to above, we claim that it is impractical to know a priori which ball your input function lies in.  On the other hand, in the situations described below where $\calC$ is a cone, we will show that $\calA(\calC)$ actually contains only adaptive algorithms via the lemma below.  The proof of this lemma follows directly from the definition of non-adaptivity.
@@ -465,7 +465,7 @@ This theorem illustrates how an essentially optimal algorithm for solving a prob
 \begin{lemma} \label{DHKM:NoNonAdpatLem}
 For a given set of input functions, $\calC$, if  $\calA(\calC)$ contains any non-adaptive algorithms, then for every $\varepsilon > 0$,
 \begin{equation*}
-    \COMP(\calC,\varepsilon) : = \sup_{R > 0} \COMP(\calC,\varepsilon, R) < \infty.
+    \DHKMCOMP(\calC,\varepsilon) : = \sup_{R > 0} \DHKMCOMP(\calC,\varepsilon, R) < \infty.
 \end{equation*}
 \end{lemma}
 
@@ -498,16 +498,16 @@ tells us something about what is not observed.  Let $n_1$ denote the number of p
 where the $\bsk_i$ are defined by the ordering of the $\lambda_{\bsk}$ in \eqref{DHKM:lambda_order}.  Let $A$ be some constant inflation factor greater than one.  
 
 
-Accordingly, we now define the cone of functions whose norm can be bounded well in terms of a pilot sample, $\{\hf(\bsk_1), \ldots, \hf(\bsk_{n_1})\}$. It is given by
+Accordingly, we now define the cone of functions whose norm can be bounded well in terms of a pilot sample, $\{\DHKMhf(\bsk_1), \ldots, \DHKMhf(\bsk_{n_1})\}$. It is given by
 \begin{equation} \label{DHKM:pilot_cone}
-    \calC_{\boldsymbol{\lambda},n_1,A} = \left \{ f \in \calF : \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \right\}.
+    \calC_{\boldsymbol{\lambda},n_1,A} = \left \{ f \in \calF : \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \right\}.
 \end{equation}
 Referring to error bound \eqref{DHKM:Refined_APP_err}, we see that the error of $\DHKMAPP(f,n)$ depends on the series coefficients not sampled.  The definition of $\calC_{\boldsymbol{\lambda},n_1,A}$ allows us to bound these as follows: 
 \begin{align*}
-     \MoveEqLeft{\norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}} \\
-     & =  \left[ \norm[\calF]{f}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
+     \MoveEqLeft{\norm[\rho]{\left(\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=n+1}^\infty}} \\
+     & =  \left[ \norm[\calF]{f}^\rho -  \norm[\rho]{\left(\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
     \right]^{1/\rho} \qquad \forall f \in \calF \\
-    &  \le  \left[ A^\rho \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
+    &  \le  \left[ A^\rho \norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}}^\rho -  \norm[\rho]{\left(\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho
     \right]^{1/\rho} \quad \forall f \in \calC_{\boldsymbol{\lambda},n_1,A}.
 \end{align*}
 This inequality together with error bound \eqref{DHKM:Refined_APP_err} implies the data-based error bound 
@@ -519,7 +519,7 @@ where
 \begin{multline} \label{ErrNDef}
 \DHKMERRN \\
     : =  
-    \left[ A^\rho \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}}^\rho -  \norm[\rho]{\left(\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho \right]^{1/\rho} 
+    \left[ A^\rho \norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}}^\rho -  \norm[\rho]{\left(\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}\right)_{i=1}^n}^\rho \right]^{1/\rho} 
     \, \bignorm[\rho']{\bslambda^{(n+1)}} , 
     \\ \forall n \ge n_1.
 \end{multline}
@@ -558,7 +558,7 @@ Algorithm \ref{DHKM:PilotConeAlg} yields an answer satisfying absolute error cri
 \end{multline}
 There exist positive $\varepsilon_{\max}$ and $R_{\min}$ for which the computational complexity has the lower bound
 \begin{multline} \label{DHKM:PilotConeAlg_comp}
-        \COMP(\calC_{\boldsymbol{\lambda},n_1,A},\varepsilon,R) \ge \min \left \{n \ge n_1 : \bignorm[\rho']{\bslambda^{(n+1)}} \,
+        \DHKMCOMP(\calC_{\boldsymbol{\lambda},n_1,A},\varepsilon,R) \ge \min \left \{n \ge n_1 : \bignorm[\rho']{\bslambda^{(n+1)}} \,
     \le 2\varepsilon/[(1 - 1/A) R] \right \} \\
     \forall \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
 \end{multline}
@@ -571,14 +571,14 @@ The upper bound on the information cost of this algorithm is obtained by noting 
     \MoveEqLeft[1]{\DHKMCOST(\DHKMALG,\calC_{\boldsymbol{\lambda},n_1,A},\varepsilon,R)} \\
     & = \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : \DHKMERRN \le \varepsilon \right \} \\
      & \le \max_{f \in \calC \cap \calB_{R}} \min \left \{n \ge n_1 : 
-     (A^\rho -1)^{1/\rho} \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \, 
+     (A^\rho -1)^{1/\rho} \norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \, 
      \bignorm[\rho']{\bslambda^{(n+1)}}
     \le \varepsilon \right \} \\   
      & \le \min \left \{n \ge n_1 : 
      (A^\rho -1)^{1/\rho} R \,\bignorm[\rho']{\bslambda^{(n+1)}}
     \le \varepsilon \right \},  
 \end{align*}
-since $\bignorm[\rho]{\bigl( \hf(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^{n_1}} \le \bignorm[\rho]{\bigl( \hf(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^{n}} \le  \norm[\calF]{f} \le R$ for all $f \in \calB_R$, $n \ge n_1$.  Moreover, this inequality is tight for some $f \in \calC_{\boldsymbol{\lambda},n_1,A} \cap \calB_{R}$, namely, those certain $f$ for which $\hf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
+since $\bignorm[\rho]{\bigl( \DHKMhf(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^{n_1}} \le \bignorm[\rho]{\bigl( \DHKMhf(\bsk_i)/\lambda_{\bsk_i} \bigr)_{i=1}^{n}} \le  \norm[\calF]{f} \le R$ for all $f \in \calB_R$, $n \ge n_1$.  Moreover, this inequality is tight for some $f \in \calC_{\boldsymbol{\lambda},n_1,A} \cap \calB_{R}$, namely, those certain $f$ for which $\DHKMhf(\bsk_i) = 0$ for $i > n_1$.  This completes the proof of \eqref{DHKM:PilotConeAlg_cost}.
 
 To prove the lower complexity bound, choose $\varepsilon_{\max}$ and $R_{\min}$ such that 
 \[
@@ -589,17 +589,17 @@ Let $\DHKMALG'$ be any algorithm that satisfies the error criterion, \eqref{DHKM
 
 The input function $f_1$ is defined via its series coefficients as in Lemma \ref{DHKM:Key_Lem}, having nonzero coefficients only for $\bsk \in \calK_1=\{\bsk_1, \ldots, \bsk_{n_1}\}$:
 \begin{equation*}
-    \bigabs{\hf_1(\bsk)} = \begin{cases} \displaystyle \frac{R (1+1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK_1}}^{\rho'/\rho}}, &  \bsk \in \calK_1, \\
+    \bigabs{\DHKMhf_1(\bsk)} = \begin{cases} \displaystyle \frac{R (1+1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK_1}}^{\rho'/\rho}}, &  \bsk \in \calK_1, \\
     0, & \bsk \notin \calK_1,
     \end{cases}
    \qquad \norm[\calF]{f_1} = \frac{R(1 + 1/A)}{2}.
 \end{equation*}
-Suppose that $\DHKMALG'(f_1,\varepsilon)$ samples the series coefficients $\hf_1(\bsk)$ for $\bsk \in \calJ$, and let $n$ denote the cardinality of $\calJ$.  
+Suppose that $\DHKMALG'(f_1,\varepsilon)$ samples the series coefficients $\DHKMhf_1(\bsk)$ for $\bsk \in \calJ$, and let $n$ denote the cardinality of $\calJ$.  
 
 Now, construct the input function $f_2$, having zero coefficients for $\bsk \in \calJ$ and also as in Lemma \ref{DHKM:Key_Lem}:
 \begin{gather}
 \nonumber
-    \bigabs{\hf_2(\bsk)} = \begin{cases} \displaystyle \frac{R (1-1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}}^{\rho'/\rho}}, &  \bsk \notin \calJ, \\
+    \bigabs{\DHKMhf_2(\bsk)} = \begin{cases} \displaystyle \frac{R (1-1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}}^{\rho'/\rho}}, &  \bsk \notin \calJ, \\
     0, & \bsk \in \calJ, 
     \end{cases}
     \qquad \norm[\calF]{f_2} = \frac{R(1 - 1/A)}{2}, \\
@@ -612,10 +612,10 @@ Let $f_{\pm} = f_1 \pm f_2$.  By the definitions above, it follows that
 \nonumber
     \norm[\calF]{f_{\pm}} &= \norm[\calF]{ f_1 \pm f_2 } \le \norm[\calF]{ f_1} + \norm[\calF]{ f_2 } =  R, \\
     \nonumber
-    \norm[\rho]{\left( \frac{\hf_\pm(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} 
-    & = \norm[\rho]{\left( \frac{\hf_1(\bsk_i) \pm \hf_2(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \\
+    \norm[\rho]{\left( \frac{\DHKMhf_\pm(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} 
+    & = \norm[\rho]{\left( \frac{\DHKMhf_1(\bsk_i) \pm \DHKMhf_2(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \\
     \nonumber
-    & \ge \norm[\rho]{\left( \frac{\hf_1(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} - \norm[\rho]{\left( \frac{\hf_2(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \\
+    & \ge \norm[\rho]{\left( \frac{\DHKMhf_1(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} - \norm[\rho]{\left( \frac{\DHKMhf_2(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i=1}^{n_1}} \\
     \nonumber
     & \ge \norm[\calF]{ f_1} - \norm[\calF]{ f_2 } =  \frac{R}{A} \ge \frac{\norm[\calF]{f_{\pm}}}{A}.
 \end{align}
@@ -631,11 +631,11 @@ Using an argument like that in the proof of  Theorem \ref{DHKM:APP_optimality_th
 =\frac{R(1 - 1/A)}{2} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}} \qquad \text{by \eqref{DHKM:SOLf2bd}} \\
 & \ge \frac{R(1 - 1/A)}{2} \, \bignorm[\rho']{\bslambda^{(n+1)}} ,
 \end{align*}
-by the ordering of the $\bsk$ in \eqref{DHKM:lambda_order}.  By the choice of $R_{\min}$ and $\varepsilon_{\max}$ above, it follows that $n > n_1$.  This inequality then implies lower complexity bound \eqref{DHKM:PilotConeAlg_comp}. Because $\lim_{R \to \infty} \COMP(\calC_{\boldsymbol{\lambda},n_1,A}, \varepsilon,R) = \infty$  it follows from Lemma \ref{DHKM:NoNonAdpatLem} that $\calA(\calC_{\boldsymbol{\lambda},n_1,A})$ contains only adaptive algorithms.
+by the ordering of the $\bsk$ in \eqref{DHKM:lambda_order}.  By the choice of $R_{\min}$ and $\varepsilon_{\max}$ above, it follows that $n > n_1$.  This inequality then implies lower complexity bound \eqref{DHKM:PilotConeAlg_comp}. Because $\lim_{R \to \infty} \DHKMCOMP(\calC_{\boldsymbol{\lambda},n_1,A}, \varepsilon,R) = \infty$  it follows from Lemma \ref{DHKM:NoNonAdpatLem} that $\calA(\calC_{\boldsymbol{\lambda},n_1,A})$ contains only adaptive algorithms.
 
 The essential optimality of Algorithm \ref{DHKM:PilotConeAlg} follows by observing that 
 \[
-\DHKMCOST(\DHKMALG,\calC_{\boldsymbol{\lambda},n_1,A},\varepsilon,R) \le \COMP(\calC_{\boldsymbol{\lambda},n_1,A},\omega \varepsilon,R) \qquad \text{for } \omega = \frac{1-1/A}{2(A^\rho -1)^{1/\rho}}.
+\DHKMCOST(\DHKMALG,\calC_{\boldsymbol{\lambda},n_1,A},\varepsilon,R) \le \DHKMCOMP(\calC_{\boldsymbol{\lambda},n_1,A},\omega \varepsilon,R) \qquad \text{for } \omega = \frac{1-1/A}{2(A^\rho -1)^{1/\rho}}.
 \]
 This satisfies definition \eqref{DHKM:EssentialOpt}.  
 \end{proof} \
@@ -644,15 +644,15 @@ The above derivation assumes that $A > 1$.  If $A =1$, then our cone consists of
 
 We may not be able to guarantee that a particular $f$ of interest lies in our cone, $\calC_{\boldsymbol{\lambda},n_1,A}$, but the definition of $\DHKMERRN$ in \eqref{ErrNDef} provides a necessary condition for  $f$ to lie in $\calC_{\boldsymbol{\lambda},n_1,A}$, namely,
 \begin{equation} \label{DHKM:PilotConeNecessary}
-    \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i =1}^{n}} \le A
-    \norm[\rho]{\left( \frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}} \qquad \forall n \in \NN.
+    \norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i =1}^{n}} \le A
+    \norm[\rho]{\left( \frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \calK_1}} \qquad \forall n \in \NN.
 \end{equation}
 If condition \eqref{DHKM:PilotConeNecessary} is violated in practice, then $f \notin \calC_{\boldsymbol{\lambda},n_1,A}$, and Algorithm \ref{DHKM:PilotConeAlg} may output an incorrect answer.  The remedy is to make $\calC_{\boldsymbol{\lambda},n_1,A}$ more inclusive by increasing the inflation factor, $A$, and/or the pilot sample size, $n_1$.
 
 
 Our $\calC_{\boldsymbol{\lambda},n_1,A}$ is a cone for which a pilot sample of the input function allows you to bound its norm.  An alternative is to define a cone for which a weaker norm of the function provides an upper bound on the original norm.  Here is such a cone:
 \begin{multline} \label{DHKM:altconedef}
-    \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}:=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\}, \\ \text{where } \norm[\calF']{f} :=\norm[\rho]{\left( \frac{\hf(\bsk_i)\omega_{i}}{\lambda_{\bsk_i}} \right)_{i =  1}^n} \text{ and } \omega_1 \ge \omega_2 \ge \cdots.
+    \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}:=\{ f \in \calF : \norm[\calF]{f} \le A'\norm[\calF']{f}\}, \\ \text{where } \norm[\calF']{f} :=\norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)\omega_{i}}{\lambda_{\bsk_i}} \right)_{i =  1}^n} \text{ and } \omega_1 \ge \omega_2 \ge \cdots.
 \end{multline}
 The norm $\norm[\calF']{\cdot}$ is weaker than the norm $\norm[\calF]{\cdot}$, so this cone is a strict subset of $\calF$.  The following proposition describes how the cones defined in \eqref{DHKM:pilot_cone} and \eqref{DHKM:altconedef} are related.
 \begin{proposition}
@@ -676,8 +676,8 @@ Let us prove $
 \calC_{\boldsymbol{\lambda}, n_1, A} \subseteq \calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A''}$ first.
 If $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$, then by the definition of $\calC_{\boldsymbol{\lambda}, n_1, A}$ we have
 \begin{equation*}
-    \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i = 1} ^{ n_1}}
-     \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\hf(\bsk_i)\omega_{\bsk_i}}{\lambda_{\bsk_i}} \right)_{i =1} ^{n_1}}
+    \norm[\calF]{f} \le A \norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}} \right)_{i = 1} ^{ n_1}}
+     \le A \omega_{n_1}^{-1} \norm[\rho]{\left( \frac{\DHKMhf(\bsk_i)\omega_{\bsk_i}}{\lambda_{\bsk_i}} \right)_{i =1} ^{n_1}}
      \le A \omega_{n_1}^{-1} \norm[\calF']{f}.
 \end{equation*}
 Thus, if $A\omega_{n_1}^{-1} \le A''$, i.e. $A \le \omega_{n_1} A'' $, then
@@ -690,16 +690,16 @@ $\calC'_{\boldsymbol{\lambda}, \boldsymbol{\omega}, A'}
 \calC_{\boldsymbol{\lambda}, n_1, A}$, 
 suppose $f \in \calC'_{\boldsymbol{\lambda},\boldsymbol{\omega},  A'}$. Then we have
 \begin{align*}
-    \norm[\calF']{f}^\rho- \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho 
-	& = \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=n_1 + 1}^{\infty}}^\rho 
-     \le \omega_{n_1+1}^\rho \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=n_1 + 1}^{\infty}}^\rho \\
-     & = \omega_{n_1+1}^\rho \left[ \norm[\calF]{f}^\rho - \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ]\\	
-     & \le \omega_{n_1+1}^\rho \left[ A'{}^\rho \norm[\calF']{f}^\rho - \omega_1^{-\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ].
+    \norm[\calF']{f}^\rho- \norm[\rho]{\biggl ( \frac{\DHKMhf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho 
+	& = \norm[\rho]{\biggl ( \frac{\DHKMhf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=n_1 + 1}^{\infty}}^\rho 
+     \le \omega_{n_1+1}^\rho \norm[\rho]{\biggl ( \frac{\DHKMhf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=n_1 + 1}^{\infty}}^\rho \\
+     & = \omega_{n_1+1}^\rho \left[ \norm[\calF]{f}^\rho - \norm[\rho]{\biggl ( \frac{\DHKMhf(\bsk_i) }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ]\\	
+     & \le \omega_{n_1+1}^\rho \left[ A'{}^\rho \norm[\calF']{f}^\rho - \omega_1^{-\rho} \norm[\rho]{\biggl ( \frac{\DHKMhf(\bsk_i) \omega_i}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho \right ].
 \end{align*}
 Assuming $\omega_{n_1+1}A' < 1$ and rearranging the above terms, we obtain
 \begin{align*}
-\norm[\calF']{f}^\rho & \le \frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho, \\
-	\norm[\calF]{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\hf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
+\norm[\calF']{f}^\rho & \le \frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho} \norm[\rho]{\biggl ( \frac{\DHKMhf(\bsk_i) \omega_i }{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}^\rho, \\
+	\norm[\calF]{f} & \le \omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \norm[\rho]{\biggl ( \frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}} \biggr) _{i=1}^{n_1}}.
 \end{align*}
 Hence, if $\omega_1A'\left[\frac{1 + (\omega_{n_1+1}/\omega_1)^\rho}{1 - (\omega_{n_1+1}A')^\rho}\right]^{1/\rho} \le A$, it follows that $f \in \calC_{\boldsymbol{\lambda}, n_1, A}$ and so
 we obtain $
@@ -765,7 +765,7 @@ Conversely, for fixed $R', R$ with $0 < R' < R$, if either
      \DHKMCOST(\DHKMALG,\calC_{\bslambda,n_1,A},\varepsilon, R) 
     \le C \varepsilon^{-p} & \quad \forall \varepsilon \in (0,\varepsilon_{\max}] \quad \text{for Algorithm \ref{DHKM:PilotConeAlg}},
     \end{align*}
-then $\norm[p\eta]{\bslambda} < \infty$ for all $\eta > 1$.  Since Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are essentially optimal, the above inequalities provide upper and lower asymptotic bounds on  $\COMP(\calB_R,\varepsilon,R')$ and $\COMP(\calC_{\bslambda,n_1,A},\varepsilon,R)$.
+then $\norm[p\eta]{\bslambda} < \infty$ for all $\eta > 1$.  Since Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are essentially optimal, the above inequalities provide upper and lower asymptotic bounds on  $\DHKMCOMP(\calB_R,\varepsilon,R')$ and $\DHKMCOMP(\calC_{\bslambda,n_1,A},\varepsilon,R)$.
 \end{theorem}
 \begin{proof}
 We give the proof for Algorithm \ref{DHKM:PilotConeAlg}, which is similar to the proof for Algorithm \ref{DHKM:BallAlg}.  Recall that for $\rho'=\infty$, $\bignorm[\rho']{\bslambda^{(n+1)}} = \lambda_{\bsk_{n+1}}$. From \eqref{DHKM:PilotConeAlg_cost} it follows that the information cost for  Algorithm \ref{DHKM:PilotConeAlg} is
@@ -858,7 +858,7 @@ For the function spaces defined in the illustrative example in Section \ref{DHKM
     \\ & \qquad \qquad \le \max \left( n_1, 
     \left \lceil  \left(\frac{(A^\rho-1)^{1/\rho}R}{\varepsilon}\right)^p  \exp\left( \zeta(pr) \norm[p]{\bsw}^p  \right)    \right \rceil \right).
     \end{align*}
-Furthermore, these information costs cannot grow any slower than $\calO(\varepsilon^{-1/r})$ for $\varepsilon \downarrow 0$. Since Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are essentially optimal, the above inequalities provide upper and lower asymptotic bounds on  $\COMP(\calB_R,\varepsilon,R')$ and $\COMP(\calC_{\bslambda,n_1,A},\varepsilon,R)$ for the illustrative example in Section \ref{DHKM:secexamp}.
+Furthermore, these information costs cannot grow any slower than $\calO(\varepsilon^{-1/r})$ for $\varepsilon \downarrow 0$. Since Algorithms \ref{DHKM:BallAlg} and \ref{DHKM:PilotConeAlg} are essentially optimal, the above inequalities provide upper and lower asymptotic bounds on  $\DHKMCOMP(\calB_R,\varepsilon,R')$ and $\DHKMCOMP(\calC_{\bslambda,n_1,A},\varepsilon,R)$ for the illustrative example in Section \ref{DHKM:secexamp}.
 \end{corollary}
 
 
@@ -869,12 +869,12 @@ Furthermore, these information costs cannot grow any slower than $\calO(\varepsi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-Besides understanding the dependence of $\COMP(\calC, \varepsilon,R)$ on $\varepsilon$, we also want to understand how $\COMP(\calC, \varepsilon,R)$ depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  
-The set of functions for which our algorithms succeed, depends on the dimension, too. Thus, for the sake of brevity, we write $\calC_d$ instead of $\calC_{\bslambda,n_1,A}$ in this section. Also, $\DHKMSOL$, $\DHKMAPP$, $\DHKMCOST$, and $\COMP$ depend implicitly on the dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
+Besides understanding the dependence of $\DHKMCOMP(\calC, \varepsilon,R)$ on $\varepsilon$, we also want to understand how $\DHKMCOMP(\calC, \varepsilon,R)$ depends on the dimension of the domain of the input function.  Suppose that $f: \Omega^d \to \R$, for some $\Omega \subseteq \R$, and let $\calF_d$ denote the dependence of the input space on the dimension $d$.  
+The set of functions for which our algorithms succeed, depends on the dimension, too. Thus, for the sake of brevity, we write $\calC_d$ instead of $\calC_{\bslambda,n_1,A}$ in this section. Also, $\DHKMSOL$, $\DHKMAPP$, $\DHKMCOST$, and $\DHKMCOMP$ depend implicitly on the dimension, and this dependence is sometimes indicated explicitly by the subscript $d$.
 
 \bigskip
 
-Different dependencies of $\COMP(\calC_d, \varepsilon,R)$ on the dimension $d$ and the error tolerance $\varepsilon$ are formalized as different notions of tractability. Since 
+Different dependencies of $\DHKMCOMP(\calC_d, \varepsilon,R)$ on the dimension $d$ and the error tolerance $\varepsilon$ are formalized as different notions of tractability. Since 
 the complexity is defined in terms of the best algorithm, tractability is a property that is inherent to the problem, not to a particular algorithm. 
 We define the following notions of tractability (for further information on tractability we refer to the trilogy 
 \cite{NovWoz08a}, \cite{NovWoz10a}, \cite{NovWoz12a}). Note that in contrast to 
@@ -885,7 +885,7 @@ dependence is natural for cones $\calC$ and might be different if $\calC$ is not
 \item We say that the adaptive approximation problem is strongly polynomially tractable
 if and only if there are non-negative $C$, $\widetilde{p}$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
 $$   
-\COMP(\calC_d, \varepsilon,R)\le C\,R^{\widetilde{p}}\,\varepsilon^{-\widetilde{p}} \qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
+\DHKMCOMP(\calC_d, \varepsilon,R)\le C\,R^{\widetilde{p}}\,\varepsilon^{-\widetilde{p}} \qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).
 $$   
 The infimum of $\widetilde{p}$ satisfying the bound above is denoted by $\widetilde{p}_*$  and is called the exponent of strong polynomial tractability.    
 \newline \qquad   
@@ -894,7 +894,7 @@ The infimum of $\widetilde{p}$ satisfying the bound above is denoted by $\wideti
 We say that the problem is polynomially tractable
 if and only if there are non-negative $C,\widetilde{p}$, $q$, and positive $\varepsilon_{\max}$, and $R_{\min}$ such that   
 $$   
-\COMP(\calC_d, \varepsilon,R)\le C\,d^{\,q}\,R^{\widetilde{p}}\,   
+\DHKMCOMP(\calC_d, \varepsilon,R)\le C\,d^{\,q}\,R^{\widetilde{p}}\,   
 \varepsilon^{-{\widetilde{p}}}\qquad \forall d\in\NN,\ \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty).  
 $$   
 \vskip 0.5pc     
@@ -904,7 +904,7 @@ $$
 We say that the problem is weakly tractable iff    
 $$   
 \lim_{d+R\,\varepsilon^{-1}\to\infty}\   
-\frac{\log\, \COMP(\calC_d, \varepsilon,R)}   
+\frac{\log\, \DHKMCOMP(\calC_d, \varepsilon,R)}   
 {d+R\,\varepsilon^{-1}}\,=\,0.   
 $$    
 \end{itemize}   
@@ -920,32 +920,32 @@ tractability will be done in a future paper.
 
 Returning again to the example in Section \ref{DHKM:secexamp}, we have, by Corollary \ref{DHKM:cor:illex}
 \begin{align*}
-    \MoveEqLeft{\COMP(\calB_{R},\varepsilon,R)} 
+    \MoveEqLeft{\DHKMCOMP(\calB_{R},\varepsilon,R)} 
   \le \left \lceil \left( \frac{R}{\varepsilon} \right)^{p}  \exp\left(\zeta(p r) \norm[p]{\bsw}^p  \right) \right \rceil .
 \end{align*}
-If $p^\dagger$ is the infimum of the $p$ for which $\norm[p]{\bsw}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $\widetilde{p}_* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\COMP(\calB_{R},\varepsilon,R) \ge 2^d$, and the problem is not tractable.\\
+If $p^\dagger$ is the infimum of the $p$ for which $\norm[p]{\bsw}$ is finite, and $p^\dagger$ is finite, then we obtain strong polynomial tractability and an exponent of strong tractability that is $\widetilde{p}_* = \max(1/r,p^\dagger)$. On the other hand, if the coordinate weights are all unity,  $w_1 = w_2 = \cdots = 1$, then there are $2^d$ different $\lambda_{\bsk}$ with a value of $1$, and so $\DHKMCOMP(\calB_{R},\varepsilon,R) \ge 2^d$, and the problem is not tractable.\\
 
 
 
 Recall that we assume that 
 $\lambda_{d,\bsk_1}\ge \lambda_{d,\bsk_2}\ge \cdots >0$. Let 
 % \[
-% n_{\COMP}(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bigl(  \lambda_{d,\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
+% n_{\DHKMCOMP}(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bigl(  \lambda_{d,\bsk_i}  \bigr)_{i = n+1}^{\infty}} \,
 %     \le \delta \right \} \qquad \forall \delta > 0.
 % \]
 \[
-n_{\COMP}(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bslambda^{(n+1)}_d} \,
+n_{\DHKMCOMP}(\delta,d) :=\min \left \{n\ge 0: \bignorm[\rho']{\bslambda^{(n+1)}_d} \,
     \le \delta \right \} \qquad \forall \delta > 0,
 \]
 where as in \eqref{DHKM:taillambda} $\bslambda_d^{(n)} := (\lambda_{d,\bsk_n}, \lambda_{d,\bsk_{n+1}}, \ldots )$
 From 
 Equations \eqref{DHKM:PilotConeAlg_cost} and \eqref{DHKM:PilotConeAlg_comp}, we obtain that 
 \begin{multline*}
-     \COMP(\calC_d,\omega_{\textup{lo}} \varepsilon,R) \le n_{\COMP}(\varepsilon/R,d) \le 
-        \COMP(\calC_d,\omega_{\textup{hi}} \varepsilon,R)  \\
+     \DHKMCOMP(\calC_d,\omega_{\textup{lo}} \varepsilon,R) \le n_{\DHKMCOMP}(\varepsilon/R,d) \le 
+        \DHKMCOMP(\calC_d,\omega_{\textup{hi}} \varepsilon,R)  \\
         \forall \varepsilon \in (0, \varepsilon_{\max}], \ R \in [R_{\min}, \infty),
 \end{multline*}
-where the positive constants $\omega_{\textup{lo}}$ and $\omega_{\textup{hi}}$  depend on $A$, but do not depend on $d$, $\varepsilon$, or $R$.  From the equation above, it is clear that tractability depends on the behavior of $n_{\COMP}(\varepsilon/R,d)$ as $R/\varepsilon$ and $d$ tend to infinity. We would like to study under which conditions we obtain the various tractability notions defined above.
+where the positive constants $\omega_{\textup{lo}}$ and $\omega_{\textup{hi}}$  depend on $A$, but do not depend on $d$, $\varepsilon$, or $R$.  From the equation above, it is clear that tractability depends on the behavior of $n_{\DHKMCOMP}(\varepsilon/R,d)$ as $R/\varepsilon$ and $d$ tend to infinity. We would like to study under which conditions we obtain the various tractability notions defined above.
 
 To this end, we distinguish two cases, depending on whether $\rho'$ is infinite or not. This 
 distinction is useful because it allows us to relate the computational complexity of the algorithms 
@@ -962,7 +962,7 @@ For both of these settings there exist tractability results that we will make us
 
 If $\rho'=\infty$, we have, due to the monotonicity of the $\lambda_{d,\bsk_i}$, 
 \[
-n_{\COMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,
+n_{\DHKMCOMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,
     \le \varepsilon/R \right \}.
 \]
 We then have the following theorem.
@@ -992,7 +992,7 @@ Using the same notation as above, the following statements hold for the case $\r
 
 \begin{proof}
 If $\widetilde{\varepsilon}:=\sqrt{\varepsilon/R}$, then
-$n_{\COMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \widetilde{\varepsilon}^{\,2} \right \}$. The latter expression is well studied in the context of tractability of linear problems in the worst-case setting defined on unit balls of certain spaces, and if and only if conditions on the $\lambda_{d,\bsk_i}$ for various tractability notions are known. These conditions can be found in \cite[Chapter 5]{NovWoz08a} for (strong) polynomial tractability and  \cite{WerWoz17} for weak tractability.
+$n_{\DHKMCOMP}(\varepsilon/R,d)=\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \widetilde{\varepsilon}^{\,2} \right \}$. The latter expression is well studied in the context of tractability of linear problems in the worst-case setting defined on unit balls of certain spaces, and if and only if conditions on the $\lambda_{d,\bsk_i}$ for various tractability notions are known. These conditions can be found in \cite[Chapter 5]{NovWoz08a} for (strong) polynomial tractability and  \cite{WerWoz17} for weak tractability.
 
 Since, in this chapter, we consider $\min \left \{n\ge 0\colon \lambda_{d,\bsk_{n+1}} \,\le \varepsilon/R \right \}$, and in \cite{NovWoz08a} and \cite{WerWoz17} $\varepsilon /R$ is replaced by the square of the error tolerance,
 there are slight differences between the results here and those in the aforementioned references; to be more precise, the exponent of strong polynomial tractability here is, formally speaking, half of the exponent in in \cite{NovWoz08a}, and $1/\lambda_{d,\bsk_i}$ in \eqref{DHKM:eq:condwt} corresponds to $1/\sqrt{\lambda_{d,\bsk_i}}$ in \cite{WerWoz17}. 
@@ -1004,7 +1004,7 @@ In this case, letting $\widetilde{\varepsilon}:=(\varepsilon/R)^{\rho'/2}$ and
 $\widetilde{\lambda}_{d,i}:=\lambda_{d,\bsk_i}^{\rho'}$, we have 
 \begin{align}
     \nonumber 
-    n_{\COMP}(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
+    n_{\DHKMCOMP}(\varepsilon/R,d) &=\min \left \{n\ge 0\colon 
 \bignorm[\rho']{\bslambda_d^{(n+1)}}^{\rho'}\,
     \le (\varepsilon/R)^{\rho'} \right \} \\
     \label{DHKM:eqaveragetract}
@@ -1102,7 +1102,7 @@ problems and tractability, we refer to \cite{NovWoz08a}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-From error bound \eqref{DHKM:APP_Err_Coef} it follows that the faster the $\hf(\bsk_i)$ decay, the faster $\DHKMAPP(f,n)$ converges to the solution.  Unfortunately, adaptive Algorithm \ref{DHKM:PilotConeAlg} does not adapt to the decay rate of the $\hf(\bsk_i)$ as $i \to \infty$. It simply bounds $\norm[\calF]{f}$ based on a pilot sample.  The algorithm presented in this section tracks the rate of decay of the $\hf(\bsk_i)$ and terminates sooner if the $\hf(\bsk_i)$ decay more quickly.  Similar algorithms for quasi-Monte Carlo integration are developed in \cite{HicJim16a}, \cite{JimHic16a}, and \cite{HicEtal17a}.
+From error bound \eqref{DHKM:APP_Err_Coef} it follows that the faster the $\DHKMhf(\bsk_i)$ decay, the faster $\DHKMAPP(f,n)$ converges to the solution.  Unfortunately, adaptive Algorithm \ref{DHKM:PilotConeAlg} does not adapt to the decay rate of the $\DHKMhf(\bsk_i)$ as $i \to \infty$. It simply bounds $\norm[\calF]{f}$ based on a pilot sample.  The algorithm presented in this section tracks the rate of decay of the $\DHKMhf(\bsk_i)$ and terminates sooner if the $\DHKMhf(\bsk_i)$ decay more quickly.  Similar algorithms for quasi-Monte Carlo integration are developed in \cite{HicJim16a}, \cite{JimHic16a}, and \cite{HicEtal17a}.
 
 There is an implicit assumption in this section that function data are cheap and we can afford a large sample size.  A large sample size is required to do meaningful tracking of the decay of the series coefficients.  The previous section and the next section are more suited to the case when function data are expensive and the final sample size must be modest.
 
@@ -1112,11 +1112,11 @@ Let $\bsn = (n_j)_{j\ge 0}$ be a strictly increasing sequence of non-negative in
 \end{equation*}
 If $n_0 = 0$, then $\calK_0$ is empty.  For any $f \in \calF$, define the norms of subsets of series coefficients:
 \begin{equation} \label{DHKM:SigmaDef}
-\sigma_j (f):=\norm[\rho]{\biggl(\frac{\hf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}} \qquad \text{for } j \in \N.
+\sigma_j (f):=\norm[\rho]{\biggl(\frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}} \qquad \text{for } j \in \N.
 \end{equation}
 Thus, $\norm[\calF]{f} = \norm[\rho]{\bigl(\sigma_j(f) \bigr)_{j \in \N_0}}$. 
 
-As stated above, we would like to keep track of the rate of decay of the $\hf(\bsk_i)$. Hence, for this section, we define the cone of input functions by
+As stated above, we would like to keep track of the rate of decay of the $\DHKMhf(\bsk_i)$. Hence, for this section, we define the cone of input functions by
 \begin{equation} \label{DHKM:TrackConeDef}
   \calC_{\boldsymbol{\lambda},\bsn,a,b} : =\left\{f\in\calF \colon \sigma_{j+l} (f)\le ab^l \sigma_j (f)\ \forall j,l\in\NN\right\}.
 \end{equation}
@@ -1127,7 +1127,7 @@ a sample size that guarantees an error of at most $\varepsilon$. However, knowin
 Because $ab^l$ may be greater than one, we do not require the series coefficients of the solution, $\DHKMSOL(f)$, to decay monotonically. However, we expect their partial sums to decay \emph{steadily}.  The series coefficients for wavenumbers $\bsk \in \calK_0$ do not affect the definition of $\calC_{\boldsymbol{\lambda},\bsn,a,b} $ and may behave erratically.
 Lemma \ref{DHKM:Key_Lem} implies that 
 \begin{equation} \label{DHKM:LambdaDef}
-    \norm[\tau]{\bigl(\hf(\bsk) \bigr)_{\bsk \in \calK_j}} \le \sigma_j(f) \Lambda_j, \qquad \text{where } \Lambda_j : = \norm[\rho']{\bigl(\lambda_{\bsk} \bigr)_{\bsk \in \calK_j}}.
+    \norm[\tau]{\bigl(\DHKMhf(\bsk) \bigr)_{\bsk \in \calK_j}} \le \sigma_j(f) \Lambda_j, \qquad \text{where } \Lambda_j : = \norm[\rho']{\bigl(\lambda_{\bsk} \bigr)_{\bsk \in \calK_j}}.
 \end{equation}
 From \eqref{DHKM:SOLNorm} and \eqref{DHKM:SOLNormFinite} it follows that the norm of the solution operator is 
 \begin{equation} \label{DHKM:NormLambdaFinite}
@@ -1136,9 +1136,9 @@ From \eqref{DHKM:SOLNorm} and \eqref{DHKM:SOLNormFinite} it follows that the nor
 
 If $f$ belongs to the $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ defined in \eqref{DHKM:TrackConeDef} and $n_0 = 0$, then 
 \begin{align*}
-    \norm[\calF]{f} & = \norm[\rho]{\Biggl(\,\norm[\rho]{\biggl(\frac{\hf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}}\,\Biggr)_{j \in \N}} = \bignorm[\rho]{\bigl(\sigma_j(f) \bigr)_{j \in \N}} \\
+    \norm[\calF]{f} & = \norm[\rho]{\Biggl(\,\norm[\rho]{\biggl(\frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}}\,\Biggr)_{j \in \N}} = \bignorm[\rho]{\bigl(\sigma_j(f) \bigr)_{j \in \N}} \\
     & \le \bignorm[\rho]{\bigl(\sigma_1(f), ab \sigma_1(f), ab^2 \sigma_1(f), \ldots \bigr)} \\
-    & = \left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}  \norm[\rho]{\biggl(\frac{\hf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_1}}.
+    & = \left(1 + \frac{a^\rho b^\rho}{1 - b^\rho} \right)^{1/\rho}  \norm[\rho]{\biggl(\frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_1}}.
 \end{align*}
 Comparing this inequality to the definition of $\calC_{\boldsymbol{\lambda},n_1,A}$ in the previous section, it can be seen that $\calC_{\boldsymbol{\lambda},\bsn,a,b}$  defined in \eqref{DHKM:TrackConeDef} is a subset of  $\calC_{\boldsymbol{\lambda},n_1,A}$ defined in \eqref{DHKM:pilot_cone} if we choose 
 $A=\left[1 + a^\rho b^\rho/(1 - b^\rho) \right]^{1/\rho}$ in \eqref{DHKM:pilot_cone}.
@@ -1148,8 +1148,8 @@ From the expression for the error in \eqref{DHKM:APP_Err_Coef} and the definitio
 \begin{align}
 \nonumber
 \MoveEqLeft{\norm[\calG]{\DHKMSOL(f)-\DHKMAPP(f,n_j)}} \\
-\nonumber &= \norm[\tau]{\left(\hf(\bsk_i) \right)_{i = n_j+1}^\infty}
-= \norm[\tau]{ \left(\norm[\tau]{\bigl(\hf(\bsk) \bigr)_{\bsk \in \calK_l}} \right)_{l=j+1}^\infty}
+\nonumber &= \norm[\tau]{\left(\DHKMhf(\bsk_i) \right)_{i = n_j+1}^\infty}
+= \norm[\tau]{ \left(\norm[\tau]{\bigl(\DHKMhf(\bsk) \bigr)_{\bsk \in \calK_l}} \right)_{l=j+1}^\infty}
 \\
 \nonumber
 & \le \norm[\tau]{ \bigl(\sigma_l(f) \Lambda_l \bigr)_{l=j+1}^\infty} \qquad \text{by \eqref{DHKM:LambdaDef}} \\
@@ -1164,9 +1164,9 @@ From the expression for the error in \eqref{DHKM:APP_Err_Coef} and the definitio
 
 This upper bound depends only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ and $\Lambda_j \to 0$.  Moreover, the error bound for $\DHKMAPP(f,n_j)$ depends on $\sigma_j(f)$, whose rate of decay need not be postulated in advance.
 
-These assumptions accommodate both the cases where the approximation converges algebraically and exponentially.  To illustrate the algebraic case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \Theta(i^{-r_\Delta})$ for some positive $r_\Delta > 1/\rho$.  Here $r_\Delta$ reflects the smoothness of the input function.  For this algebraic case one would normally define $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ in terms of an exponentially increasing sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 2^j$, which implies that 
+These assumptions accommodate both the cases where the approximation converges algebraically and exponentially.  To illustrate the algebraic case, suppose that $\DHKMhf(\bsk_i)/\lambda_{\bsk_i} = \Theta(i^{-r_\Delta})$ for some positive $r_\Delta > 1/\rho$.  Here $r_\Delta$ reflects the smoothness of the input function.  For this algebraic case one would normally define $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ in terms of an exponentially increasing sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 2^j$, which implies that 
 \begin{align*}
-    \sigma_j(f) &= \left[ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} \biggabs{\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
+    \sigma_j(f) &= \left[ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} \biggabs{\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
     = \Theta\left( \left [ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} i^{-\rho r_\Delta} \right]^{1/\rho} \right) \\
     & =\Theta\left(  2^{-j(r_\Delta-1/\rho)} \right).
 \end{align*}
@@ -1176,9 +1176,9 @@ Reasonable functions would satisfy
 \end{equation*}
 for some constants $C_{\lo}$ and $C_{\up}$.  By reasonable we mean that the values of $\sigma_j(f)$ would not drop precipitously and then rise again as $j$ increases. Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge  2^{-(r_\Delta-1/\rho)}$ causes the cone $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ to include such functions.  Note that only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound. 
 
-To illustrate the exponential case, suppose that $\hf(\bsk_i)/\lambda_{\bsk_i} = \Theta(\E^{-r_\Delta i})$.  For this exponential case one would normally define $\calC$ in terms of an arithmetic sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 + j q$, where $q$ is a positive integer.  This implies that 
+To illustrate the exponential case, suppose that $\DHKMhf(\bsk_i)/\lambda_{\bsk_i} = \Theta(\E^{-r_\Delta i})$.  For this exponential case one would normally define $\calC$ in terms of an arithmetic sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 + j q$, where $q$ is a positive integer.  This implies that 
 \begin{align*}
-    \sigma_j(f) &= \left[ \sum_{i=n_0 + j q -q + 1}^{n_0 + j q} \biggabs{\frac{\hf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
+    \sigma_j(f) &= \left[ \sum_{i=n_0 + j q -q + 1}^{n_0 + j q} \biggabs{\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
     = \Theta \left( \left [ \sum_{i=n_0 + j q -q + 1}^{n_0 + j q} \E^{- \rho r_\Delta i} \right]^{1/\rho} \right) \\
     & = \Theta \left(  \E^{-j r_{\Delta} q} \right).
 \end{align*}
@@ -1233,7 +1233,7 @@ The value of $j^*$ in \eqref{DHKM:EqTrackConejstar} follows directly from the er
 
 For the remainder of the proof consider $R$ and $\varepsilon$ to be fixed.  For any $f \in  \calC_{\boldsymbol{\lambda},\bsn,a,b} \cap \calB_R$ and for any $j^\dagger$ defined  as in \eqref{DHKM:TractConejdagger}, it follows that
 \begin{align*}
-R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \bbK}}
+R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\DHKMhf(\bsk)}{\lambda_{\bsk}} \right)_{\bsk \in \bbK}}
  \ge \norm[\rho]{\left(\sigma_j(f)\right)_{j=1}^{j^\dagger}}  
  \qquad \text{by \eqref{DHKM:SigmaDef} } \\
 & \ge \sigma_1(f) \ge a^{-1}b^{1-j^\dagger}\sigma_{j^\dagger}(f) \quad \text{by  \eqref{DHKM:TrackConeDef}}\\
@@ -1244,7 +1244,7 @@ R &\ge \norm[\calF]{f} = \norm[\rho]{\left(\frac{\hf(\bsk)}{\lambda_{\bsk}} \rig
 From this last inequality, it follows that $j^\dagger \ge j^*$.
 \end{proof} 
 
-Although Algorithm \ref{DHKM:TrackConeAlg} tracks the decay rate of the $\hf(\bsk_i)$, the information cost bound and complexity bound in the theorem above do not reflect different decay rates of the $\hf(\bsk_i)$. That is a subject for future investigation.  
+Although Algorithm \ref{DHKM:TrackConeAlg} tracks the decay rate of the $\DHKMhf(\bsk_i)$, the information cost bound and complexity bound in the theorem above do not reflect different decay rates of the $\DHKMhf(\bsk_i)$. That is a subject for future investigation.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bounds on the Information Cost for $\rho = \tau$, $\rho' = \infty$}\label{DHKM:SecDecayRhoEqTau}
@@ -1325,7 +1325,7 @@ The following theorem establishes a lower bound on the complexity of our problem
 A lower bound on the complexity of the linear problem is
 \begin{align*}
  %\label{compbdA}
-&\COMP(\calC_{\boldsymbol{\lambda},\bsn,a,b},\varepsilon,R) > n_{j^\ddagger}, 
+&\DHKMCOMP(\calC_{\boldsymbol{\lambda},\bsn,a,b},\varepsilon,R) > n_{j^\ddagger}, 
 \intertext{where}
 %\label{compbdB}
 j^\ddagger & = \max \left \{ j \in \bbN :  b^{j+1} \Lambda_{j+1}    > 
@@ -1337,13 +1337,13 @@ j^\ddagger & = \max \left \{ j \in \bbN :  b^{j+1} \Lambda_{j+1}    >
 \begin{proof}
 
 As in the proof of Theorem \ref{DHKM:PilotCostThm} we consider fixed and arbitrary R and $\varepsilon$.
-We proceed by carefully constructing the test input functions, $f_1$ and $f_{\pm} = f_1 \pm f_2$, lying in $\calC_{\boldsymbol{\lambda},\bsn,a,b}\cap \calB_{R}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $\COMP(\calC_{\boldsymbol{\lambda},\bsn,a,b},\varepsilon,R)$. The proof is provided for $\rho' < \infty$.  The proof for $\rho' = \infty$ is similar.
+We proceed by carefully constructing the test input functions, $f_1$ and $f_{\pm} = f_1 \pm f_2$, lying in $\calC_{\boldsymbol{\lambda},\bsn,a,b}\cap \calB_{R}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $\DHKMCOMP(\calC_{\boldsymbol{\lambda},\bsn,a,b},\varepsilon,R)$. The proof is provided for $\rho' < \infty$.  The proof for $\rho' = \infty$ is similar.
 
 The first test function $f_1 \in \calC_{\boldsymbol{\lambda},\bsn,a,b}$ is defined in terms of its series coefficients---inspired by Lemma \ref{DHKM:Key_Lem}---as
 \begin{align}
 \nonumber
 f_1 &= f_{10} + f_{11} +  \cdots, \qquad
-\hf_{1j}(\bsk) := \begin{cases}
+\DHKMhf_{1j}(\bsk) := \begin{cases}
 \displaystyle
 \frac{c_1 b^{j} \lambda_{\bsk}^{\rho'/\rho+1}}{\Lambda_j^{\rho'/\rho}},  & \bsk \in \calK_j,
 \\
@@ -1356,7 +1356,7 @@ c_1 &:=  \frac{R(a+1)(1 - b^\rho)^{1/\rho}}{2a}.
 It can be verified that the test function lies both in $\calB_{R}$ and in $\calC_{\boldsymbol{\lambda},\bsn,a,b}$:
 \begin{align}
 \nonumber
-\sigma_j(f_1) & = \norm[\rho]{\biggl(\frac{\hf_{1j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}} 
+\sigma_j(f_1) & = \norm[\rho]{\biggl(\frac{\DHKMhf_{1j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \calK_j}} 
 = c_1 b^j, \qquad j \in \N_0,\\
 \nonumber
 \norm[\calF]{f_1} &= \norm[\rho]{\bigl( \sigma_j(f) \bigr)_{j \in \N_0} } 
@@ -1370,7 +1370,7 @@ b^{l} \sigma_j(f_1) \le a b^l \sigma_j(f_1), \qquad j,l \in \N_0.
 Now let $\DHKMALG'$ be an arbitrary algorithm in $\calA(\calC_{\boldsymbol{\lambda},\bsn,a,b})$, and suppose that $\DHKMALG'(f_1,\varepsilon)$ samples $f_1(\bsk)$ for $\bsk \in \calJ$.  Let $\tcalK_j = \calK_j \setminus \calJ$ for all non-negative integers $j$. Construct the function $f_2$, having zero coefficients for $\bsk \in \calJ$, but otherwise looking like $f_1$:
 \begin{align}
 \nonumber
-f_2 &= f_{20} + f_{21} +  \cdots, \qquad \hf_{2j}(\bsk) := \begin{cases}
+f_2 &= f_{20} + f_{21} +  \cdots, \qquad \DHKMhf_{2j}(\bsk) := \begin{cases}
 \displaystyle
 \frac{c_2 b^{j} \lambda_{\bsk}^{\rho'/\rho+1}}{\tLambda_j^{\rho'/\rho}},  
 & \bsk \in \tcalK_j,
@@ -1382,7 +1382,7 @@ f_2 &= f_{20} + f_{21} +  \cdots, \qquad \hf_{2j}(\bsk) := \begin{cases}
 c_2 &:= \frac{R(a-1)(1 - b^\rho)^{1/\rho}}{2a}, \qquad
 \tLambda_j := \norm[\rho']{\bigl(\lambda_\bsk \bigr)_{\bsk \in \tcalK_j}} \le \Lambda_j, \\
 \nonumber
-\sigma_j(f_2) & = \norm[\rho]{\biggl(\frac{\hf_{2j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \tcalK_j}} 
+\sigma_j(f_2) & = \norm[\rho]{\biggl(\frac{\DHKMhf_{2j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \tcalK_j}} 
 = \begin{cases} c_2 b^j, & \tcalK_j \ne \emptyset, \\
 0, & \tcalK_j = \emptyset, 
 \end{cases}
@@ -1417,7 +1417,7 @@ It can be verified that $f_{\pm}$ also lie both in $\calB_{R}$ and in $\calC_{\b
 \le a b^l \sigma_j(f_\pm),  \qquad j, l \in \N_0.
 \end{align}
 
-Since $\hf_2(\bsk) = 0$ for $\bsk \in \calJ$, it follows that $\DHKMALG'(f_\pm,\varepsilon) = \DHKMALG'(f_1,\varepsilon)$.  But, even though the two test functions $f_\pm$ lead to the same approximate solution, they have different true solutions.  In particular,
+Since $\DHKMhf_2(\bsk) = 0$ for $\bsk \in \calJ$, it follows that $\DHKMALG'(f_\pm,\varepsilon) = \DHKMALG'(f_1,\varepsilon)$.  But, even though the two test functions $f_\pm$ lead to the same approximate solution, they have different true solutions.  In particular,
 \begin{align}
 \nonumber
 \varepsilon &\ge \max \bigl\{\norm[\calG]{\DHKMSOL(f_+) - \DHKMALG'(f_+,\varepsilon)}, \norm[\calG]{\DHKMSOL(f_-) - \DHKMALG'(f_-,\varepsilon)} \bigr\} \\
@@ -1501,7 +1501,7 @@ If $j^{\dagger}(\varepsilon) \ge j^{\ddagger}(\omega \varepsilon)$, then \eqref{
 \]
 But, this contradicts the above inequality.  Thus, $j^\dagger(\varepsilon) < j^\ddagger(\omega \varepsilon)$, and so
 \[
-\DHKMCOST(\DHKMALG,\calC_{\boldsymbol{\lambda},\bsn,a,b},\varepsilon,R) \le n_{j^\dagger(\varepsilon)} < n_{j^\ddagger(\omega \varepsilon)} < \COMP(\calC_{\boldsymbol{\lambda},\bsn,a,b},\omega \varepsilon,R).
+\DHKMCOST(\DHKMALG,\calC_{\boldsymbol{\lambda},\bsn,a,b},\varepsilon,R) \le n_{j^\dagger(\varepsilon)} < n_{j^\ddagger(\omega \varepsilon)} < \DHKMCOMP(\calC_{\boldsymbol{\lambda},\bsn,a,b},\omega \varepsilon,R).
 \]
 Thus,  Algorithm \ref{DHKM:TrackConeAlg} is essentially optimal.
 \end{proof}
@@ -1557,7 +1557,7 @@ where $\bsw = (w_\ell)_{\ell=1}^d$ is the vector of coordinate weights, $\bss = 
     \item Order weights quantify the importance of effects with different orders; $\bsk$ having one nonzero element corresponds to a first-order or main effect, $\bsk$ having two nonzero elements corresponds to a second-order (interaction) effect (e.g., first-order, second-order).
 \end{itemize} \ \vspace{-4ex}
 
-This parametrization is motivated by several guiding principles from the experimental design literature \citep{WuHam2009}, which are briefly described below.  In statistical parlance, the terms $\hf(\bsk) u_{\bsk}$ are effects.
+This parametrization is motivated by several guiding principles from the experimental design literature \citep{WuHam2009}, which are briefly described below.  In statistical parlance, the terms $\DHKMhf(\bsk) u_{\bsk}$ are effects.
 \begin{itemize}
 \item \emph{Effect sparsity} assumes that only a small number of coordinates in $f$ are important. In \eqref{DHKM:posdeq}, this sparsity means that only a small number of product weights $\bsw$ are large.  This principle arises in the sufficient condition for strong tractability in Corollary \ref{DHKM:sptexample_cor}.
 \item \emph{Effect heredity} assumes that lower-order effects are more important than higher-order effects. E.g., $\lambda_{(1,0, 0,\ldots, 0)}$ should be larger than $\lambda_{(1, 1, 0, \ldots, 0)}$. In \eqref{DHKM:posdeq}, this heredity can be enforced by assuming that the order weights $\Gamma_{m}$ decrease with $m$. 
@@ -1575,7 +1575,7 @@ Our POSD weights differ from the smoothness-driven product-and-order dependent (
 %\label{eq:spod}
 \end{equation*}
 where $\delta (k_\ell,\alpha)$ is 1 if $k_\ell=\alpha$ and 0 otherwise. 
-Intuitively, the SPOD weights quantify the importance of each \textit{subspace} (indexed by $\fraku$), under a common smoothness structure among subspaces (for further details on SPOD weights, we refer the reader to \cite{Dea2014}). In contrast, the proposed POSD weights in \eqref{DHKM:posdeq} instead quantify the importance of each \textit{Fourier series coefficient} $\hf(\bsk)$ (indexed by $\bsk$), under a common smoothness structure among coefficients.
+Intuitively, the SPOD weights quantify the importance of each \textit{subspace} (indexed by $\fraku$), under a common smoothness structure among subspaces (for further details on SPOD weights, we refer the reader to \cite{Dea2014}). In contrast, the proposed POSD weights in \eqref{DHKM:posdeq} instead quantify the importance of each \textit{Fourier series coefficient} $\DHKMhf(\bsk)$ (indexed by $\bsk$), under a common smoothness structure among coefficients.
 
 
 
@@ -1588,12 +1588,12 @@ As mentioned above, our goal here is to infer $\bslambda$ from input function da
 \end{equation}
 where the possible non-zero entry $k$ may be at any one position in the vector. The approximation to $f$ based on sampling the series coefficients for these wavenumbers is
 \begin{equation*}
-    \fapp = \sum_{\bsk \in \bar{\calK}} \hf(\bsk) u_{\bsk}.
+    \fapp = \sum_{\bsk \in \bar{\calK}} \DHKMhf(\bsk) u_{\bsk}.
 \end{equation*}
 To choose the cone $\calC_{\bslambda,n_1,A}$ which best fits $f$, we select the POSD weights $\bslambda$ to make the norm of $f_{\text{app}}$ small. These weights can be written as:
 \begin{multline}
 \bar{\bslambda} = \bslambda(\bar{\bsw}, \bar{\bss}, \bsGamma), \\
-\text{where } (\bar{\bsw}, \bar{\bss} ) = \min \left\{ \argmin_{(\bsw,\bss) \in \calW \times \calS} \left\|\left( \frac{\hf(\bsk)}{\lambda_{\bsk}(\bsw,\bss,\bsGamma)} \right)_{\bsk \in \bar{\calK}}\right\|_{\rho} \right \}.
+\text{where } (\bar{\bsw}, \bar{\bss} ) = \min \left\{ \argmin_{(\bsw,\bss) \in \calW \times \calS} \left\|\left( \frac{\DHKMhf(\bsk)}{\lambda_{\bsk}(\bsw,\bss,\bsGamma)} \right)_{\bsk \in \bar{\calK}}\right\|_{\rho} \right \}.
 \label{DHKM:eq:inf}
 \end{multline}
 Here, $\calW$ is a candidate set for coordinate weights, e.g., $\calW = [0,w^*]^d$, and $\calS$ is a candidate set for the smoothness weights, e.g., $\calS = \{(1/k^r)_{k=1}^{\infty} \colon r > 0\}$. The inner minimization finds the $(\bsw,\bss)$ that minimizes the approximate norm of the input function.  This minimizer may be non-unique, so the outer minimization chooses the smallest such $(\bsw,\bss)$. Making the coordinate and smoothness weights as small as possible helps enforce the principles of effect sparsity.  The optimum, $(\bar{\bsw}, \bar{\bss})$, then defines the \emph{data-inferred} POSD $\bslambda$, denoted $\bar{\bslambda}$.
@@ -1619,7 +1619,7 @@ The reason that $\bar{\calC}_{n_1,A}$ is a cone is that the data-inferred $\bar{
 
 \Ensure Error criterion \eqref{DHKM:err_crit} for the cone defined in \eqref{DHKM:pilot_cone2}
 \State  Define the initial set of wavenumbers $\bcalK$ defined in \eqref{DHKM:barKdef}
-\State Evaluate initial sample $\bigl\{\hf(\bsk)\bigr\}_{\bsk \in \bcalK}$
+\State Evaluate initial sample $\bigl\{\DHKMhf(\bsk)\bigr\}_{\bsk \in \bcalK}$
 \State Compute data-driven POSD weight $\bar{\bslambda}$, by iteratively optimizing over $(\bsw, \bss) \in \calW \times \calS$ in \eqref{DHKM:eq:inf} until convergence
 \State Using these weights, $\bar{\bslambda}$, perform Algorithm \ref{DHKM:PilotConeAlg} to obtain $\DHKMALG(f,\varepsilon)$
 \RETURN $\DHKMALG(f,\varepsilon)$
