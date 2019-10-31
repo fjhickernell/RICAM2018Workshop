@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym,amsfonts,amsmath,theorem,color,amssymb}
+
+\newcommand{\il}{\left\langle}
+\newcommand{\ir}{\right\rangle}
+\newcommand{\bsb}{{\boldsymbol{b}}}
+\newcommand{\bsc}{{\boldsymbol{c}}}
+\newcommand{\bsgamma}{{\boldsymbol{\gamma}}}
+\newcommand{\bseta}{{\boldsymbol{\eta}}}
+\newcommand{\bstau}{{\boldsymbol{\tau}}}
+\newcommand{\bsh}{{\boldsymbol{h}}}
+\newcommand{\bsp}{{\boldsymbol{p}}}
+\newcommand{\bsell}{{\boldsymbol{\ell}}}
+\newcommand{\bst}{{\boldsymbol{t}}}
+\newcommand{\bsr}{{\boldsymbol{r}}}
+\newcommand{\bsu}{{\boldsymbol{u}}}
+\newcommand{\bsv}{{\boldsymbol{v}}}
+\newcommand{\bsx}{{\boldsymbol{x}}}
+\newcommand{\bsq}{{\boldsymbol{q}}}
+\newcommand{\bsy}{{\boldsymbol{y}}}
+\newcommand{\bsz}{{\boldsymbol{z}}}
+\newcommand{\bsw}{{\boldsymbol{w}}}
+\newcommand{\bsS}{{\boldsymbol{S}}}
+\newcommand{\bsW}{{\boldsymbol{W}}}
+\newcommand{\bspitch}{{\boldsymbol{\,\pitchfork}}}
+\newcommand{\bszero}{{\boldsymbol{0}}}
+\newcommand{\bsone}{{\boldsymbol{1}}}
+\newcommand{\rd}{\,\mathrm{d}}
+\newcommand{\ri}{\mathrm{i}}
+\newcommand{\re}{\mathrm{e}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbZ}{\mathbb{Z}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calZ}{\mathcal{Z}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\tr}{{\tt T}}
+\renewcommand{\pmod}[1]{\,(\bmod\,#1)}
+\renewcommand{\mod}[1]{\,(\negthickspace\bmod #1)}
+\newcommand{\ns}{\negthickspace\negthickspace}
+\newcommand{\nns}{\negthickspace\negthickspace\negthickspace\negthickspace}
+\newcommand{\mask}[1]{}
+\newcommand{\esup}{\operatornamewithlimits{ess\,sup}}
+\newcommand{\einf}{\operatornamewithlimits{ess\,inf}}
+\newcommand{\e}{{\varepsilon}}
+\newcommand{\setu}{{\mathfrak{u}}}
+\newcommand{\setv}{{\mathfrak{v}}}
+\newcommand{\setw}{{\mathfrak{w}}}
+\newcommand{\setU}{{\mathfrak{U}}}
+\newcommand{\sob}{{\rm Sob}}
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\sset}{[s]}
+\newcommand{\To}{\rightarrow}
+\newcommand{\dimtr}{{\rm dim}^{\rm trnc}}
+\newcommand{\dimtrint}{{\rm dim}^{\rm trnc-int}}
+\newcommand{\Response}[1]{{\color{blue}#1}}
+\thispagestyle{empty}
+
+\textwidth 6.5in
+\hoffset -0.75in
+
+\begin{document}
+
+\begin{center}
+ 
+{\Large Response to the Reviewers of the Manuscript\\
+``Adaptive Approximation for Multivariate Linear Problems with Inputs Lying in a Cone''\quad
+Revision 1}
+\end{center}
+
+\medskip
+
+\noindent Thank you for your careful reviews and comments on our revised manuscript. We have revised our manuscript in light of these remarks.
+
+\subsection*{Referee Report ``The manuscript is improved \ldots}
+
+\begin{itemize}
+
+\item page 3, line 2: ``it is less restrictive than only being able to
+sample function values". \ldots  \Response{Change has been made.}
+
+\item page 3, ``We call an algorithm non-adaptive if". \ldots \Response{Clarification has been added.}
+
+\item Formula (26):  It seems to me that 11by (25)" should not be part
+of formula (26) \ldots  \Response{This has been changed in some places, but has been left as is for those multi-line equations where we wanted to refer to precisely to what equation was supporting what part of the argument.}
+\end{itemize}
+
+
+
+\subsection*{Referee Report ``The paper has significantly improved.  \ldots'':}
+
+\begin{enumerate}
+
+\renewcommand{\labelenumi}{\alph{enumi})} 
+\item Page 2, line -3, in the formula it should be \ldots \Response{Done.}
+
+\item  Page 3, line 21, the notation for the computational complexity \ldots  \Response{Done.}
+
+\item  Page 4, line 21, it should be “precise definition” \ldots \Response{Yes!  Corrected.}
+
+
+\item Section 2: After my remark in the first report that the setting is actually a problem of diagonal operators between sequence spaces \ldots \Response{Pietsch 1978 is now referred to before Lemma 1 and again at the beginning of Section 3.2.}
+
+\item Page 7: The norm $||\cdot ||_{\mathcal{G}}$ should be given earlier \ldots \Response{Done.}
+
+\item Page 22: In formula (30) \ldots \Response{Yes, thank you.  Corrected.}
+
+\item  Page 27, to me the shape of the blocks \ldots \Response{You are correct for the illustrative example.  A sentence stating this has been added.}
+
+\end{enumerate}
+
+\bigskip 
+
+\bigskip
+
+\noindent With kind regards,\\[0.25cm]
+The authors, 
+
+\noindent Y. Ding, F.J. Hickernell, P. Kritzer, and S. Mak
+
+
+\end{document}
