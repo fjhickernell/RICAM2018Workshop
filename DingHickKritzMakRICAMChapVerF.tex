@@ -25,12 +25,12 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm, algorithmicx}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
-\DHKMALGnewcommand\DHKMALGorithmicparam{\textbf{Parameters:}}
-\DHKMALGnewcommand\PARAM{\item[\DHKMALGorithmicparam]}
-\DHKMALGnewcommand\DHKMALGorithmicinput{\textbf{Input:}}
-\DHKMALGnewcommand\INPUT{\item[\DHKMALGorithmicinput]}
-%\DHKMALGnewcommand\STATE{\item}
-\DHKMALGnewcommand\RETURN{\State \textbf{Return }}
+\algnewcommand\algorithmicparam{\textbf{Parameters:}}
+\algnewcommand\PARAM{\item[\algorithmicparam]}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+%\algnewcommand\STATE{\item}
+\algnewcommand\RETURN{\State \textbf{Return }}
 
 \theoremstyle{dgthm}
 \newtheorem{theorem}{Theorem}
@@ -59,24 +59,16 @@
 \DeclareMathOperator{\DHKMCOST}{COST}
 \DeclareMathOperator{\DHKMCOMP}{COMP}
 \newcommand{\DHKMhf}{\widehat{f}}
-\newcommand{\hg}{\widehat{g}}
-\newcommand{\tu}{\Tilde{u}}
-\newcommand{\tv}{\Tilde{v}}
-\newcommand{\tcalJ}{\widetilde{\calJ}}
-\newcommand{\tcalK}{\widetilde{\calK}}
-\newcommand{\tlambda}{\Tilde{\lambda}}
-\newcommand{\tbbK}{\widetilde{\bbK}}
-\newcommand{\lo}{\textup{lo}}
-\newcommand{\up}{\textup{up}}
-\newcommand{\inc}{\textup{in}}
-\newcommand{\out}{\textup{out}}
-\newcommand{\E}{\textup{e}}
-\def\abs#1{\ensuremath{\left \lvert #1 \right \rvert}}
-\newcommand{\normabs}[1]{\ensuremath{\lvert #1 \rvert}}
-\newcommand{\bigabs}[1]{\ensuremath{\bigl \lvert #1 \bigr \rvert}}
-\newcommand{\Bigabs}[1]{\ensuremath{\Bigl \lvert #1 \Bigr \rvert}}
-\newcommand{\biggabs}[1]{\ensuremath{\biggl \lvert #1 \biggr \rvert}}
-\newcommand{\Biggabs}[1]{\ensuremath{\Biggl \lvert #1 \Biggr \rvert}}
+\newcommand{\DHKMhg}{\widehat{g}}
+\newcommand{\DHKMtu}{\Tilde{u}}
+\newcommand{\DHKMtcalK}{\widetilde{\calK}}
+\newcommand{\DHKMlo}{\textup{lo}}
+\newcommand{\DHKMup}{\textup{up}}
+\newcommand{\DHKMinc}{\textup{in}}
+\newcommand{\DHKMout}{\textup{out}}
+\newcommand{\DHKME}{\textup{e}}
+\newcommand{\DHKMbigabs}[1]{\ensuremath{\bigl \lvert #1 \bigr \rvert}}
+\newcommand{\DHKMbiggabs}[1]{\ensuremath{\biggl \lvert #1 \biggr \rvert}}
 \newcommand{\norm}[2][{}]{\ensuremath{\left \lVert #2 \right \rVert}_{#1}}
 \newcommand{\normnorm}[2][{}]{\ensuremath{\lVert #2 \rVert}_{#1}}
 \newcommand{\bignorm}[2][{}]{\ensuremath{\bigl \lVert #2 \bigr \rVert}_{#1}}
@@ -245,7 +237,7 @@ Now, we define our problem more formally.  The solution operator $\DHKMSOL$ maps
 \end{gather*}
 and
 \begin{gather*}
-    \calG := \left \{g = \sum_{\bsk \in \mathbb{K}} \hg(\bsk) v_{\bsk} : \norm[\calG]{g} : = \norm[\tau]{\bigl(  \hg(\bsk)  \bigr)_{\bsk \in \mathbb{K}}} < \infty \right\}, \quad\mbox{with}\quad 1 \le \tau \le \rho.
+    \calG := \left \{g = \sum_{\bsk \in \mathbb{K}} \DHKMhg(\bsk) v_{\bsk} : \norm[\calG]{g} : = \norm[\tau]{\bigl(  \DHKMhg(\bsk)  \bigr)_{\bsk \in \mathbb{K}}} < \infty \right\}, \quad\mbox{with}\quad 1 \le \tau \le \rho.
 \end{gather*}
 
 Here, $\{u_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the input Banach space $\calF$, $\{v_{\bsk}\}_{\bsk \in \mathbb{K}}$ is a basis for the output Banach space $\calG$, and $\mathbb{K}$ is a countable index set.  These bases are defined to match the solution operator:
@@ -275,7 +267,7 @@ so $\tau \le \rho' \le \infty$.  Let $\Lambda :=  \bignorm[\rho']{\bigl(  \lambd
     \end{equation}
     \begin{multline}
     \label{DHKM:SOL_tight_ineq}
-    \bigabs{\DHKMhf(\bsk)} = \begin{cases}
+    \DHKMbigabs{\DHKMhf(\bsk)} = \begin{cases}
     \displaystyle 
     \frac{R \lambda_{\bsk}^{\rho'/\rho + 1}}{\Lambda^{\rho'/\rho}}, & \forall \bsk \in \calK, \quad  \text{if}\ \rho'<\infty, \\
     R \Lambda \delta_{\bsk,\bsk^*}, & \forall \bsk \in \calK, \ \bsk^* \in \calK \text{ satisfies } \lambda_{\bsk^*} = \Lambda, \quad\text{if}\ \rho' = \infty,
@@ -295,7 +287,7 @@ The proof of inequality \eqref{DHKM:SOL_ineq} proceeds by applying H\"older's in
     \nonumber
     & \le \biggnorm[\rho]{\biggl(  \frac{\DHKMhf(\bsk)}{\lambda_{\bsk}}  \biggr)_{\bsk \in \calK}} \, \bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK}} = \norm[\calF]{f} \, \Lambda \qquad \text{since }\frac 1\rho + \frac 1 {\rho'} = \frac 1 \tau.
 \end{align}
-Substituting the formula for $\bigabs{\DHKMhf(\bsk)}$ in \eqref{DHKM:SOL_tight_ineq} into equation \eqref{DHKM:SOL_A} and applying the relationship between $\rho$, $\rho'$, and $\tau$ yields
+Substituting the formula for $\DHKMbigabs{\DHKMhf(\bsk)}$ in \eqref{DHKM:SOL_tight_ineq} into equation \eqref{DHKM:SOL_A} and applying the relationship between $\rho$, $\rho'$, and $\tau$ yields
 \begin{equation*}
        \norm[\calG]{\DHKMSOL(f)}  
     =  \frac{R \bignorm[\tau]{\bigl(  \lambda_{\bsk}^{\rho'/\rho + 1}  \bigr)_{\bsk \in \calK}}} {\Lambda^{\rho'/\rho}} 
@@ -334,8 +326,8 @@ Consider the case of approximating functions defined over $[-1,1]^d$, using a Ch
 	\begin{align*}
 	f &  = \sum_{\bsk \in \bbN_0^d} \widehat{f}(\bsk) u_\bsk =: \DHKMSOL(f), 
 	\qquad \bsk = (k_1, \ldots, k_d) \in \N_0^d,\\
-    u_\bsk & := \prod_{\ell =1}^d \tu_{k_\ell} , 
-    \qquad \tu_{k}(x) := \cos( k \cos^{-1}(x)) \quad \forall k \in \N_0.
+    u_\bsk & := \prod_{\ell =1}^d \DHKMtu_{k_\ell} , 
+    \qquad \DHKMtu_{k}(x) := \cos( k \cos^{-1}(x)) \quad \forall k \in \N_0.
 	\end{align*}
 For this example, let $\calF$ denote a Hilbert space of input functions where we choose $\bbK=\bbN_0^d$ and $\rho=2$,
 \begin{equation}
@@ -346,7 +338,7 @@ The $w_\ell$ are non-negative \emph{coordinate weights}, which embody the assump
 
 Define the norm of the Hilbert space of outputs as
 \begin{equation*}
-      \norm[\calG]{\sum_{\bsk \in \N_0^d} \hg(\bsk) u_{\bsk}} : = \norm[2]{\bigl(\hg(\bsk) \bigr)_{\bsk \in \N_0^d}}.
+      \norm[\calG]{\sum_{\bsk \in \N_0^d} \DHKMhg(\bsk) u_{\bsk}} : = \norm[2]{\bigl(\DHKMhg(\bsk) \bigr)_{\bsk \in \N_0^d}}.
 \end{equation*}
 Due to the ordering of the weights in \eqref{DHKM:lambda_order}, it is natural to approximate the solution using the first $n$ series coefficients as follows:
 \begin{equation*} %\label{DHKM:Ex_APP_def}
@@ -589,7 +581,7 @@ Let $\DHKMALG'$ be any algorithm that satisfies the error criterion, \eqref{DHKM
 
 The input function $f_1$ is defined via its series coefficients as in Lemma \ref{DHKM:Key_Lem}, having nonzero coefficients only for $\bsk \in \calK_1=\{\bsk_1, \ldots, \bsk_{n_1}\}$:
 \begin{equation*}
-    \bigabs{\DHKMhf_1(\bsk)} = \begin{cases} \displaystyle \frac{R (1+1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK_1}}^{\rho'/\rho}}, &  \bsk \in \calK_1, \\
+    \DHKMbigabs{\DHKMhf_1(\bsk)} = \begin{cases} \displaystyle \frac{R (1+1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \in \calK_1}}^{\rho'/\rho}}, &  \bsk \in \calK_1, \\
     0, & \bsk \notin \calK_1,
     \end{cases}
    \qquad \norm[\calF]{f_1} = \frac{R(1 + 1/A)}{2}.
@@ -599,7 +591,7 @@ Suppose that $\DHKMALG'(f_1,\varepsilon)$ samples the series coefficients $\DHKM
 Now, construct the input function $f_2$, having zero coefficients for $\bsk \in \calJ$ and also as in Lemma \ref{DHKM:Key_Lem}:
 \begin{gather}
 \nonumber
-    \bigabs{\DHKMhf_2(\bsk)} = \begin{cases} \displaystyle \frac{R (1-1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}}^{\rho'/\rho}}, &  \bsk \notin \calJ, \\
+    \DHKMbigabs{\DHKMhf_2(\bsk)} = \begin{cases} \displaystyle \frac{R (1-1/A) \lambda_{\bsk}^{\rho'/\rho + 1}}{2\bignorm[\rho']{\bigl(  \lambda_{\bsk}  \bigr)_{\bsk \notin \calJ}}^{\rho'/\rho}}, &  \bsk \notin \calJ, \\
     0, & \bsk \in \calJ, 
     \end{cases}
     \qquad \norm[\calF]{f_2} = \frac{R(1 - 1/A)}{2}, \\
@@ -1166,25 +1158,25 @@ This upper bound depends only on the function data and the parameters defining $
 
 These assumptions accommodate both the cases where the approximation converges algebraically and exponentially.  To illustrate the algebraic case, suppose that $\DHKMhf(\bsk_i)/\lambda_{\bsk_i} = \Theta(i^{-r_\Delta})$ for some positive $r_\Delta > 1/\rho$.  Here $r_\Delta$ reflects the smoothness of the input function.  For this algebraic case one would normally define $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ in terms of an exponentially increasing sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 2^j$, which implies that 
 \begin{align*}
-    \sigma_j(f) &= \left[ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} \biggabs{\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
+    \sigma_j(f) &= \left[ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} \DHKMbiggabs{\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
     = \Theta\left( \left [ \sum_{i=n_0 2^{j-1} + 1}^{n_0 2^j} i^{-\rho r_\Delta} \right]^{1/\rho} \right) \\
     & =\Theta\left(  2^{-j(r_\Delta-1/\rho)} \right).
 \end{align*}
 Reasonable functions would satisfy 
 \begin{equation*}
-    C_{\lo} 2^{-j(r_\Delta-1/\rho)} \le \sigma_j(f) \le C_{\up} 2^{-j(r_\Delta-1/\rho)} 
+    C_{\DHKMlo} 2^{-j(r_\Delta-1/\rho)} \le \sigma_j(f) \le C_{\DHKMup} 2^{-j(r_\Delta-1/\rho)} 
 \end{equation*}
-for some constants $C_{\lo}$ and $C_{\up}$.  By reasonable we mean that the values of $\sigma_j(f)$ would not drop precipitously and then rise again as $j$ increases. Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge  2^{-(r_\Delta-1/\rho)}$ causes the cone $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ to include such functions.  Note that only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound. 
+for some constants $C_{\DHKMlo}$ and $C_{\DHKMup}$.  By reasonable we mean that the values of $\sigma_j(f)$ would not drop precipitously and then rise again as $j$ increases. Choosing $a \ge C_{\DHKMup}/C_{\DHKMlo} $  and $b \ge  2^{-(r_\Delta-1/\rho)}$ causes the cone $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ to include such functions.  Note that only the ratio of $C_{\DHKMup}$ to $C_{\DHKMlo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound. 
 
-To illustrate the exponential case, suppose that $\DHKMhf(\bsk_i)/\lambda_{\bsk_i} = \Theta(\E^{-r_\Delta i})$.  For this exponential case one would normally define $\calC$ in terms of an arithmetic sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 + j q$, where $q$ is a positive integer.  This implies that 
+To illustrate the exponential case, suppose that $\DHKMhf(\bsk_i)/\lambda_{\bsk_i} = \Theta(\DHKME^{-r_\Delta i})$.  For this exponential case one would normally define $\calC$ in terms of an arithmetic sequence, $(n_j)_{j\ge 0}$, e.g., $n_j = n_0 + j q$, where $q$ is a positive integer.  This implies that 
 \begin{align*}
-    \sigma_j(f) &= \left[ \sum_{i=n_0 + j q -q + 1}^{n_0 + j q} \biggabs{\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
-    = \Theta \left( \left [ \sum_{i=n_0 + j q -q + 1}^{n_0 + j q} \E^{- \rho r_\Delta i} \right]^{1/\rho} \right) \\
-    & = \Theta \left(  \E^{-j r_{\Delta} q} \right).
+    \sigma_j(f) &= \left[ \sum_{i=n_0 + j q -q + 1}^{n_0 + j q} \DHKMbiggabs{\frac{\DHKMhf(\bsk_i)}{\lambda_{\bsk_i}}}^\rho \right]^{1/\rho}
+    = \Theta \left( \left [ \sum_{i=n_0 + j q -q + 1}^{n_0 + j q} \DHKME^{- \rho r_\Delta i} \right]^{1/\rho} \right) \\
+    & = \Theta \left(  \DHKME^{-j r_{\Delta} q} \right).
 \end{align*}
 Analogous to the algebraic case, reasonable functions would satisfy 
-    $C_{\lo} \E^{-j r_{\Delta} q} \le \sigma_j(f) \le C_{\up} \E^{-j r_{\Delta} q}$
-for some constants $C_{\lo}$ and $C_{\up}$.  Choosing $a \ge C_{\up}/C_{\lo} $  and $b \ge \E^{- r_{\Delta} q}$ causes the cone $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ to include such functions.  Again, only the ratio of $C_{\up}$ to $C_{\lo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound.
+    $C_{\DHKMlo} \DHKME^{-j r_{\Delta} q} \le \sigma_j(f) \le C_{\DHKMup} \DHKME^{-j r_{\Delta} q}$
+for some constants $C_{\DHKMlo}$ and $C_{\DHKMup}$.  Choosing $a \ge C_{\DHKMup}/C_{\DHKMlo} $  and $b \ge \DHKME^{- r_{\Delta} q}$ causes the cone $\calC_{\boldsymbol{\lambda},\bsn,a,b}$ to include such functions.  Again, only the ratio of $C_{\DHKMup}$ to $C_{\DHKMlo}$ need be assumed to determine $a$, and choosing $b$ larger than necessary does not affect the order of the decay of the error bound.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Adaptive Algorithm and Its Information Cost} \label{DHKM:SecAdapAlgTrackDecay}
@@ -1367,24 +1359,24 @@ It can be verified that the test function lies both in $\calB_{R}$ and in $\calC
 b^{l} \sigma_j(f_1) \le a b^l \sigma_j(f_1), \qquad j,l \in \N_0.
 \end{align}
 
-Now let $\DHKMALG'$ be an arbitrary algorithm in $\calA(\calC_{\boldsymbol{\lambda},\bsn,a,b})$, and suppose that $\DHKMALG'(f_1,\varepsilon)$ samples $f_1(\bsk)$ for $\bsk \in \calJ$.  Let $\tcalK_j = \calK_j \setminus \calJ$ for all non-negative integers $j$. Construct the function $f_2$, having zero coefficients for $\bsk \in \calJ$, but otherwise looking like $f_1$:
+Now let $\DHKMALG'$ be an arbitrary algorithm in $\calA(\calC_{\boldsymbol{\lambda},\bsn,a,b})$, and suppose that $\DHKMALG'(f_1,\varepsilon)$ samples $f_1(\bsk)$ for $\bsk \in \calJ$.  Let $\DHKMtcalK_j = \calK_j \setminus \calJ$ for all non-negative integers $j$. Construct the function $f_2$, having zero coefficients for $\bsk \in \calJ$, but otherwise looking like $f_1$:
 \begin{align}
 \nonumber
 f_2 &= f_{20} + f_{21} +  \cdots, \qquad \DHKMhf_{2j}(\bsk) := \begin{cases}
 \displaystyle
 \frac{c_2 b^{j} \lambda_{\bsk}^{\rho'/\rho+1}}{\tLambda_j^{\rho'/\rho}},  
-& \bsk \in \tcalK_j,
+& \bsk \in \DHKMtcalK_j,
 \\
 0, & \text{otherwise},
 \end{cases}
 \\
 \nonumber
 c_2 &:= \frac{R(a-1)(1 - b^\rho)^{1/\rho}}{2a}, \qquad
-\tLambda_j := \norm[\rho']{\bigl(\lambda_\bsk \bigr)_{\bsk \in \tcalK_j}} \le \Lambda_j, \\
+\tLambda_j := \norm[\rho']{\bigl(\lambda_\bsk \bigr)_{\bsk \in \DHKMtcalK_j}} \le \Lambda_j, \\
 \nonumber
-\sigma_j(f_2) & = \norm[\rho]{\biggl(\frac{\DHKMhf_{2j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \tcalK_j}} 
-= \begin{cases} c_2 b^j, & \tcalK_j \ne \emptyset, \\
-0, & \tcalK_j = \emptyset, 
+\sigma_j(f_2) & = \norm[\rho]{\biggl(\frac{\DHKMhf_{2j}(\bsk)}{\lambda_{\bsk}} \biggr)_{\bsk \in \DHKMtcalK_j}} 
+= \begin{cases} c_2 b^j, & \DHKMtcalK_j \ne \emptyset, \\
+0, & \DHKMtcalK_j = \emptyset, 
 \end{cases}
 \qquad j \in \N_0, \\
 \nonumber 
@@ -1436,16 +1428,16 @@ Since $\DHKMhf_2(\bsk) = 0$ for $\bsk \in \calJ$, it follows that $\DHKMALG'(f_\
 \label{DHKM:eps_LBA}
 \end{align}
 
-Suppose that $\DHKMcard(\calJ) = \DHKMCOST(\DHKMALG',f_{\pm},\varepsilon) \le n_{j^{\star}}$.  Then by condition \eqref{DHKM:PropCond}, there exists an $l^\star \le j^\star+1$ where $\DHKMcard(\tcalK_{l^\star}) \ge S_2 \DHKMcard(\calK_{l^\star})$.  
-This implies a lower bound on $\tLambda_{l^\star}$.  Let $m = n_{l^\star} - n_{l^\star-1} = \DHKMcard(\calK_{l^\star})$.  Then, $m_{\inc} = \lceil S_2 m \rceil \ge S_2 m$ is a lower bound on  $\DHKMcard(\tcalK_{l^\star})$, and $m_{\out} = m - m_{\inc} \le (1 - S_2) m$ is an upper bound on $\DHKMcard(\calK_{l^\star} \setminus \tcalK_{l^\star})$.  Moreover, 
+Suppose that $\DHKMcard(\calJ) = \DHKMCOST(\DHKMALG',f_{\pm},\varepsilon) \le n_{j^{\star}}$.  Then by condition \eqref{DHKM:PropCond}, there exists an $l^\star \le j^\star+1$ where $\DHKMcard(\DHKMtcalK_{l^\star}) \ge S_2 \DHKMcard(\calK_{l^\star})$.  
+This implies a lower bound on $\tLambda_{l^\star}$.  Let $m = n_{l^\star} - n_{l^\star-1} = \DHKMcard(\calK_{l^\star})$.  Then, $m_{\DHKMinc} = \lceil S_2 m \rceil \ge S_2 m$ is a lower bound on  $\DHKMcard(\DHKMtcalK_{l^\star})$, and $m_{\DHKMout} = m - m_{\DHKMinc} \le (1 - S_2) m$ is an upper bound on $\DHKMcard(\calK_{l^\star} \setminus \DHKMtcalK_{l^\star})$.  Moreover, 
 
 \begin{align*}
-    \Lambda_{l^\star}^\rho & = \sum_{i \in \calK_{l^\star}} \lambda_{\bsk_i}^{\rho} =  \tLambda_{l^\star}^\rho + \sum_{i \in \calK_{l^\star} \setminus \tcalK_{l^\star}} \lambda_{\bsk_i}^{\rho}
+    \Lambda_{l^\star}^\rho & = \sum_{i \in \calK_{l^\star}} \lambda_{\bsk_i}^{\rho} =  \tLambda_{l^\star}^\rho + \sum_{i \in \calK_{l^\star} \setminus \DHKMtcalK_{l^\star}} \lambda_{\bsk_i}^{\rho}
     \\
-    &\le  \tLambda_{l^\star}^\rho + m_{\out} \lambda_{\bsk_{n_{l^\star -1}+1}}^\rho \qquad \text{by the ordering of the } \lambda_{\bsk_i}\\
-    &\le  \tLambda_{l^\star}^\rho + m_{\out} S_1^\rho \lambda_{\bsk_{n_{l^\star}}}^\rho \qquad \text{by \eqref{DHKM:MinMaxCond}}\\
-    & \le \tLambda_{l^\star}^\rho + \frac{m_{\out}}{m_{\inc}} S_1^\rho \tLambda_{l^\star}^\rho \qquad \text{by the definition of } \tLambda_{l^\star}\\
-    & \le \left[1 + \left(\frac 1 {S_2} -1 \right) S_1^\rho \right] \tLambda_{l^\star}^\rho \qquad \text{by the bounds on } m_{\inc} \text{ and } m_{\out} 
+    &\le  \tLambda_{l^\star}^\rho + m_{\DHKMout} \lambda_{\bsk_{n_{l^\star -1}+1}}^\rho \qquad \text{by the ordering of the } \lambda_{\bsk_i}\\
+    &\le  \tLambda_{l^\star}^\rho + m_{\DHKMout} S_1^\rho \lambda_{\bsk_{n_{l^\star}}}^\rho \qquad \text{by \eqref{DHKM:MinMaxCond}}\\
+    & \le \tLambda_{l^\star}^\rho + \frac{m_{\DHKMout}}{m_{\DHKMinc}} S_1^\rho \tLambda_{l^\star}^\rho \qquad \text{by the definition of } \tLambda_{l^\star}\\
+    & \le \left[1 + \left(\frac 1 {S_2} -1 \right) S_1^\rho \right] \tLambda_{l^\star}^\rho \qquad \text{by the bounds on } m_{\DHKMinc} \text{ and } m_{\DHKMout} 
     \\
     & \le \left[1 + \left(\frac 1 {S_2} -1 \right) S_1^\rho \right] b^{-\rho l^\star} \norm[\tau]{\bigl(b^{j} \tLambda_j \bigr)_{j \in \N_0}}^\rho\, .
 \end{align*}
@@ -1546,14 +1538,14 @@ This section is motivated by situations where the relative importance of the $d$
 \subsection{Product, Order and Smoothness Dependent (POSD) Weights}
 The $u_{\bsk}$ and the $\lambda_{\bsk}$ in this section are defined as 
 \begin{equation}
-u_\bsk = \prod_{\ell = 1}^d \tu_{k_\ell}, \quad 
+u_\bsk = \prod_{\ell = 1}^d \DHKMtu_{k_\ell}, \quad 
 \lambda_{\bsk} = \Gamma_{\|\bsk\|_0} \prod_{\substack{\ell=1\\ k_\ell>0}}^d w_\ell s_{k_\ell}, \quad \Gamma_0 = s_1 = 1, \quad \bsk \in \mathbb{N}_0^d,
 \label{DHKM:posdeq}
 \end{equation}
 where $\bsw = (w_\ell)_{\ell=1}^d$ is the vector of coordinate weights, $\bss = (s_k)_{k=1}^\infty$ is the vector of smoothness weights,  $\boldsymbol{\Gamma} = (\Gamma_m)_{m=1}^d$ is the vector of \emph{order weights}, and $\norm[0]{\bsk}$ denotes the number of nonzero elements of $\bsk$. This is a generalization of the form for $\bslambda$ given by \eqref{DHKM:prodwts}. The intuition behind these weights is as follows: 
 \begin{itemize}
     \item Coordinate weights quantify the importance for the $d$ input variables in $f$.
-    \item Smoothness weights quantify the importance of the $\tu_k$.  E.g., if the $\tu_k$ are polynomials of degree $k$ as in Section \ref{DHKM:secexamp}, then the faster the $s_k$ decay, the smoother $f$ is.  
+    \item Smoothness weights quantify the importance of the $\DHKMtu_k$.  E.g., if the $\DHKMtu_k$ are polynomials of degree $k$ as in Section \ref{DHKM:secexamp}, then the faster the $s_k$ decay, the smoother $f$ is.  
     \item Order weights quantify the importance of effects with different orders; $\bsk$ having one nonzero element corresponds to a first-order or main effect, $\bsk$ having two nonzero elements corresponds to a second-order (interaction) effect (e.g., first-order, second-order).
 \end{itemize} \ \vspace{-4ex}
 
@@ -1562,7 +1554,7 @@ This parametrization is motivated by several guiding principles from the experim
 \item \emph{Effect sparsity} assumes that only a small number of coordinates in $f$ are important. In \eqref{DHKM:posdeq}, this sparsity means that only a small number of product weights $\bsw$ are large.  This principle arises in the sufficient condition for strong tractability in Corollary \ref{DHKM:sptexample_cor}.
 \item \emph{Effect heredity} assumes that lower-order effects are more important than higher-order effects. E.g., $\lambda_{(1,0, 0,\ldots, 0)}$ should be larger than $\lambda_{(1, 1, 0, \ldots, 0)}$. In \eqref{DHKM:posdeq}, this heredity can be enforced by assuming that the order weights $\Gamma_{m}$ decrease with $m$. 
 \item \emph{Effect hierarchy} assumes that an effect is active \emph{only} when all its component effects are active. For example, $\lambda_{(1, 1, 0, \ldots, 0)} > 0$ only when $\lambda_{(1, 0, 0, \ldots, 0)}$ and $\lambda_{(0, 1, 0, \ldots, 0)}$ are both nonzero. This hierarchy is implicitly enforced by the product structure of the weights in \eqref{DHKM:posdeq}.
-\item \emph{Effect smoothness} assumes that lower-degree effects are more important than higher-degree effects. For example, when the $(\tu_k)_{k \in \mathbb{N}_0}$ are polynomials, this means that linear effects are more important than quadratic effects, which are in turn more significant than cubic effects, and so on. Effect smoothness can be imposed by assuming $\bss$ to be a decreasing sequence. 
+\item \emph{Effect smoothness} assumes that lower-degree effects are more important than higher-degree effects. For example, when the $(\DHKMtu_k)_{k \in \mathbb{N}_0}$ are polynomials, this means that linear effects are more important than quadratic effects, which are in turn more significant than cubic effects, and so on. Effect smoothness can be imposed by assuming $\bss$ to be a decreasing sequence. 
 \end{itemize} 
 \vspace{-3ex}
 These principles will guide the inference of weights $\bslambda$ (and its corresponding cone of inputs $\calC_{\bslambda,n_1,A}$) from initial data.
@@ -1637,7 +1629,7 @@ The simulation set-up is as follows. The Fourier coefficients for input function
 \end{equation*}
 Here, $(w_\ell^{\rm tr})_{\ell=1}^d = (1/L^2(\ell))_{\ell=1}^d$, $({\Gamma_m^{\rm tr}})_{m=1}^\infty \equiv 1$ and $(s_k^{\rm tr})_{k=1}^{k_{\rm max}} = (1/k^4)_{k=1}^4$ are the true coordinate, order, and smoothness weights, and $Z_{\bsk}$ randomly sets the magnitude and sign of each coefficient. Moreover, $\bigl(L(\ell)\bigr)_{\ell=1}^d$ is a random permutation of $1, \ldots, d$ to ensure that the order of input variables does not necessarily reflect their order of importance. We also set $\boldsymbol{\Gamma} = \boldsymbol{\Gamma}^{\rm tr}$ in Algorithm \ref{DHKM:InfPilotConeAlg} and use an inflation factor of $A = 1.1$.
 
-Figures \ref{fig:four} (a) and (b) display the total required sample size from Algorithm \ref{DHKM:InfPilotConeAlg}, as a function of the error to tolerance ratio, $\|f - \DHKMALG(f,\varepsilon)\|_\infty/\varepsilon$, in $d=4$ and $d=7$ dimensions, respectively. Each data point corresponds to a different error tolerance $\varepsilon$. A ratio $\|f - \DHKMALG(f,\varepsilon)\|_\infty/\varepsilon$ close to, but not exceeding, one is desired, since this shows that our adaptive algorithm is successful. For $d=4$, $\|f - \DHKMALG(f,\varepsilon)\|_\infty/\varepsilon$ fluctuates around 0.4 for all choices of $\varepsilon$; for $d=7$, this ratio begins at $\DHKMAPProx 0.1$ for $\varepsilon = 0.1$, then decreases to $\DHKMAPProx 0.014$ for $\varepsilon = 0.001$. This shows that our adaptive approximation algorithm works reasonably well.  It appears slightly more effective in lower dimensions  than in higher dimensions. A likely reason is that the underlying POSD structure can be more easily learned from a small pilot sample in lower dimensions than in higher dimensions.
+Figures \ref{fig:four} (a) and (b) display the total required sample size from Algorithm \ref{DHKM:InfPilotConeAlg}, as a function of the error to tolerance ratio, $\|f - \DHKMALG(f,\varepsilon)\|_\infty/\varepsilon$, in $d=4$ and $d=7$ dimensions, respectively. Each data point corresponds to a different error tolerance $\varepsilon$. A ratio $\|f - \DHKMALG(f,\varepsilon)\|_\infty/\varepsilon$ close to, but not exceeding, one is desired, since this shows that our adaptive algorithm is successful. For $d=4$, $\|f - \DHKMALG(f,\varepsilon)\|_\infty/\varepsilon$ fluctuates around 0.4 for all choices of $\varepsilon$; for $d=7$, this ratio begins at $\approx 0.1$ for $\varepsilon = 0.1$, then decreases to $\approx 0.014$ for $\varepsilon = 0.001$. This shows that our adaptive approximation algorithm works reasonably well.  It appears slightly more effective in lower dimensions  than in higher dimensions. A likely reason is that the underlying POSD structure can be more easily learned from a small pilot sample in lower dimensions than in higher dimensions.
 
 
 \begin{figure}
