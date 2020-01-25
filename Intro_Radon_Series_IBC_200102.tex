@@ -1,0 +1,241 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{latexsym,amsfonts,amsmath,graphics}
+\usepackage{epsfig}
+\usepackage[notref,notcite]{showkeys}
+%\usepackage[active]{srcltx}
+\usepackage{enumitem}
+\usepackage{mathrsfs}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\setlength{\textheight}{24cm} \setlength{\textwidth}{16cm}
+\setlength{\hoffset}{-1.3cm} \setlength{\voffset}{-1.8cm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{definition}{Definition}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{remark}{Remark}
+\newenvironment{proof}{\begin{trivlist}
+\item[\hskip\labelsep{\it Proof.}]}{$\hfill\Box$\end{trivlist}}
+
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\To}{\rightarrow}
+\newcommand{\Ref}[1] {\textup{(\ref{#1})}}
+\newcommand{\satop}[2]{\stackrel{\scriptstyle{#1}}{\scriptstyle{#2}}}
+\newcommand{\sump}{\mathop{{\sum}'}}
+\newcommand{\bsDelta}{\boldsymbol{\Delta}}
+\newcommand{\bsa}{\boldsymbol{a}}
+\newcommand{\bsbeta}{\boldsymbol{\beta}}
+\newcommand{\bsgamma}{\boldsymbol{\gamma}}
+\newcommand{\bseta}{\boldsymbol{\eta}}
+\newcommand{\bsalpha}{\boldsymbol{\alpha}}
+\newcommand{\bslambda}{\boldsymbol{\lambda}}
+\newcommand{\bsnu}{\boldsymbol{\nu}}
+\newcommand{\bsmu}{\boldsymbol{\mu}}
+\newcommand{\bsk}{\boldsymbol{k}}
+\newcommand{\bsl}{\boldsymbol{l}}
+\newcommand{\bsv}{\boldsymbol{v}}
+\newcommand{\bsw}{\boldsymbol{w}}
+\newcommand{\bsb}{\boldsymbol{b}}
+\newcommand{\bsx}{\boldsymbol{x}}
+\newcommand{\bsh}{\boldsymbol{h}}
+\newcommand{\bsg}{\boldsymbol{g}}
+\newcommand{\bst}{\boldsymbol{t}}
+\newcommand{\bsz}{\boldsymbol{z}}
+\newcommand{\bsell}{\boldsymbol{\ell}}
+\newcommand{\bsu}{\boldsymbol{u}}
+\newcommand{\bsone}{\boldsymbol{1}}
+\newcommand{\tru}{{\rm tr}}
+\newcommand{\maxp}{\operatornamewithlimits{max\phantom{p}}}
+\newcommand{\infp}{\operatornamewithlimits{inf\phantom{p}}}
+\newcommand{\bsy}{\boldsymbol{y}}
+\newcommand{\bssigma}{\boldsymbol{\sigma}}
+\newcommand{\D}{{\cal D}}
+\newcommand{\E}{{\cal E}}
+\newcommand{\calK}{{\cal K}}
+\newcommand{\cP}{{\cal P}}
+\newcommand{\cG}{{\cal G}}
+\newcommand{\cQ}{{\cal Q}}
+\newcommand{\e}{{\varepsilon}}
+\newcommand{\wal}{{\rm wal}}
+\newcommand{\sob}{{\rm sob}}
+\newcommand{\cost}{{\rm cost}}
+\newcommand{\comp}{{\rm comp}}
+\newcommand{\dsh}{{\rm dsh}}
+\newcommand\setu{{\mathfrak{u}}}
+\newcommand{\uu}{\mathfrak{u}}
+\newcommand{\de}{{\rm e}}
+\newcommand{\swal}{{\rm wal}}
+\newcommand{\landau}{{\cal O}}
+\newcommand{\mc}{{\rm mc}}
+\newcommand{\icomp}{\mathtt{i}}
+\newcommand{\bszero}{\boldsymbol{0}}
+\newcommand{\rd}{\,\mathrm{d}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\integer}{\ZZ}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\LL}{\mathcal{L}_{\bsg}}
+\newcommand{\LLu}{\mathcal{L}_{\setu,\bsg}}
+\newcommand{\qed} {\hfill \Box \vspace{0.5cm}}
+\renewcommand{\pmod}[1]{\,(\bmod\,#1)}
+\newcommand{\ns}{\negthickspace\negthickspace}
+\newcommand{\nns}{\negthickspace\negthickspace\negthickspace\negthickspace}
+\newcommand{\MC}{{\rm MC}_{n,s}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\il}{\left<}
+\newcommand{\ir}{\right>}
+\def\qed{\hfill$\Box$}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\def\calV{{\cal V}}
+
+
+\DeclareMathOperator*{\esssup}{ess\,sup}
+
+\allowdisplaybreaks
+
+
+\definecolor{darkmagenta}{RGB}{139,0,139}
+\definecolor{darkorange}{RGB}{180,60,0}
+
+\newcommand{\fred}[1]{{\color{darkorange}{#1}}}
+\newcommand{\peter}[1]{{\color{darkmagenta}{#1}}}
+
+\begin{document}
+
+
+
+ \title{Preface: Multivariate Algorithms and Information-Based Complexity}
+% 
+% \author{\ }
+% 
+ \maketitle
+% 
+% 
+% 
+% \begin{abstract}
+% Abstract. 
+% \end{abstract}
+
+This book comprises several articles authored or co-authored by invited speakers in the workshop ``Multivariate Algorithms 
+and Information-Based Complexity'' which was part of the 
+RICAM Special Semester on ``Multivariate Algorithms and their Foundations in Number Theory'' in the fall of 2018. 
+The Special Semester consisted of four larger and two smaller workshops on various topics ranging from 
+Pseudo-Randomness and Discrepancy Theory to Information-Based Complexity and Uncertainty Quantification. The present book 
+corresponds to the second workshop of the program, which
+took place at the Johann Radon Institute for Computational and Applied Mathematics (RICAM) of the Austrian Academy 
+of Sciences in Linz, Austria, on November 5--9, 2018. 
+
+The workshop and the papers contained in this book focus on 
+multivariate continuous problems occurring in a multitude of practical applications, such as physics,
+finance, computer graphics, and chemistry. In many cases, the number of variables in the problem
+can be in the hundreds or thousands. The information complexity of a given problem is the minimal
+number of information operations that is needed to solve the problem within a certain error
+threshold. Typical examples of information operations are, e.g., function values or linear functionals.
+The field of Information-Based Complexity (IBC), founded by Traub and Wozniakowski in the 1980s,
+deals with the analysis of the information complexity for multivariate problems, and, in particular,
+with the question how it depends on the number of variables and the error threshold. A crucial
+question is, for instance, under which circumstances one can avoid a curse of dimensionality. This
+book addresses the analysis of multivariate (continuous) problems, and in particular this shall be
+done from the viewpoint of IBC.
+
+The chapter ``The Control Variate Integration Algorithm for Multivariate Functions
+Defined at Scattered Data Points'' studies a method of approximating the integral 
+of a multivariate function in which one uses the exact integral of a control variate based on 
+a least-squares multivariate quasi-interpolant. Numerical examples demonstrate that 
+such an algorithm can help to deal with the curse of dimensionality for multivariate least-squares 
+fits. The second chapter, titled ``An Adaptive Random Bit Multilevel
+Algorithm for SDEs'', considers the approximations of expectations for functionals applied 
+to the solutions of stochastic differential equations, by employing Monte Carlo methods 
+based on random bits instead of random numbers; an adaptive random bit multilevel algorithm is provided 
+and compared numerically to other methods. The chapter ``RBF-Based Penalized Least-Squares
+Approximation of Noisy Scattered Data on the Sphere'' deals with the approximation of 
+noisy scattered data on the 2-dimensional unit sphere, in particular global and local  
+penalized least-squares approximation based on radial basis functions (RBFs). 
+The authors of the fourth chapter in the book, ``On the Power of Random Information'', 
+consider a problem from the core of IBC theory, namely the quality of random information 
+in approximation and integration problems. Random information is compared to optimal 
+information for such problems, and it is shown that in some cases random information 
+can be almost optimal, whereas in other cases it may perform yield much worse 
+results than optimal information. The chapter ``Optimality Criteria for Probabilistic Numerical Methods'' 
+is in the field of Bayesian decision theory; to be more precise, the authors study 
+an optimality criterion from Bayesian experimental design and considers its implied 
+optimal information in the numerical context. Furthermore, the chapter compares this information 
+to information commonly used in average-case-optimal numerical methods. The sixth chapter of the 
+book, ``$\varepsilon$-Superposition and Truncation Dimensions, and Multivariate Decomposition Method
+for $\infty$-Variate Linear Problems'' deals with linear problems on weighted normed function spaces, 
+the elements of which depend on infinitely many variables. The author on so-called $\varepsilon$-truncation 
+and $\varepsilon$-superposition dimension, as well as multivariate decomposition methods, which 
+are means to reduce the number of variables in the problem to a relatively small finite number; 
+anchored decomposition and also other types of decomposition (like, e.g., ANOVA decomposition) are used. 
+The chapter ``Adaptive Approximation for Multivariate Linear Problems with Inputs Lying in a Cone'' is 
+the final chapter of the book, and considers adaptive approximation algorithms for functions lying in particular subsets 
+of certain function spaces. Contrary to many papers on IBC it is not assumed that the functions to be 
+approximated do not lie in a ball of a certain radius, but instead in a cone. It is shown that for such problems 
+it is an advantage to use adaptive instead of non-adaptive algorithms for function approximation. 
+
+
+
+
+
+
+
+All chapters were reviewed by internationally renowoned experts in this field. We wish to thank the anonymous referees 
+for their precious help.
+
+We would like to express our gratitude towards all speakers of the 
+workshop for giving excellent talks on their respective fields of expertise and for contributing to the success of 
+the meeting: 
+\begin{itemize}
+\item Paul Constantine (University of Colorado), 
+\item Martin Ehler (University of Vienna), 
+\item Mario Hefter (TU Kaiserslautern), 
+\item Stefan Heinrich (TU Kaiserslautern), 
+\item Kerstin Hesse (University of Paderborn),
+\item Fred J.~Hickernell (Illinois Institute of Technology), 
+\item James (Mac) Hyman (Tulane University),
+\item Thomas M\"{u}ller-Gronbach (University of Passau), 
+\item Erich Novak (University of Jena), 
+\item Chris Oates (Newcastle University and Alan Turing Institute), 
+\item Houman Owhadi (California Institute of Technology),
+\item Sergei Pereverzyev (RICAM), Leszek Plaskota (University of Warsaw), 
+\item Pawe\l{} Przyby\l{}owicz (AGH University of Science and Technology Krak\'{o}w),
+\item Klaus Ritter (TU Kaiserslautern), 
+\item Ingo Steinwart (University of Stuttgart),
+\item Michaela Sz\"{o}lgyenyi (University of Klagenfurt), 
+\item Greg W.~Wasilkowski (University of Kentucky), 
+\item Henryk Wo\'{z}niakowski (Columbia University and University of Warsaw),
+\item Henry Wynn (London School of Economics), 
+\item Larisa Yaroslavtseva (University of Passau).
+\end{itemize}
+
+
+We also would like to thank all participants attending the workshop, 
+and Annette Weihs and Wolfgang Forsthuber for administrative and technical support. Further information 
+on the RICAM Special Semester ``Multivariate Algorithms and their Foundations in Number Theory'' can 
+be found at
+\begin{center}
+ https://www.ricam.oeaw.ac.at/specsem/specsem2018/ 
+\end{center}
+
+
+
+
+The financial support of the Johann Radon Institute for Computational and Applied Mathematics (RICAM) 
+of the Austrian Academy of Sciences is gratefully acknowledged.
+
+
+\bigskip
+
+Fred J.~Hickernell and Peter Kritzer,
+
+Chicago and Linz, January 2020.
+
+
+\end{document}
